@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: Box Model og layout</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>📦 Modul 2: Box Model og layout</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forklare boksmodellen: innhold, padding, border og margin</li>
+                    <li>Bruke <code>padding</code> og <code>margin</code> (inkl. shorthand)</li>
+                    <li>Bruke <code>border</code>-egenskaper og <code>box-sizing</code></li>
+                    <li>Sette <code>width</code> og <code>height</code> på en fornuftig måte</li>
+                    <li>Forstå <code>display</code>: <em>block</em>, <em>inline</em>, <em>inline-block</em></li>
+                    <li>Lage en enkel kortlayout (cards) med god spacing</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er boksmodellen?</h3>
+            <p>Alle elementer i HTML er bokser. En boks består av fire lag:</p>
+            <ol>
+                <li><strong>Innhold</strong> (content)</li>
+                <li><strong>Padding</strong> – luft inni boksen rundt innholdet</li>
+                <li><strong>Border</strong> – kantlinjen rundt padding/innhold</li>
+                <li><strong>Margin</strong> – luft utenfor boksen mot nabo-elementer</li>
+            </ol>
+
+            <div class="code-example">
+.box {<br>
+    width: 300px;               /* innholdsbredde */<br>
+    padding: 16px;              /* luft inni boksen */<br>
+    border: 2px solid #3498db;  /* kantlinje */<br>
+    margin: 12px;               /* luft utenfor boksen */<br>
+}
+            </div>
+
+            <h3>Padding og margin (shorthand)</h3>
+            <div class="code-example">
+/* Én verdi: alle sider */<br>
+.box { padding: 20px; }<br><br>
+/* To verdier: topp/bunn, venstre/høyre */<br>
+.box { padding: 10px 24px; }<br><br>
+/* Tre verdier: topp, venstre/høyre, bunn */<br>
+.box { margin: 8px 16px 24px; }<br><br>
+/* Fire verdier: topp, høyre, bunn, venstre (klokkeretning) */<br>
+.box { margin: 10px 20px 30px 40px; }
+            </div>
+
+            <h3>Border, width/height og <code>box-sizing</code></h3>
+            <p>Som standard teller <em>width</em> og <em>height</em> bare innholdet. Padding og border legges oppå. 
+               Med <code>box-sizing: border-box;</code> regnes padding og border <em>inni</em> målene – ofte mer forutsigbart.</p>
+
+            <div class="code-example">
+.card {<br>
+    width: 320px;<br>
+    padding: 16px;<br>
+    border: 1px solid #ddd;<br>
+    box-sizing: border-box; /* anbefales for layouts */<br>
+}
+            </div>
+
+            <h3><code>display</code>-verdier</h3>
+            <ul>
+                <li><strong>block</strong> – tar hele linjebredden, starter på ny linje (f.eks. <code>div</code>, <code>h1</code>)</li>
+                <li><strong>inline</strong> – ligger på samme linje, respekterer ikke width/height (f.eks. <code>span</code>, <code>a</code>)</li>
+                <li><strong>inline-block</strong> – som inline, men kan få width/height (nyttig for knapper/kort)</li>
+            </ul>
+
+            <div class="code-example">
+.badge {<br>
+    display: inline-block;<br>
+    padding: 4px 8px;<br>
+    border: 1px solid #ccc;<br>
+    border-radius: 8px;<br>
+}
+            </div>
+
+            <div class="tip notification-box">
+                Sett gjerne <code>* { box-sizing: border-box; }</code> i prosjektet for å gjøre dimensjonering enklere.
+            </div>
+
+            <h2>Praktisk: Kortlayout (cards) og spacing</h2>
+            <p>La oss lage en enkel kortgrid uten avanserte teknikker. (I senere kurs bruker vi Flexbox og Grid.)</p>
+
+            <div class="code-example">
+/* Container for kort */<br>
+.cards {<br>
+    max-width: 900px;<br>
+    margin: 0 auto;<br>
+}<br><br>
+/* Ett kort */<br>
+.card {<br>
+    display: inline-block;      /* lar oss sette bredde + ligge ved siden av hverandre */<br>
+    vertical-align: top;<br>
+    width: 280px;<br>
+    margin: 10px;               /* mellomrom mellom kort */<br>
+    padding: 16px;<br>
+    border: 1px solid #e1e1e1;<br>
+    border-radius: 12px;        /* penere hjørner */<br>
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);<br>
+    box-sizing: border-box;<br>
+}<br><br>
+.card h3 { margin-bottom: 8px; }<br>
+.card p  { margin-bottom: 12px; }
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Lag et kortgalleri</h2>
+                <h3>Oppgave</h3>
+                <p>Lag en seksjon med minst tre «cards» som presenterer produkter eller steder.</p>
+                <ol>
+                    <li>Bruk <code>box-sizing: border-box</code> på kortene</li>
+                    <li>Gi kortene <code>padding</code>, <code>border</code> og <code>margin</code> for god spacing</li>
+                    <li>Sett <code>display: inline-block</code> og en bredde på kortene</li>
+                    <li>Bruk <code>border-radius</code> og en svak <code>box-shadow</code> for visuelt løft</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;section class="cards"&gt;<br>
+        &lt;article class="card"&gt;<br>
+            &lt;h3&gt;Kort 1&lt;/h3&gt;<br>
+            &lt;p&gt;Litt beskrivende tekst.&lt;/p&gt;<br>
+        &lt;/article&gt;<br>
+        &lt;article class="card"&gt;<br>
+            &lt;h3&gt;Kort 2&lt;/h3&gt;<br>
+            &lt;p&gt;Litt beskrivende tekst.&lt;/p&gt;<br>
+        &lt;/article&gt;<br>
+        &lt;article class="card"&gt;<br>
+            &lt;h3&gt;Kort 3&lt;/h3&gt;<br>
+            &lt;p&gt;Litt beskrivende tekst.&lt;/p&gt;<br>
+        &lt;/article&gt;<br>
+    &lt;/section&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* styles.css – eksempel-løsning */<br><br>
+* { box-sizing: border-box; }<br><br>
+.cards {<br>
+    max-width: 900px;<br>
+    margin: 20px auto;<br>
+}<br><br>
+.card {<br>
+    display: inline-block;<br>
+    vertical-align: top;<br>
+    width: 280px;<br>
+    margin: 10px;<br>
+    padding: 16px;<br>
+    border: 1px solid #e1e1e1;<br>
+    border-radius: 12px;<br>
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);<br>
+    background: #fff;<br>
+}<br><br>
+.card h3 { margin-bottom: 8px; }<br>
+.card p  { margin-bottom: 12px; }<br><br>
+/* Bonus: et «badge»-element som viser display: inline-block */<br>
+.badge {<br>
+    display: inline-block;<br>
+    padding: 4px 8px;<br>
+    border: 1px solid #ccc;<br>
+    border-radius: 8px;<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="bx1" onchange="saveChecklistProgress()"> Jeg kan forklare content, padding, border og margin</li>
+                    <li><input type="checkbox" id="bx2" onchange="saveChecklistProgress()"> Jeg har brukt <code>padding</code>/<code>margin</code> med shorthand</li>
+                    <li><input type="checkbox" id="bx3" onchange="saveChecklistProgress()"> Jeg har brukt <code>border</code>-egenskaper</li>
+                    <li><input type="checkbox" id="bx4" onchange="saveChecklistProgress()"> Jeg har satt <code>width</code>/<code>height</code> på et element</li>
+                    <li><input type="checkbox" id="bx5" onchange="saveChecklistProgress()"> Jeg har brukt <code>box-sizing: border-box</code></li>
+                    <li><input type="checkbox" id="bx6" onchange="saveChecklistProgress()"> Jeg har brukt <code>display</code> (<em>block</em>, <em>inline</em> eller <em>inline-block</em>)</li>
+                    <li><input type="checkbox" id="bx7" onchange="saveChecklistProgress()"> Jeg har laget en liten kortlayout med god spacing</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    ✅ Flott! Du har fullført leksjonen om boksmodellen og layout.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Prøv oppgaven selv før du ser fasiten!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "layout123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Sjekkliste -> localStorage + index-synk
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul2_layout_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul2_layout_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            saveChecklistProgress();
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

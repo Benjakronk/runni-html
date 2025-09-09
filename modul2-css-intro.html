@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: CSS Introduksjon og syntaks</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🎨 Modul 2: CSS Introduksjon og syntaks</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forstå hva CSS er og hvorfor vi bruker det</li>
+                    <li>Skrive grunnleggende CSS-syntaks korrekt</li>
+                    <li>Bruke de tre måtene å legge til CSS på (inline, internal, external)</li>
+                    <li>Koble eksterne stylesheets til HTML-dokumenter</li>
+                    <li>Skrive CSS-kommentarer for bedre kodeorganisering</li>
+                    <li>Bruke nettleserens utviklerverktøy for CSS-feilsøking</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er CSS?</h3>
+            <p><strong>CSS (Cascading Style Sheets)</strong> er språket vi bruker for å style og layout HTML-dokumenter. Mens HTML gir struktur og innhold, gir CSS utseende og design.</p>
+
+            <div class="tip notification-box">
+                Tenk på HTML som skjelettet til en person, og CSS som klærne, sminken og frisyren!
+            </div>
+
+            <h3>Hvorfor trenger vi CSS?</h3>
+            <p>Uten CSS ville alle nettsider se like ut - bare svart tekst på hvit bakgrunn. CSS lar oss:</p>
+            <ul>
+                <li>Endre farger og fonter</li>
+                <li>Kontrollere layout og posisjonering</li>
+                <li>Lage responsive design for ulike skjermstørrelser</li>
+                <li>Legge til animasjoner og overganger</li>
+                <li>Skape en unik visuell identitet</li>
+            </ul>
+
+            <h3>CSS Syntaks</h3>
+            <p>CSS består av regler som forteller nettleseren hvordan elementer skal se ut. Hver regel har tre deler:</p>
+
+            <div class="code-example">
+selektor {<br>
+    egenskap: verdi;<br>
+    egenskap: verdi;<br>
+}
+            </div>
+
+            <div class="css-demo">
+                <h4>Eksempel på CSS-regel:</h4>
+                <div class="code-example">
+h1 {<br>
+    color: blue;<br>
+    font-size: 24px;<br>
+}
+                </div>
+                <p><strong>Forklaring:</strong></p>
+                <ul>
+                    <li><code>h1</code> = <strong>Selektor</strong> (hvilke elementer som skal styles)</li>
+                    <li><code>color</code> og <code>font-size</code> = <strong>Egenskaper</strong> (hva som skal endres)</li>
+                    <li><code>blue</code> og <code>24px</code> = <strong>Verdier</strong> (hvordan det skal endres)</li>
+                </ul>
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Viktige regler:</strong><br>
+                • Hver egenskap må ende med semikolon (;)<br>
+                • Krøllparenteser { } omslutter egenskapene<br>
+                • Mellomrom og linjeskift gjør koden mer leselig
+            </div>
+
+            <h3>Tre måter å legge til CSS</h3>
+
+            <h4>1. Inline CSS (ikke anbefalt)</h4>
+            <p>CSS skrives direkte i HTML-taggen med <code>style</code>-attributtet:</p>
+            <div class="code-example">
+&lt;h1 style="color: red; font-size: 30px;"&gt;Rød overskrift&lt;/h1&gt;
+            </div>
+            <div class="bad-practice notification-box">
+                Inline CSS gjør koden rotete og vanskelig å vedlikeholde. Bruk det bare for testing!
+            </div>
+
+            <h4>2. Internal CSS</h4>
+            <p>CSS skrives i <code>&lt;style&gt;</code>-taggen i dokumentets <code>&lt;head&gt;</code>:</p>
+            <div class="code-example">
+&lt;head&gt;<br>
+    &lt;style&gt;<br>
+        h1 {<br>
+            color: green;<br>
+            font-size: 28px;<br>
+        }<br>
+        p {<br>
+            color: gray;<br>
+        }<br>
+    &lt;/style&gt;<br>
+&lt;/head&gt;
+            </div>
+
+            <h4>3. External CSS (anbefalt)</h4>
+            <p>CSS skrives i en egen fil og kobles til HTML-dokumentet:</p>
+            
+            <div class="good-practice notification-box">
+                External CSS er den beste metoden fordi den holder HTML og CSS adskilt og lar deg bruke samme styling på flere sider!
+            </div>
+
+            <p><strong>Steg 1:</strong> Lag en CSS-fil (f.eks. <code>styles.css</code>)</p>
+            <div class="code-example">
+/* styles.css */<br>
+h1 {<br>
+    color: purple;<br>
+    font-size: 32px;<br>
+}<br>
+<br>
+p {<br>
+    color: black;<br>
+    font-family: Arial, sans-serif;<br>
+}
+            </div>
+
+            <p><strong>Steg 2:</strong> Koble CSS-filen til HTML i <code>&lt;head&gt;</code>:</p>
+            <div class="code-example">
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;
+            </div>
+
+            <h3>CSS-kommentarer</h3>
+            <p>Bruk kommentarer for å forklare koden din:</p>
+            <div class="code-example">
+/* Dette er en kommentar */<br>
+h1 {<br>
+    color: blue; /* Setter tekstfargen til blå */<br>
+}<br>
+<br>
+/*<br>
+   Flerlinjes kommentar<br>
+   for lengre forklaringer<br>
+*/
+            </div>
+
+            <h3>Utviklerverktøy i nettleseren</h3>
+            <p>Alle moderne nettlesere har innebygde utviklerverktøy som hjelper med CSS:</p>
+            <ul>
+                <li><strong>Åpne:</strong> F12 eller høyreklikk → "Inspiser element"</li>
+                <li><strong>Se CSS:</strong> Klikk på et element for å se alle CSS-regler</li>
+                <li><strong>Test endringer:</strong> Endre verdier direkte i utviklerverktøyet</li>
+                <li><strong>Feilsøk:</strong> Se hvilke regler som blir overstyrt</li>
+            </ul>
+
+            <div class="tip notification-box">
+                Utviklerverktøy er din beste venn når du lærer CSS! Bruk dem til å eksperimentere og forstå hvordan CSS virker.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Din første CSS-styling</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Ta en av HTML-sidene du lagde i Modul 1 og legg til CSS-styling:</p>
+                
+                <ol>
+                    <li>Lag en ny CSS-fil kalt <code>styles.css</code></li>
+                    <li>Koble CSS-filen til din HTML-side</li>
+                    <li>Style følgende elementer:
+                        <ul>
+                            <li>Hovedoverskrift (h1) - velg farge og størrelse</li>
+                            <li>Underoverskrifter (h2, h3) - andre farger</li>
+                            <li>Avsnitt (p) - endre font og farge</li>
+                            <li>Bakgrunnsfarge på hele siden</li>
+                            <li>Legg til minst 3 CSS-kommentarer</li>
+                        </ul>
+                    </li>
+                    <li>Test siden i nettleseren</li>
+                    <li>Åpne utviklerverktøy og eksperimenter med verdier</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <p><strong>HTML (index.html):</strong></p>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset="UTF-8"&gt;<br>
+    &lt;title&gt;Min første CSS-side&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1&gt;Velkommen til min nettside&lt;/h1&gt;<br>
+    &lt;h2&gt;Om meg&lt;/h2&gt;<br>
+    &lt;p&gt;Dette er min første side med CSS-styling!&lt;/p&gt;<br>
+    &lt;h3&gt;Mine hobbyer&lt;/h3&gt;<br>
+    &lt;p&gt;Jeg liker å lære webutvikling.&lt;/p&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <p><strong>CSS (styles.css) - startmal:</strong></p>
+                <div class="code-example">
+/* Min første CSS-fil */<br>
+<br>
+/* Bakgrunn for hele siden */<br>
+body {<br>
+    <br>
+}<br>
+<br>
+/* Hovedoverskrift */<br>
+h1 {<br>
+    <br>
+}<br>
+<br>
+/* Underoverskrifter */<br>
+h2 {<br>
+    <br>
+}<br>
+<br>
+/* Avsnitt */<br>
+p {<br>
+    <br>
+}
+                </div>
+
+                <div class="tip notification-box">
+                    Start enkelt! Velg farger du liker og se hvordan de ser ut. Du kan alltid endre dem senere.
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <p><strong>styles.css:</strong></p>
+                    <div class="code-example">
+/* Min første CSS-fil */<br>
+<br>
+/* Bakgrunn for hele siden */<br>
+body {<br>
+    background-color: #f0f8ff;<br>
+    font-family: Arial, sans-serif;<br>
+}<br>
+<br>
+/* Hovedoverskrift */<br>
+h1 {<br>
+    color: #2c3e50;<br>
+    font-size: 36px;<br>
+    text-align: center;<br>
+}<br>
+<br>
+/* Underoverskrifter */<br>
+h2 {<br>
+    color: #3498db;<br>
+    font-size: 24px;<br>
+}<br>
+<br>
+h3 {<br>
+    color: #e74c3c;<br>
+    font-size: 20px;<br>
+}<br>
+<br>
+/* Avsnitt */<br>
+p {<br>
+    color: #34495e;<br>
+    font-size: 16px;<br>
+    line-height: 1.5;<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css1"> Har jeg laget en egen CSS-fil?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css2"> Er CSS-filen koblet til HTML med &lt;link&gt; tag?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css3"> Har jeg stylet minst 4 forskjellige elementer?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css4"> Bruker jeg riktig CSS-syntaks med semikolon og krøllparenteser?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css5"> Har jeg lagt til minst 3 kommentarer i CSS-filen?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css6"> Ser nettsiden annerledes ut enn før jeg la til CSS?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css7"> Har jeg testet siden i nettleseren?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="css8"> Har jeg prøvd å bruke utviklerverktøy (F12)?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Flott!</strong> Du har tatt dine første steg inn i CSS-verdenen! Nå kan du gjøre nettsidene dine kule.
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du om selektorer og farger, så du kan bli enda mer presis med stylingen din!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "css123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul2_css_intro_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul2_css_intro_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: Responsive design</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>📱 Modul 2: Responsive design</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forklare hva responsive design er og hvorfor det er viktig</li>
+                    <li>Bruke CSS-enheter: <code>px</code>, <code>%</code>, <code>em</code>, <code>rem</code>, <code>vw</code>, <code>vh</code></li>
+                    <li>Bruke <code>max-width</code> og <code>min-width</code> for flytende layout</li>
+                    <li>Skrive grunnleggende media queries (mobil-først)</li>
+                    <li>Gjøre bilder fleksible med <code>max-width: 100%</code></li>
+                    <li>Teste designet på ulike skjermstørrelser</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er responsive design?</h3>
+            <p>Responsive design betyr at nettsiden <em>tilpasser seg</em> skjermen den vises på — mobil, nettbrett eller PC. 
+               Vi bruker flytende størrelser og media queries for å endre layout og typografi når skjermbredden endres.</p>
+
+            <h3>CSS-enheter i praksis</h3>
+            <ul>
+                <li><strong>px:</strong> faste piksler (statiske verdier)</li>
+                <li><strong>%:</strong> prosent av forelderens størrelse (flytende)</li>
+                <li><strong>em:</strong> relativ til <em>elementets</em> font-størrelse</li>
+                <li><strong>rem:</strong> relativ til <em>roten</em> (html) sin font-størrelse (stabil)</li>
+                <li><strong>vw / vh:</strong> prosent av viewport-bredde/-høyde</li>
+            </ul>
+
+            <div class="code-example">
+/* Eksempler */<br>
+.container { max-width: 1000px; width: 90%; }        /* % for flyt */<br>
+h1 { font-size: 2.2rem; }                            /* rem for typografi */<br>
+.hero { padding: 6vw; }                               /* vw skalerer med skjermen */<br>
+img { max-width: 100%; height: auto; display: block; } /* fleksible bilder */
+            </div>
+
+            <h3>max-width og min-width</h3>
+            <p><code>max-width</code> hindrer at elementer blir for brede på store skjermer, 
+               mens <code>min-width</code> hindrer at noe krymper for mye på små skjermer.</p>
+
+            <div class="code-example">
+.wrapper {<br>
+    width: 90%;<br>
+    max-width: 1100px;   /* aldri større enn dette */<br>
+    margin: 0 auto;<br>
+}<br><br>
+.card { min-width: 220px; } /* ikke for smal */
+            </div>
+
+            <h3>Media queries (mobil-først)</h3>
+            <p>Mobil-først betyr at vi skriver basis-stiler for små skjermer først, 
+               og legger til forbedringer for større skjermer med <code>min-width</code>-spørringer.</p>
+
+            <div class="code-example">
+/* Basis (mobiler) */<br>
+.grid {<br>
+    display: block;<br>
+}<br><br>
+/* Større skjermer: to kolonner */<br>
+@media (min-width: 600px) {<br>
+  .grid {<br>
+    display: inline-block; /* enkel løsning før flex/grid */<br>
+  }<br>
+  .card { width: calc(50% - 20px); display: inline-block; vertical-align: top; margin: 10px; }<br>
+}<br><br>
+/* Enda større: tre kolonner */<br>
+@media (min-width: 900px) {<br>
+  .card { width: calc(33.333% - 20px); }<br>
+}
+            </div>
+
+            <div class="tip notification-box">
+                Husk <strong>viewport-meta</strong> i <code>&lt;head&gt;</code>: 
+                <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>
+            </div>
+
+            <h3>Fleksible bilder</h3>
+            <p>Gjør bilder skalerbare slik at de ikke flyter utenfor containeren på små skjermer.</p>
+            <div class="code-example">
+img { max-width: 100%; height: auto; display: block; }
+            </div>
+
+            <h2>Praktisk: Gjør en seksjon responsiv</h2>
+            <p>Vi lager en liten kortseksjon som blir én kolonne på mobil, to på nettbrett, tre på desktop.</p>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Responsiv kortseksjon</h2>
+                <h3>Oppgave</h3>
+                <ol>
+                    <li>Lag en container med <code>max-width</code> og flytende <code>width</code></li>
+                    <li>Lag 3–6 kort med bilde, tittel og tekst</li>
+                    <li>Gjør bildene fleksible</li>
+                    <li>Skriv mobil-først CSS og legg til media queries for 600px og 900px</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;section class="wrapper"&gt;<br>
+        &lt;div class="grid"&gt;<br>
+            &lt;article class="card"&gt;<br>
+                &lt;img src="https://picsum.photos/400/240" alt="Bilde 1"&gt;<br>
+                &lt;h3&gt;Kort 1&lt;/h3&gt;<br>
+                &lt;p&gt;Beskrivelse...&lt;/p&gt;<br>
+            &lt;/article&gt;<br>
+            &lt;article class="card"&gt;<br>
+                &lt;img src="https://picsum.photos/400/240?2" alt="Bilde 2"&gt;<br>
+                &lt;h3&gt;Kort 2&lt;/h3&gt;<br>
+                &lt;p&gt;Beskrivelse...&lt;/p&gt;<br>
+            &lt;/article&gt;<br>
+            &lt;article class="card"&gt;<br>
+                &lt;img src="https://picsum.photos/400/240?3" alt="Bilde 3"&gt;<br>
+                &lt;h3&gt;Kort 3&lt;/h3&gt;<br>
+                &lt;p&gt;Beskrivelse...&lt;/p&gt;<br>
+            &lt;/article&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/section&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* styles.css – eksempel-løsning (mobil-først) */<br><br>
+html { font-size: 16px; }<br>
+* { box-sizing: border-box; }<br><br>
+.wrapper { width: 92%; max-width: 1100px; margin: 0 auto; }<br>
+.grid { display: block; }<br>
+.card {<br>
+  background: #fff;<br>
+  margin: 10px 0;<br>
+  padding: 12px;<br>
+  border: 1px solid #e7e7e7;<br>
+  border-radius: 12px;<br>
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);<br>
+}<br>
+.card img { max-width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 10px; }<br>
+.card h3 { margin-bottom: 6px; font-size: 1.1rem; }<br>
+.card p { margin-bottom: 0; line-height: 1.5; }<br><br>
+/* Nettbrett: to kolonner */<br>
+@media (min-width: 600px) {<br>
+  .card {<br>
+    display: inline-block;<br>
+    vertical-align: top;<br>
+    width: calc(50% - 20px);<br>
+    margin: 10px;<br>
+  }<br>
+}<br><br>
+/* Desktop: tre kolonner */<br>
+@media (min-width: 900px) {<br>
+  .card { width: calc(33.333% - 20px); }<br>
+}<br><br>
+/* Bonus: typografi som skalerer litt */<br>
+h1 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
+                    </div>
+                </div>
+            </div>
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="rx1" onchange="saveChecklistProgress()"> Jeg har brukt relative enheter (<code>%</code>, <code>rem</code> eller <code>vw/vh</code>)</li>
+                    <li><input type="checkbox" id="rx2" onchange="saveChecklistProgress()"> Jeg har satt fleksible bilder (<code>max-width: 100%</code>)</li>
+                    <li><input type="checkbox" id="rx3" onchange="saveChecklistProgress()"> Jeg har brukt <code>max-width</code> eller <code>min-width</code> på containere</li>
+                    <li><input type="checkbox" id="rx4" onchange="saveChecklistProgress()"> Jeg har skrevet minst én mobil-først media query</li>
+                    <li><input type="checkbox" id="rx5" onchange="saveChecklistProgress()"> Seksjonen min endrer kolonneantall på 600px og 900px</li>
+                    <li><input type="checkbox" id="rx6" onchange="saveChecklistProgress()"> Jeg har testet siden i nettleserens responsive modus</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 Supert! Du har gjort prosjektet responsivt.
+                </div>
+            </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Prøv oppgaven selv før du ser fasiten!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "responsive123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Sjekkliste -> localStorage + index-synk
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul2_responsive_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul2_responsive_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            // Oppdater status ved last
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

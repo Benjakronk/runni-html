@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML & CSS - Startside</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🚀 HTML & CSS</h1>
+            <p>Lær å lage fantastiske nettsider fra bunnen av! Fra grunnleggende HTML til avanserte prosjekter - alt du trenger for å bli en webmaster.</p>
+        </div>
+
+        <div class="progress-overview">
+            <h2>📊 Din fremgang</h2>
+            <p>Hold styr på hvor langt du har kommet i kurset</p>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="completedLessons">0</div>
+                    <div class="stat-label">Fullførte leksjoner</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProgress">0%</div>
+                    <div class="stat-label">Total fremgang</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modules-grid">
+            <!-- Modul 1: Grunnleggende HTML -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📝</div>
+                    <div class="module-title">Modul 1: Grunnleggende HTML</div>
+                    <div class="module-description">Lær grunnleggende HTML og bygg din første nettside</div>
+                </div>
+                <div class="module-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul1-grunnleggende.html">
+                                <span>
+                                    Grunnleggende HTML-struktur
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-grunnleggende">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul1-bilder.html">
+                                <span>
+                                    Bilder og multimedia
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-bilder">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul1-navigasjon.html">
+                                <span>
+                                    Flersidig nettsted og navigasjon
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-videre">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul1-tabeller.html">
+                                <span>
+                                    Tabeller og avanserte skjemaer
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-tabeller">4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modul 2: CSS og Design -->
+            <div class="module-card" id="module2">
+                <div class="module-header">
+                    <div class="module-icon">🎨</div>
+                    <div class="module-title">Modul 2: CSS og Design</div>
+                    <div class="module-description">Lær å style nettsidene dine med CSS</div>
+                </div>
+                <div class="module-content" id="module2-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul2-css-intro.html">
+                                <span>
+                                    CSS Introduksjon og syntaks
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-css-intro">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul2-selektorer.html">
+                                <span>
+                                    Selektorer og farger
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-selektorer">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul2-layout.html">
+                                <span>
+                                    Box Model og layout
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-layout">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul2-responsive.html">
+                                <span>
+                                    Responsive design
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-responsive">4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modul 3: JavaScript -->
+            <div class="module-card" id="module3">
+                <div class="module-header">
+                    <div class="module-icon">⚡</div>
+                    <div class="module-title">Modul 3: JavaScript</div>
+                    <div class="module-description">Gjør nettsidene interaktive med JavaScript</div>
+                </div>
+                <div class="module-content" id="module3-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul3-js-intro.html">
+                                <span>
+                                    JavaScript grunnleggende
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-js-intro">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul3-dom.html">
+                                <span>
+                                    DOM manipulering
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-dom">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul3-events.html">
+                                <span>
+                                    Events og interaksjon
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-events">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul3-prosjekt.html">
+                                <span>
+                                    Interaktive prosjekter
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-js-prosjekt">4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="extra-projects">
+            <h2>🌟 Prosjekter</h2>
+            <p>Utfordre deg selv med disse spennende prosjektene når du har fullført grunnkurset!</p>
+            <div class="projects-grid">
+                <div class="project-preview">
+                    <h3>👤 Personlig Visittkort</h3>
+                    <p>Lag ditt eget digitale visittkort</p>
+                </div>
+                <div class="project-preview">
+                    <h3>📝 Mini-Blog</h3>
+                    <p>Bygg en blogg med flere artikler</p>
+                </div>
+                <div class="project-preview">
+                    <h3>✈️ Drømmereisen</h3>
+                    <p>Design din ultimate reiseplanlegger</p>
+                </div>
+            </div>
+            <a href="modul1-prosjekter.html" class="cta-button" style="margin-top: 20px; background: rgba(255,255,255,0.2);">
+                Se alle prosjekter →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Fremgangssporing for alle moduler
+        function updateProgress() {
+            // Modul 1 leksjoner
+            var modul1Lessons = [
+                'modul1_completed',
+                'modul1_bilder_completed', 
+                'modul1_videre_completed',
+                'modul1_tabeller_completed'
+            ];
+            
+            var modul1StatusElements = [
+                'status-grunnleggende',
+                'status-bilder', 
+                'status-videre',
+                'status-tabeller'
+            ];
+            
+            // Modul 2 leksjoner
+            var modul2Lessons = [
+                'modul2_css_intro_completed',
+                'modul2_selektorer_completed',
+                'modul2_layout_completed',
+                'modul2_responsive_completed'
+            ];
+            
+            var modul2StatusElements = [
+                'status-css-intro',
+                'status-selektorer',
+                'status-layout',
+                'status-responsive'
+            ];
+            
+            // Modul 3 leksjoner
+            var modul3Lessons = [
+                'modul3_js_intro_completed',
+                'modul3_dom_completed',
+                'modul3_events_completed',
+                'modul3_projects_completed'
+            ];
+            
+            var modul3StatusElements = [
+                'status-js-intro',
+                'status-dom',
+                'status-events',
+                'status-js-prosjekt'
+            ];
+            
+            // Oppdater Modul 1 status
+            var modul1CompletedCount = 0;
+            for (var i = 0; i < modul1Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul1Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul1StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul1CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
+            
+            // Oppdater Modul 2 status
+            var modul2CompletedCount = 0;
+            for (var i = 0; i < modul2Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul2Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul2StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul2CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
+            
+            // Oppdater Modul 3 status
+            var modul3CompletedCount = 0;
+            for (var i = 0; i < modul3Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul3Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul3StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul3CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
+            
+            // Oppdater total statistikk
+            var totalLessons = modul1Lessons.length + modul2Lessons.length + modul3Lessons.length;
+            var totalCompleted = modul1CompletedCount + modul2CompletedCount + modul3CompletedCount;
+            
+            document.getElementById('completedLessons').textContent = totalCompleted;
+            document.getElementById('totalProgress').textContent = Math.round((totalCompleted / totalLessons) * 100) + '%';
+            
+            // Håndter modul-låsing
+            updateModuleAccess(modul1CompletedCount, modul1Lessons.length, modul2CompletedCount, modul2Lessons.length);
+        }
+        
+        function updateModuleAccess(modul1Completed, modul1Total, modul2Completed, modul2Total) {
+            var module2 = document.getElementById('module2');
+            var module3 = document.getElementById('module3');
+            
+            // Null checks for safety
+            if (!module2 || !module3) {
+                return;
+            }
+            
+            // Sjekk om Modul 1 er fullført
+            var modul1Complete = modul1Completed === modul1Total;
+            
+            if (modul1Complete) {
+                // Lås opp Modul 2
+                module2.classList.remove('locked');
+                var module2Header = module2.querySelector('.module-header');
+                if (module2Header) {
+                    module2Header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }
+            } else {
+                // Lås Modul 2
+                module2.classList.add('locked');
+                var module2Header = module2.querySelector('.module-header');
+                if (module2Header) {
+                    module2Header.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+                }
+                
+                // Skjul leksjoner og vis låst melding
+                var module2Content = document.getElementById('module2-content');
+                if (module2Content) {
+                    module2Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 1 er fullført (' + modul1Completed + '/' + modul1Total + ')</p>';
+                }
+            }
+            
+            // Sjekk om Modul 2 er fullført
+            var modul2Complete = modul2Completed === modul2Total;
+            
+            if (modul2Complete && modul1Complete) {
+                // Lås opp Modul 3
+                module3.classList.remove('locked');
+                var module3Header = module3.querySelector('.module-header');
+                if (module3Header) {
+                    module3Header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }
+            } else {
+                // Lås Modul 3
+                module3.classList.add('locked');
+                var module3Header = module3.querySelector('.module-header');
+                if (module3Header) {
+                    module3Header.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+                }
+                
+                // Vis låst melding med fremgang
+                var module3Content = document.getElementById('module3-content');
+                if (module3Content) {
+                    if (!modul1Complete) {
+                        module3Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 2 er fullført<br><small>Fullfør først Modul 1</small></p>';
+                    } else {
+                        module3Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 2 er fullført (' + modul2Completed + '/' + modul2Total + ')</p>';
+                    }
+                }
+            }
+        }
+        
+        // Kjør når siden lastes
+        window.onload = function() {
+            updateProgress();
+        };
+        
+        // Oppdater fremgang hver 5. sekund (hvis brukeren har vært aktiv i andre faner)
+        setInterval(updateProgress, 5000);
+    </script>
+</body>
+</html>

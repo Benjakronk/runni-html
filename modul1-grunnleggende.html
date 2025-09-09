@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1: HTML-struktur - Grunnleggende byggesteiner</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 1: HTML-struktur - Grunnleggende byggesteiner</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne modulen skal du kunne:</p>
+                <ul>
+                    <li>Bruke grunnleggende HTML-tagger korrekt</li>
+                    <li>Lage en enkel nettside med overskrifter, avsnitt og lister</li>
+                    <li>Sette inn bilder og lenker</li>
+                    <li>Opprette input-felt og knapper</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er HTML?</h3>
+            <p>HTML (HyperText Markup Language) er språket vi bruker for å strukturere innhold på nettsider. HTML bruker <strong>tagger</strong> for å fortelle nettleseren hvordan innholdet skal vises.</p>
+
+            <h3>Grunnleggende HTML-struktur</h3>
+            <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Min første nettside&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;!-- Her kommer alt innholdet som vises på siden --&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+            </div>
+
+            <h3>De viktigste taggene</h3>
+
+            <h4>Overskrifter</h4>
+            <div class="code-example">
+&lt;h1&gt;Hovedoverskrift&lt;/h1&gt;<br>
+&lt;h2&gt;Underoverskrift&lt;/h2&gt;<br>
+&lt;h3&gt;Mindre overskrift&lt;/h3&gt;
+            </div>
+
+            <h4>Avsnitt og tekst</h4>
+            <div class="code-example">
+&lt;p&gt;Dette er et avsnitt med tekst.&lt;/p&gt;<br>
+&lt;p&gt;Dette er et nytt avsnitt.&lt;/p&gt;
+            </div>
+
+            <h4>Lister</h4>
+            <div class="code-example">
+&lt;!-- Punktliste --&gt;<br>
+&lt;ul&gt;<br>
+    &lt;li&gt;Første punkt&lt;/li&gt;<br>
+    &lt;li&gt;Andre punkt&lt;/li&gt;<br>
+    &lt;li&gt;Tredje punkt&lt;/li&gt;<br>
+&lt;/ul&gt;<br>
+<br>
+&lt;!-- Nummerert liste --&gt;<br>
+&lt;ol&gt;<br>
+    &lt;li&gt;Første punkt&lt;/li&gt;<br>
+    &lt;li&gt;Andre punkt&lt;/li&gt;<br>
+&lt;/ol&gt;
+            </div>
+
+            <h4>Bilder og lenker</h4>
+            <div class="code-example">
+&lt;!-- Bilde --&gt;<br>
+&lt;img src="bildenavn.jpg" alt="Beskrivelse av bildet"&gt;<br>
+<br>
+&lt;!-- Lenke --&gt;<br>
+&lt;a href="https://www.vg.no"&gt;Gå til VG&lt;/a&gt;
+            </div>
+
+            <div class="tip notification-box">
+                Husk alltid å bruke <strong>alt</strong>-attributtet på bilder! Det hjelper personer med synsnedsettelse og vises hvis bildet ikke lastes.
+            </div>
+
+            <h4>Input-felt og knapper</h4>
+            <div class="code-example">
+&lt;input type="text" placeholder="Skriv navn her"&gt;<br>
+&lt;input type="number" placeholder="Skriv alder her"&gt;<br>
+&lt;button&gt;Klikk meg!&lt;/button&gt;
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Min første nettside</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag en enkel "Om meg"-side som inneholder:</p>
+                <ol>
+                    <li>En hovedoverskrift med ditt navn</li>
+                    <li>Et avsnitt som beskriver deg selv</li>
+                    <li>En liste over dine hobbyer</li>
+                    <li>Et bilde (kan være et tilfeldig bilde fra nettet)</li>
+                    <li>En lenke til din favorittnettside</li>
+                    <li>Et input-felt hvor besøkende kan skrive sitt navn</li>
+                    <li>En knapp med teksten "Si hei!"</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Om meg&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;!-- Skriv koden din her --&gt;<br>
+    <br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <div class="important-note notification-box">
+                    <strong>Ikke titt på fasiten før du har prøvd selv!</strong> Det er ved å prøve og feile at du lærer best.
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Om meg&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1&gt;Hei, jeg heter [Ditt navn]&lt;/h1&gt;<br>
+    <br>
+    &lt;p&gt;Jeg er en elev som lærer programmering. Jeg synes det er spennende å lage nettsider og lære nye ting hver dag!&lt;/p&gt;<br>
+    <br>
+    &lt;h2&gt;Mine hobbyer:&lt;/h2&gt;<br>
+    &lt;ul&gt;<br>
+        &lt;li&gt;Gaming&lt;/li&gt;<br>
+        &lt;li&gt;Fotball&lt;/li&gt;<br>
+        &lt;li&gt;Musikk&lt;/li&gt;<br>
+        &lt;li&gt;Programmering&lt;/li&gt;<br>
+    &lt;/ul&gt;<br>
+    <br>
+    &lt;img src="https://via.placeholder.com/300x200" alt="Et eksempelbilde"&gt;<br>
+    <br>
+    &lt;p&gt;Min favorittnettside: &lt;a href="https://www.youtube.com"&gt;YouTube&lt;/a&gt;&lt;/p&gt;<br>
+    <br>
+    &lt;h3&gt;Si hei til meg:&lt;/h3&gt;<br>
+    &lt;input type="text" placeholder="Skriv navnet ditt her"&gt;<br>
+    &lt;button&gt;Si hei!&lt;/button&gt;<br>
+    <br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Legg til flere typer input-felt (email, password, checkbox)</li>
+                    <li>Prøv å lage en tabell med <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code></li>
+                    <li>Legg til flere bilder og organiser dem i en fin layout</li>
+                    <li>Prøv å legge til litt CSS for å gjøre siden penere</li>
+                </ol>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check1"> Har jeg brukt h1-taggen for hovedoverskriften?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check2"> Har jeg laget avsnitt med p-taggen?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check3"> Har jeg laget en liste med ul/ol og li?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check4"> Har jeg satt inn et bilde med riktige attributter (src og alt)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check5"> Har jeg laget en fungerende lenke?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check6"> Har jeg laget input-felt og knapper?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check7"> Ser nettsiden min riktig ut i nettleseren?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="check8"> Er koden min ryddig og lett å forstå?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Gratulerer!</strong> Du har fullført alle punktene på sjekklisten!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                Husk å teste nettsiden din i nettleseren underveis! Åpne HTML-filen i Edge for å se hvordan den ser ut.
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "html123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul1_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul1_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

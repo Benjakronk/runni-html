@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: Selektorer og farger</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🎨 Modul 2: Selektorer og farger</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forstå hva CSS-selektorer er og hvordan de brukes</li>
+                    <li>Bruke vanlige selektorer: element, klasse og ID</li>
+                    <li>Kombinere selektorer for mer presis styling</li>
+                    <li>Forstå arv og spesifisitet i CSS</li>
+                    <li>Bruke farger i CSS (navn, HEX, RGB, HSL)</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er en selektor?</h3>
+            <p>Selektoren forteller nettleseren hvilke HTML-elementer som skal styles. Her er de viktigste typene:</p>
+
+            <h4>1) Element-selektor</h4>
+            <div class="code-example">
+p {<br>
+    color: blue;<br>
+}
+            </div>
+            <p>Dette vil gjøre all <code>&lt;p&gt;</code>-tekst blå.</p>
+
+            <h4>2) Klasse-selektor</h4>
+            <div class="code-example">
+.highlight {<br>
+    background-color: yellow;<br>
+}
+            </div>
+            <p>Brukes i HTML slik: <code>&lt;p class="highlight"&gt;Tekst&lt;/p&gt;</code></p>
+
+            <h4>3) ID-selektor</h4>
+            <div class="code-example">
+#unik {<br>
+    color: red;<br>
+    font-weight: bold;<br>
+}
+            </div>
+            <p>Brukes i HTML slik: <code>&lt;p id="unik"&gt;Spesiell tekst&lt;/p&gt;</code></p>
+
+            <div class="important-note notification-box">
+                <strong>Husk:</strong> Bruk <strong>klasser</strong> for gjenbrukbar styling. ID-er bør kun brukes for unike elementer!
+            </div>
+
+            <h3>Kombinerte selektorer</h3>
+            <div class="code-example">
+/* Kun lenker inni avsnitt */<br>
+p a {<br>
+    color: green;<br>
+}<br><br>
+/* Direkte barn (p som ligger rett inni .kort) */<br>
+.kort > p {<br>
+    margin-bottom: 0.5rem;<br>
+}<br><br>
+/* Flere betingelser: lenker inni avsnitt med .highlight */<br>
+p.highlight a {<br>
+    text-decoration: underline;<br>
+}
+            </div>
+
+            <h3>Spesifisitet og arv</h3>
+            <p>Når flere regler treffer samme element, vinner regelen med høyest <strong>spesifisitet</strong>:</p>
+            <ul>
+                <li>Element-selektor: lav</li>
+                <li>Klasse-selektor: middels</li>
+                <li>ID-selektor: høy</li>
+                <li>Regler skrevet sist kan overstyre tidligere regler med lik spesifisitet</li>
+            </ul>
+
+            <div class="tip notification-box">
+                Bruk utviklerverktøy (F12) og se «Computed»/«Styles» for å forstå hvorfor en regel vinner.
+            </div>
+
+            <h3>Farger i CSS</h3>
+            <p>Du kan skrive farger på flere måter:</p>
+            <div class="code-example">
+/* Navn */<br>
+h1 { color: red; }<br><br>
+/* HEX */<br>
+h1 { color: #ff0000; }<br><br>
+/* RGB(A) */<br>
+h1 { color: rgba(255, 0, 0, 0.9); }<br><br>
+/* HSL(A) */<br>
+h1 { color: hsl(0, 100%, 50%); }
+            </div>
+
+            <div class="good-practice notification-box">
+                HSL er supert når du vil variere <em>lyshet</em> og <em>metning</em> konsekvent i et fargetema.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Din egen stil</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag en liten HTML-side og bruk selektorer og farger for å style den:</p>
+                <ol>
+                    <li>Gi alle overskrifter en farge du velger</li>
+                    <li>Marker viktige setninger med en klasse som har bakgrunnsfarge</li>
+                    <li>Lag en unik ID på en knapp og gi den en kontrastfarge</li>
+                    <li>Lag en regel som kun påvirker lenker <em>inni</em> avsnitt</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1&gt;Velkommen til min side&lt;/h1&gt;<br>
+    &lt;p class="highlight"&gt;Dette er viktig tekst! &lt;a href="#"&gt;Les mer&lt;/a&gt;&lt;/p&gt;<br>
+    &lt;button id="unik"&gt;Klikk meg!&lt;/button&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* styles.css */<br><br>
+/* Alle overskrifter blir lilla */<br>
+h1, h2, h3 {<br>
+    color: rebeccapurple;<br>
+}<br><br>
+/* Viktige setninger med gul bakgrunn */<br>
+.highlight {<br>
+    background-color: #fff59a;<br>
+    padding: 6px 8px;<br>
+    border-radius: 6px;<br>
+}<br><br>
+/* Knappen med unik ID blir rød med hvit tekst */<br>
+#unik {<br>
+    background-color: #e74c3c;<br>
+    color: #fff;<br>
+    border: none;<br>
+    padding: 10px 16px;<br>
+    border-radius: 8px;<br>
+    cursor: pointer;<br>
+}<br><br>
+/* Kun lenker inni avsnitt */<br>
+p a {<br>
+    color: #27ae60;<br>
+    font-weight: 600;<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel1"> Har jeg brukt minst én <strong>element</strong>-selektor?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel2"> Har jeg laget og brukt minst én <strong>klasse</strong>?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel3"> Har jeg laget og brukt én <strong>ID</strong>?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel4"> Har jeg kombinert selektorer (f.eks. <code>p a</code> eller <code>.kort > p</code>)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel5"> Har jeg brukt farger skrevet som <strong>HEX</strong> eller <strong>HSL</strong>?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="sel6"> Forstår jeg hvordan <strong>spesifisitet</strong> påvirker hvilken regel som vinner?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Supert!</strong> Du har fullført leksjonen om selektorer og farger.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit (samme mønster som andre sider)
+        var correctPassword = "selektorer123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Fremgang: lagre/les sjekkliste og sync med index.html
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                // Denne nøkkelen leses av index.html for å vise ✓ på leksjonen
+                localStorage.setItem('modul2_selektorer_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul2_selektorer_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            // Sjekk om alle er fullført ved last
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Init
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

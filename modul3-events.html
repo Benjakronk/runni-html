@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3: Events og interaksjon</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🖱️ Modul 3: Events og interaksjon</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <ul>
+                    <li>Forstå hva et event er i JavaScript</li>
+                    <li>Bruke vanlige events: <code>click</code>, <code>mouseover</code>, <code>keydown</code></li>
+                    <li>Koble funksjoner til events med <code>onclick</code> og <code>addEventListener</code></li>
+                    <li>Bruke <code>event</code>-objektet for mer kontroll</li>
+                    <li>Lage enkel interaktivitet som svarer på brukerhandlinger</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er events?</h3>
+            <p>Et event er en hendelse i nettleseren – f.eks. at brukeren klikker på en knapp, beveger musen eller skriver på tastaturet. JavaScript kan "lytte" etter disse hendelsene og kjøre kode når de skjer.</p>
+
+            <h3>Vanlige måter å legge til events</h3>
+            <div class="code-example">
+&lt;!-- Direkte i HTML --&gt;<br>
+&lt;button onclick="hils()"&gt;Klikk meg&lt;/button&gt;<br><br>
+&lt;!-- Med addEventListener i JS --&gt;<br>
+let knapp = document.getElementById("minKnapp");<br>
+knapp.addEventListener("click", hils);<br><br>
+function hils() {<br>
+    alert("Hei! Du klikket på knappen.");<br>
+}
+            </div>
+
+            <h3>Noen vanlige events</h3>
+            <ul>
+                <li><code>click</code> – når du klikker</li>
+                <li><code>mouseover</code> – når musen går over et element</li>
+                <li><code>mouseout</code> – når musen forlater elementet</li>
+                <li><code>keydown</code> – når en tast trykkes ned</li>
+                <li><code>keyup</code> – når en tast slippes</li>
+                <li><code>submit</code> – når et skjema sendes inn</li>
+            </ul>
+
+            <h3>Event-objektet</h3>
+            <div class="code-example">
+document.addEventListener("keydown", function(event) {<br>
+    console.log("Du trykket på tasten:", event.key);<br>
+});
+            </div>
+
+            <!-- 🔹 Interaktiv demo -->
+            <div class="project-box">
+                <h2>Interaktiv demo: Events i aksjon</h2>
+                <p>Prøv knappene og skriv i tekstfeltet for å se events i bruk.</p>
+
+                <div style="margin: 12px 0;">
+                    <button id="demoBtn">Klikk meg</button>
+                    <button id="hoverBtn">Hold musen over meg</button>
+                </div>
+                <input id="demoInput" type="text" placeholder="Skriv noe her...">
+                <p id="demoOutput" style="margin-top:10px; font-weight:bold;"></p>
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Din egen interaktive boks</h2>
+                <h3>Oppgave</h3>
+                <ol>
+                    <li>Lag en <code>&lt;div&gt;</code> med litt tekst inni</li>
+                    <li>Når man klikker på boksen, skal den endre bakgrunnsfarge</li>
+                    <li>Når musen går over boksen, skal teksten endres</li>
+                    <li>Bonus: Tell antall ganger boksen har blitt klikket</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;div id="boks"&gt;Klikk eller hold musen over meg&lt;/div&gt;<br>
+    &lt;script src="script.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* script.js */<br>
+let boks = document.getElementById("boks");<br>
+let teller = 0;<br><br>
+boks.addEventListener("click", function() {<br>
+    teller++;<br>
+    boks.style.backgroundColor = "lightblue";<br>
+    boks.innerText = "Klikket " + teller + " ganger!";<br>
+});<br><br>
+boks.addEventListener("mouseover", function() {<br>
+    boks.style.border = "2px solid red";<br>
+});<br><br>
+boks.addEventListener("mouseout", function() {<br>
+    boks.style.border = "none";<br>
+});
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="ev1" onchange="saveChecklistProgress()"> Jeg har laget et element som reagerer på <code>click</code></li>
+                    <li><input type="checkbox" id="ev2" onchange="saveChecklistProgress()"> Jeg har brukt <code>addEventListener</code></li>
+                    <li><input type="checkbox" id="ev3" onchange="saveChecklistProgress()"> Jeg har testet minst ett mus-event (<code>mouseover</code>/<code>mouseout</code>)</li>
+                    <li><input type="checkbox" id="ev4" onchange="saveChecklistProgress()"> Jeg har testet minst ett tastatur-event (<code>keydown</code>/<code>keyup</code>)</li>
+                    <li><input type="checkbox" id="ev5" onchange="saveChecklistProgress()"> Jeg har laget en funksjon som oppdaterer innhold når et event skjer</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 Flott! Du har fullført leksjonen om events og interaksjon.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "events123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Interaktiv demo
+        const demoBtn = document.getElementById('demoBtn');
+        const hoverBtn = document.getElementById('hoverBtn');
+        const demoInput = document.getElementById('demoInput');
+        const demoOutput = document.getElementById('demoOutput');
+
+        demoBtn.addEventListener("click", () => {
+            demoOutput.innerText = "Du klikket på knappen!";
+        });
+
+        hoverBtn.addEventListener("mouseover", () => {
+            demoOutput.innerText = "Musen er over knappen!";
+        });
+        hoverBtn.addEventListener("mouseout", () => {
+            demoOutput.innerText = "Musen forlot knappen.";
+        });
+
+        demoInput.addEventListener("keydown", (event) => {
+            demoOutput.innerText = "Du trykket: " + event.key;
+        });
+
+        // Sjekkliste -> localStorage
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul3_events_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul3_events_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            saveChecklistProgress();
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

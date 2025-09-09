@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3: Interaktive prosjekter</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+
+    <div class="container">
+        <div class="course-container">
+            <h1>🧩 Modul 3: Interaktive prosjekter</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Kombinere variabler, DOM-manipulasjon og events i små apper</li>
+                    <li>Organisere JS-kode i funksjoner</li>
+                    <li>Håndtere input fra brukeren og oppdatere UI i sanntid</li>
+                    <li>Forbedre brukeropplevelse med enkle tilbakemeldinger (klassebytte, meldinger)</li>
+                </ul>
+            </div>
+
+            <h2>Kjapp interaktiv demo</h2>
+            <p>Test en miniapp som kombinerer <em>DOM + events + tilstand</em>:</p>
+
+            <div class="project-box" style="max-width: 620px;">
+                <h3>Mini Counter</h3>
+                <p id="demoCount" style="font-size:1.8rem; margin: 0.5rem 0;">0</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn" onclick="countChange(-1)">−</button>
+                    <button class="btn" onclick="countChange(1)">+</button>
+                    <button class="btn" onclick="countReset()">Nullstill</button>
+                </div>
+                <p id="demoMsg" class="tip" style="margin-top:10px;">Tips: Prøv å klikke raskt flere ganger.</p>
+            </div>
+
+            <script>
+                let demoCount = 0;
+                function renderDemo() {
+                    const out = document.getElementById('demoCount');
+                    const msg = document.getElementById('demoMsg');
+                    out.innerText = demoCount;
+                    if (demoCount > 0) {
+                        out.style.color = '#27ae60';
+                        msg.innerText = 'Positivt tall ✨';
+                    } else if (demoCount < 0) {
+                        out.style.color = '#e74c3c';
+                        msg.innerText = 'Negativt tall ⚠️';
+                    } else {
+                        out.style.color = 'inherit';
+                        msg.innerText = 'Tilbake til null 🙂';
+                    }
+                }
+                function countChange(n){ demoCount += n; renderDemo(); }
+                function countReset(){ demoCount = 0; renderDemo(); }
+                // init:
+                if (document.getElementById('demoCount')) renderDemo();
+            </script>
+
+            <h2>Prosjektpakke</h2>
+            <p>Velg minst <strong>to</strong> av prosjektene under. Hvert prosjekt har mål, starterkode og fasit bak passord.</p>
+
+            <!-- Prosjekt 1 -->
+            <div class="project-box">
+                <h2>Prosjekt 1: Tema-bytter (lys/mørk)</h2>
+                <p><strong>Mål:</strong> Lære klassebytte på <code>document.body</code>, lagre valg i <code>localStorage</code>, og oppdatere UI.</p>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+  &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+  &lt;button id="toggleTheme"&gt;Bytt tema&lt;/button&gt;<br>
+  &lt;h2&gt;Tema-test&lt;/h2&gt;<br>
+  &lt;p&gt;Denne teksten skal skifte stil når vi bytter tema.&lt;/p&gt;<br>
+  &lt;script src="theme.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button class="solution-btn" onclick="showPasswordModal('solutionTheme')">🔒 Klikk for å se fasiten</button>
+                <div id="solutionTheme" style="display:none; margin-top:10px;">
+                    <div class="code-example">
+/* theme.js */<br>
+const btn = document.getElementById('toggleTheme');<br>
+const LS_KEY = 'theme';<br><br>
+function applyTheme(t){<br>
+  document.body.classList.toggle('dark', t === 'dark');<br>
+}<br><br>
+function currentTheme(){<br>
+  return document.body.classList.contains('dark') ? 'dark' : 'light';<br>
+}<br><br>
+const saved = localStorage.getItem(LS_KEY);<br>
+if (saved) applyTheme(saved);<br><br>
+btn.addEventListener('click', () =&gt; {<br>
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';<br>
+  applyTheme(next);<br>
+  localStorage.setItem(LS_KEY, next);<br>
+});<br><br>
+/* styles.css – eksempel */<br>
+/* body { transition: background .2s ease, color .2s ease; } */<br>
+/* .dark { background:#111; color:#f2f2f2; } */<br>
+/* .dark .card { background:#1b1b1b; border-color:#333; } */
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prosjekt 2 -->
+            <div class="project-box">
+                <h2>Prosjekt 2: Live filter av liste</h2>
+                <p><strong>Mål:</strong> Reagere på <code>input</code>-hendelser og filtrere elementer med <code>querySelectorAll</code>.</p>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;input id="sok" type="text" placeholder="Filtrer..."&gt;<br>
+&lt;ul id="varer"&gt;<br>
+  &lt;li&gt;Melk&lt;/li&gt;<br>
+  &lt;li&gt;Brød&lt;/li&gt;<br>
+  &lt;li&gt;Epler&lt;/li&gt;<br>
+  &lt;li&gt;Appelsin&lt;/li&gt;<br>
+&lt;/ul&gt;<br>
+&lt;script src="filter.js"&gt;&lt;/script&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button class="solution-btn" onclick="showPasswordModal('solutionFilter')">🔒 Klikk for å se fasiten</button>
+                <div id="solutionFilter" style="display:none; margin-top:10px;">
+                    <div class="code-example">
+/* filter.js */<br>
+const input = document.getElementById('sok');<br>
+const items = document.querySelectorAll('#varer li');<br><br>
+input.addEventListener('input', () =&gt; {<br>
+  const q = input.value.toLowerCase().trim();<br>
+  items.forEach(li =&gt; {<br>
+    const match = li.innerText.toLowerCase().includes(q);<br>
+    li.style.display = match ? '' : 'none';<br>
+  });<br>
+});
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prosjekt 3 -->
+            <div class="project-box">
+                <h2>Prosjekt 3: To-do lite</h2>
+                <p><strong>Mål:</strong> Lage elementer dynamisk, markere som ferdig med klassebytte, og kunne slette.</p>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;input id="nyTodo" type="text" placeholder="Hva skal gjøres?"&gt;<br>
+&lt;button id="leggTil"&gt;Legg til&lt;/button&gt;<br>
+&lt;ul id="todoListe"&gt;&lt;/ul&gt;<br>
+&lt;script src="todo.js"&gt;&lt;/script&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button class="solution-btn" onclick="showPasswordModal('solutionTodo')">🔒 Klikk for å se fasiten</button>
+                <div id="solutionTodo" style="display:none; margin-top:10px;">
+                    <div class="code-example">
+/* todo.js */<br>
+const inputTodo = document.getElementById('nyTodo');<br>
+const btnAdd = document.getElementById('leggTil');<br>
+const ul = document.getElementById('todoListe');<br><br>
+btnAdd.addEventListener('click', leggTil);<br>
+inputTodo.addEventListener('keydown', e =&gt; { if (e.key === 'Enter') leggTil(); });<br><br>
+function leggTil(){<br>
+  const tekst = inputTodo.value.trim();<br>
+  if (!tekst) return;<br>
+  const li = document.createElement('li');<br>
+  li.innerHTML = `&lt;span class="t"&gt;${tekst}&lt;/span&gt; &lt;button class="done"&gt;Ferdig&lt;/button&gt; &lt;button class="del"&gt;Slett&lt;/button&gt;`;<br>
+  ul.appendChild(li);<br>
+  inputTodo.value='';<br>
+}<br><br>
+ul.addEventListener('click', (e) =&gt; {<br>
+  const li = e.target.closest('li');<br>
+  if (!li) return;<br>
+  if (e.target.classList.contains('done')) {<br>
+    li.classList.toggle('completed');<br>
+  } else if (e.target.classList.contains('del')) {<br>
+    li.remove();<br>
+  }<br>
+});<br><br>
+/* styles.css – eksempel */<br>
+/* .completed .t { text-decoration: line-through; opacity: .7; } */<br>
+/* #todoListe li { margin: 6px 0; } */<br>
+/* #todoListe button { margin-left: 6px; } */
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sjekkliste -->
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="pr1" onchange="saveChecklistProgress()"> Jeg har valgt minst to prosjekter</li>
+                    <li><input type="checkbox" id="pr2" onchange="saveChecklistProgress()"> Jeg bruker funksjoner til å strukturere koden</li>
+                    <li><input type="checkbox" id="pr3" onchange="saveChecklistProgress()"> Jeg reagerer på brukerinput (klikk/skriving)</li>
+                    <li><input type="checkbox" id="pr4" onchange="saveChecklistProgress()"> UI oppdateres med DOM-manipulasjon (tekst/HTML/klasser)</li>
+                    <li><input type="checkbox" id="pr5" onchange="saveChecklistProgress()"> Jeg har testet i nettleser og rettet feil i konsollen</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 Supert! Du har fullført «Interaktive prosjekter».
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal (gjenbruk for alle fasiter på siden) -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p class="demo-note" style="margin-bottom: 12px;">Prøv selv først – be læreren om passord ved behov.</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div style="margin-top:10px;">
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit på denne siden
+        var correctPassword = "projects123";
+        var solutionTargetId = null;
+
+        function showPasswordModal(targetId) {
+            solutionTargetId = targetId;
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+            solutionTargetId = null;
+        }
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword && solutionTargetId) {
+                document.getElementById('passwordModal').style.display = 'none';
+                var sol = document.getElementById(solutionTargetId);
+                if (sol) sol.style.display = 'block';
+                var btn = document.querySelector('.solution-btn[onclick*="' + solutionTargetId + '"]');
+                if (btn) {
+                    btn.innerHTML = '✅ Fasit synlig';
+                    btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                    btn.style.color = '#27ae60';
+                    btn.style.borderColor = '#27ae60';
+                    btn.onclick = null;
+                }
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Sjekkliste -> localStorage + index-synk
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) li.classList.add('completed');
+                else { li.classList.remove('completed'); allChecked = false; }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul3_projects_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul3_projects_completed', 'false');
+            }
+        }
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) closePasswordModal();
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1: Bilder - Om bruk av bilder på nettsider</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🖼️ Modul 1: Bilder - Om bruk av bilder på nettsider</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne modulen skal du kunne:</p>
+                <ul>
+                    <li>Forstå ulike bildeformater (JPG, PNG, GIF, SVG)</li>
+                    <li>Bruke img-taggen korrekt med alle viktige attributter</li>
+                    <li>Organisere bilder i mapper og bruke riktige filstier</li>
+                    <li>Optimalisere bilder for nettsider</li>
+                    <li>Skrive beskrivende alt-tekst for tilgjengelighet</li>
+                    <li>Kontrollere bildestørrelser og responsive bilder</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hvorfor er bilder viktige på nettsider?</h3>
+            <p>Bilder gjør nettsider mer engasjerende, hjelper med å formidle informasjon raskt, og skaper en bedre brukeropplevelse. Men for at bilder skal fungere optimalt på nettet, må vi vite hvordan vi bruker dem riktig!</p>
+
+            <h3>Bildeformater - Hvilket format skal jeg velge?</h3>
+            
+            <div class="format-comparison">
+                <div class="format-card">
+                    <div class="format-icon">📷</div>
+                    <h4>JPG/JPEG</h4>
+                    <p><strong>Best for:</strong> Fotografier og bilder med mange farger</p>
+                    <p><strong>Fordel:</strong> Små filstørrelser</p>
+                    <p><strong>Ulempe:</strong> Mister kvalitet ved komprimering</p>
+                </div>
+
+                <div class="format-card">
+                    <div class="format-icon">🎨</div>
+                    <h4>PNG</h4>
+                    <p><strong>Best for:</strong> Logoer, tekst, bilder med få farger</p>
+                    <p><strong>Fordel:</strong> Støtter transparens</p>
+                    <p><strong>Ulempe:</strong> Større filstørrelser</p>
+                </div>
+
+                <div class="format-card">
+                    <div class="format-icon">🎬</div>
+                    <h4>GIF</h4>
+                    <p><strong>Best for:</strong> Enkle animasjoner</p>
+                    <p><strong>Fordel:</strong> Støtter animasjon</p>
+                    <p><strong>Ulempe:</strong> Begrenset til 256 farger</p>
+                </div>
+
+                <div class="format-card">
+                    <div class="format-icon">📐</div>
+                    <h4>SVG</h4>
+                    <p><strong>Best for:</strong> Ikoner og enkle grafikker</p>
+                    <p><strong>Fordel:</strong> Skalerer uten kvalitetstap</p>
+                    <p><strong>Ulempe:</strong> Ikke egnet for fotografier</p>
+                </div>
+            </div>
+
+            <h3>Grunnleggende img-tag</h3>
+            <p>Den grunnleggende syntaksen for å sette inn bilder:</p>
+
+            <div class="code-example">
+&lt;img src="bilde.jpg" alt="Beskrivelse av bildet"&gt;
+            </div>
+
+            <h4>Viktige attributter</h4>
+            <div class="code-example">
+&lt;!-- Grunnleggende img-tag --&gt;<br>
+&lt;img src="bilder/profil.jpg" alt="Bilde av Anna som smiler"&gt;<br>
+<br>
+&lt;!-- Med størrelse og styling --&gt;<br>
+&lt;img src="bilder/logo.png" alt="Firmalogo" width="200" height="100"&gt;<br>
+<br>
+&lt;!-- Med tittel (vises ved hover) --&gt;<br>
+&lt;img src="bilder/produkt.jpg" alt="Rødt sykkel" title="Se vårt nye sykkel-design"&gt;
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Alt-attributtet er obligatorisk!</strong> Det hjelper personer med synsnedsettelse og vises hvis bildet ikke kan lastes.
+            </div>
+
+            <h3>Organisering av bilder</h3>
+            <p>For å holde nettsiden din ryddig, bør du organisere bildene i egne mapper:</p>
+
+            <div class="file-structure">
+                <h3>📁 Anbefalt mappestruktur</h3>
+                <div class="folder-tree">
+                    <div class="level-0"><span class="folder">📁 mitt-nettsted/</span></div>
+                    <div class="level-1">📄 index.html</div>
+                    <div class="level-1">📄 om-meg.html</div>
+                    <div class="level-1"><span class="folder">📁 bilder/</span></div>
+                    <div class="level-2"><span class="file">🖼️ profil.jpg</span></div>
+                    <div class="level-2"><span class="file">🖼️ logo.png</span></div>
+                    <div class="level-2"><span class="file">🖼️ bakgrunn.jpg</span></div>
+                    <div class="level-2"><span class="folder">📁 produkter/</span></div>
+                    <div class="level-3"><span class="file">🖼️ produkt1.jpg</span></div>
+                    <div class="level-3"><span class="file">🖼️ produkt2.jpg</span></div>
+                </div>
+            </div>
+
+            <h3>Filstier (paths) - Hvordan finne bildene</h3>
+            <div class="code-example">
+&lt;!-- Bilde i samme mappe som HTML-filen --&gt;<br>
+&lt;img src="bilde.jpg" alt="Beskrivelse"&gt;<br>
+<br>
+&lt;!-- Bilde i undermappe --&gt;<br>
+&lt;img src="bilder/profil.jpg" alt="Profilbilde"&gt;<br>
+<br>
+&lt;!-- Bilde i undermappe av undermappe --&gt;<br>
+&lt;img src="bilder/produkter/sykkel.jpg" alt="Rødt sykkel"&gt;<br>
+<br>
+&lt;!-- Bilde fra internett (ekstern URL) --&gt;<br>
+&lt;img src="https://example.com/bilde.jpg" alt="Bilde fra nettet"&gt;
+            </div>
+
+            <div class="good-practice notification-box">
+                Bruk alltid lokale bilder når det er mulig. Eksterne bilder kan forsvinne eller endre seg uten varsel.
+            </div>
+
+            <h3>Bildestørrelser og responsivitet</h3>
+            <p>Du kan kontrollere størrelsen på bilder på flere måter:</p>
+
+            <div class="code-example">
+&lt;!-- Fast størrelse i piksler --&gt;<br>
+&lt;img src="bilde.jpg" alt="Beskrivelse" width="300" height="200"&gt;<br>
+<br>
+&lt;!-- Kun bredde (høyden tilpasses automatisk) --&gt;<br>
+&lt;img src="bilde.jpg" alt="Beskrivelse" width="300"&gt;<br>
+<br>
+&lt;!-- Responsivt bilde (tilpasser seg skjermstørrelse) --&gt;<br>
+&lt;img src="bilde.jpg" alt="Beskrivelse" style="max-width: 100%; height: auto;"&gt;
+            </div>
+
+            <h3>Alt-tekst - Skriv gode beskrivelser</h3>
+            <p>Alt-tekst er tekst som beskriver bildet for personer som ikke kan se det:</p>
+
+            <div class="good-practice notification-box">
+                <strong>Gode eksempler på alt-tekst:</strong><br>
+                • "Rød bil parkert foran et hus"<br>
+                • "Anna som smiler og holder en bok"<br>
+                • "Graf som viser økning i salg fra 2020 til 2024"
+            </div>
+
+            <div class="bad-practice notification-box">
+                <strong>Dårlige eksempler på alt-tekst:</strong><br>
+                • "Bilde"<br>
+                • "IMG_1234.jpg"<br>
+                • "" (tom alt-tekst uten grunn)
+            </div>
+
+            <h3>Optimalisering av bilder</h3>
+            <p>Store bildefiler gjør nettsiden din langsom. Her er noen tips:</p>
+
+            <div class="tip notification-box">
+                <strong>Anbefalte maksimale størrelser:</strong><br>
+                • Profilbilder: 300x300 piksler<br>
+                • Header-bilder: 1200x400 piksler<br>
+                • Produktbilder: 800x600 piksler<br>
+                • Filstørrelse: Under 500KB per bilde
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Bildegalleri</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag en nettside som viser et personlig bildegalleri med:</p>
+                
+                <ol>
+                    <li>En hovedoverskrift "Mitt Bildegalleri"</li>
+                    <li>Kort introduksjonstekst om galleriet</li>
+                    <li>Minst 6 bilder organisert i en "bilder" mappe</li>
+                    <li>Bildene skal ha forskjellige størrelser og formater</li>
+                    <li>Hver bilde skal ha beskrivende alt-tekst</li>
+                    <li>Minst ett responsivt bilde</li>
+                    <li>Bildetekster under hvert bilde</li>
+                    <li>Navigasjon tilbake til hjemmesiden</li>
+                </ol>
+
+                <div class="tip notification-box">
+                    Du kan bruke gratis bilder fra nettsteder som Unsplash.com eller Pixabay.com, eller lage enkle placeholder-bilder.
+                </div>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Mitt Bildegalleri&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;header&gt;<br>
+        &lt;h1&gt;Mitt Bildegalleri&lt;/h1&gt;<br>
+        &lt;nav&gt;<br>
+            &lt;a href="index.html"&gt;Tilbake til hjem&lt;/a&gt;<br>
+        &lt;/nav&gt;<br>
+    &lt;/header&gt;<br>
+    <br>
+    &lt;main&gt;<br>
+        &lt;p&gt;Velkommen til mitt personlige bildegalleri!&lt;/p&gt;<br>
+        <br>
+        &lt;!-- Legg til bildene dine her --&gt;<br>
+        <br>
+    &lt;/main&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <div class="important-note notification-box">
+                    <strong>Husk:</strong> Lag en "bilder" mappe og organiser alle bildene der før du begynner å kode!
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Mitt Bildegalleri&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;header&gt;<br>
+        &lt;h1&gt;Mitt Bildegalleri&lt;/h1&gt;<br>
+        &lt;nav&gt;<br>
+            &lt;a href="index.html"&gt;← Tilbake til hjem&lt;/a&gt;<br>
+        &lt;/nav&gt;<br>
+    &lt;/header&gt;<br>
+    <br>
+    &lt;main&gt;<br>
+        &lt;p&gt;Velkommen til mitt personlige bildegalleri! Her er noen av mine favorittbilder.&lt;/p&gt;<br>
+        <br>
+        &lt;h2&gt;Natur og landskap&lt;/h2&gt;<br>
+        <br>
+        &lt;img src="bilder/fjell.jpg" alt="Snødekte fjell under blå himmel" width="400"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Vakre fjell i Norge&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;img src="bilder/skog.png" alt="Grønn skog med høye trær" width="300"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Frodig skog om sommeren&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;h2&gt;Dyr&lt;/h2&gt;<br>
+        <br>
+        &lt;img src="bilder/katt.jpg" alt="Oransje katt som sover i en kurv" width="250"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Min søte katt Milo&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;img src="bilder/fugl.gif" alt="Animert fugl som flyr" width="200"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Fugl i flukt&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;h2&gt;Arkitektur&lt;/h2&gt;<br>
+        <br>
+        &lt;img src="bilder/bygning.jpg" alt="Moderne bygning med glassfasade" style="max-width: 100%; height: auto;"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Moderne arkitektur i Oslo (responsivt bilde)&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;img src="bilder/bro.svg" alt="Stilisert tegning av en bro" width="350"&gt;<br>
+        &lt;p&gt;&lt;em&gt;Kunstnerisk fremstilling av en bro&lt;/em&gt;&lt;/p&gt;<br>
+        <br>
+        &lt;footer&gt;<br>
+            &lt;p&gt;Alle bilder er tatt av meg eller hentet fra frie kilder.&lt;/p&gt;<br>
+        &lt;/footer&gt;<br>
+    &lt;/main&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder1"> Har jeg laget en "bilder" mappe for bildene mine?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder2"> Har jeg brukt minst 3 forskjellige bildeformater (JPG, PNG, GIF eller SVG)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder3"> Har alle bildene mine beskrivende alt-tekst?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder4"> Har jeg brukt riktige filstier til alle bildene?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder5"> Har jeg minst ett responsivt bilde som tilpasser seg skjermstørrelse?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder6"> Har jeg lagt til bildetekster under bildene?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder7"> Vises alle bildene korrekt i nettleseren?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="bilder8"> Er bildestørrelsene passende for nettsiden?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Flott!</strong> Du behersker nå bildehåndtering på nettsider! Bildene dine vil gjøre nettsidene mer engasjerende.
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> Prøv å kombinere det du har lært om bilder med navigasjon og flersidige nettsteder for å lage enda mer imponerende prosjekter!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "bilder123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul1_bilder_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul1_bilder_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

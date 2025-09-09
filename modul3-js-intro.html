@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3: Grunnleggende JavaScript</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🎯 Modul 3: Grunnleggende JavaScript</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <ul>
+                    <li>Forstå hva JavaScript brukes til på nettsider</li>
+                    <li>Koble JavaScript til HTML via <code>&lt;script&gt;</code></li>
+                    <li>Bruke <code>console.log()</code> for å teste kode</li>
+                    <li>Opprette og bruke variabler (<code>let</code>, <code>const</code>)</li>
+                    <li>Lage enkle funksjoner</li>
+                    <li>Endre innhold på nettsiden (DOM-manipulasjon)</li>
+                    <li>Reagere på hendelser (<code>onclick</code>)</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er JavaScript?</h3>
+            <p>JavaScript gjør nettsider interaktive. Der HTML lager struktur og CSS gir stil, 
+               lar JavaScript deg reagere på brukerhandlinger, endre innhold og lage dynamiske opplevelser.</p>
+
+            <h3>Koble på JavaScript</h3>
+            <p>Den beste måten er å lage en egen fil, f.eks. <code>script.js</code>, og koble den til HTML:</p>
+            <div class="code-example">
+&lt;!-- index.html --&gt;<br>
+&lt;script src="script.js"&gt;&lt;/script&gt;
+            </div>
+
+            <h3>Konsollen og <code>console.log()</code></h3>
+            <p>Åpne nettleserens utviklerverktøy (F12 → Console). Skriv ut meldinger for å teste:</p>
+            <div class="code-example">
+console.log("Hei verden!");
+            </div>
+
+            <h3>Variabler</h3>
+            <p>Bruk <code>let</code> eller <code>const</code> for å lagre data:</p>
+            <div class="code-example">
+let navn = "Ada";<br>
+const alder = 17;<br>
+console.log(navn + " er " + alder + " år.");
+            </div>
+
+            <h3>Funksjoner</h3>
+            <div class="code-example">
+function hils() {<br>
+    console.log("Hei fra en funksjon!");<br>
+}<br>
+hils();
+            </div>
+
+            <h3>Endre innhold (DOM)</h3>
+            <div class="code-example">
+document.getElementById("melding").innerText = "Ny tekst satt med JavaScript!";
+            </div>
+
+            <h3>Hendelser</h3>
+            <div class="code-example">
+&lt;button onclick="endreTekst()"&gt;Klikk meg!&lt;/button&gt;<br><br>
+function endreTekst() {<br>
+    document.getElementById("melding").innerText = "Du trykket på knappen!";<br>
+}
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: En interaktiv knapp</h2>
+                <h3>Oppgave</h3>
+                <ol>
+                    <li>Lag en HTML-side med en knapp og et avsnitt</li>
+                    <li>Skriv JavaScript som endrer teksten i avsnittet når du trykker på knappen</li>
+                    <li>Bonus: tell antall ganger knappen har blitt trykket</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;p id="melding"&gt;Trykk på knappen&lt;/p&gt;<br>
+    &lt;button onclick="endreTekst()"&gt;Klikk meg&lt;/button&gt;<br>
+    &lt;script src="script.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* script.js */<br>
+let teller = 0;<br><br>
+function endreTekst() {<br>
+    teller++;<br>
+    document.getElementById("melding").innerText = "Du har trykket " + teller + " ganger.";<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="js1" onchange="saveChecklistProgress()"> Jeg har laget en ekstern <code>.js</code>-fil og koblet den til HTML</li>
+                    <li><input type="checkbox" id="js2" onchange="saveChecklistProgress()"> Jeg har brukt <code>console.log()</code></li>
+                    <li><input type="checkbox" id="js3" onchange="saveChecklistProgress()"> Jeg har deklarert en variabel med <code>let</code> eller <code>const</code></li>
+                    <li><input type="checkbox" id="js4" onchange="saveChecklistProgress()"> Jeg har skrevet en enkel funksjon</li>
+                    <li><input type="checkbox" id="js5" onchange="saveChecklistProgress()"> Jeg har endret innhold på nettsiden via DOM</li>
+                    <li><input type="checkbox" id="js6" onchange="saveChecklistProgress()"> Jeg har lagt til en hendelse (f.eks. <code>onclick</code>)</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 Flott! Du har fullført leksjonen om grunnleggende JavaScript.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "js123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Fremgang: sjekkliste
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul3_js_intro_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul3_js_intro_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            saveChecklistProgress();
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

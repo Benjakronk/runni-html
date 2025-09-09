@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3: DOM-manipulering</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Små styles for den interaktive demoen (lokalt for denne siden) */
+        .demo-card {
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 16px;
+            margin: 16px 0 8px 0;
+        }
+        .demo-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 0 0;
+        }
+        .demo-toolbar .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+            background: transparent;
+            color: #3498db;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .demo-toolbar .btn:hover {
+            background: #3498db;
+            color: #fff;
+        }
+        .demo-highlight {
+            background: #fff9c4; /* lys gul */
+            border: 2px solid #f1c40f;
+        }
+        .demo-muted {
+            opacity: 0.6;
+        }
+        .demo-list {
+            margin-top: 10px;
+            padding-left: 18px;
+        }
+        .demo-note {
+            font-size: 0.95em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🖇️ Modul 3: DOM-manipulering</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <ul>
+                    <li>Forstå hva DOM (Document Object Model) er</li>
+                    <li>Bruke <code>getElementById</code>, <code>querySelector</code> og <code>querySelectorAll</code></li>
+                    <li>Endre tekst og HTML med <code>innerText</code> og <code>innerHTML</code></li>
+                    <li>Endre CSS-stiler med <code>style</code>-egenskapen</li>
+                    <li>Legge til og fjerne CSS-klasser med <code>classList</code></li>
+                    <li>Opprette og legge til nye elementer</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er DOM?</h3>
+            <p>DOM (Document Object Model) er en “trestruktur” av HTML-dokumentet ditt. JavaScript kan bruke DOM for å finne, endre og legge til elementer på siden.</p>
+
+            <h3>Finne elementer</h3>
+            <div class="code-example">
+let tittel = document.getElementById("overskrift");<br>
+let avsnitt = document.querySelector("p");<br>
+let alleLenker = document.querySelectorAll("a");
+            </div>
+
+            <h3>Endre innhold</h3>
+            <div class="code-example">
+document.getElementById("overskrift").innerText = "Ny overskrift";<br>
+document.getElementById("info").innerHTML = "&lt;strong&gt;Viktig&lt;/strong&gt; melding!";
+            </div>
+
+            <h3>Endre stil og klasser</h3>
+            <div class="code-example">
+let box = document.getElementById("boks");<br>
+box.style.backgroundColor = "lightblue";<br>
+box.classList.add("highlight");<br>
+box.classList.remove("hidden");
+            </div>
+
+            <h3>Opprette elementer</h3>
+            <div class="code-example">
+let nyP = document.createElement("p");<br>
+nyP.innerText = "Jeg ble laget av JavaScript!";<br>
+document.body.appendChild(nyP);
+            </div>
+
+            <!-- 🔹 NY INTERAKTIV DEMO: plassert før prosjektet -->
+            <div class="project-box">
+                <h2>Interaktiv DOM-demo</h2>
+                <p class="demo-note">Test knappene for å se hvordan vi kan endre tekst, klasser, stil og legge til nye elementer.</p>
+
+                <div id="demoCard" class="demo-card">
+                    <h3 id="demoTitle">Velkommen til DOM-demoen 👋</h3>
+                    <p id="demoText">Trykk på knappene under for å manipulere innholdet i denne boksen.</p>
+                    <ul id="demoList" class="demo-list">
+                        <li>Første punkt</li>
+                    </ul>
+                </div>
+
+                <div class="demo-toolbar">
+                    <button class="btn" onclick="byttTittel()">Bytt tittel</button>
+                    <button class="btn" onclick="endreTekstDemo()">Endre tekst</button>
+                    <button class="btn" onclick="toggleFremhevet()">Toggle fremhevet</button>
+                    <button class="btn" onclick="toggleDempet()">Toggle dempet</button>
+                    <button class="btn" onclick="leggTilPunkt()">Legg til punkt</button>
+                    <button class="btn" onclick="nullstillDemo()">Nullstill</button>
+                </div>
+            </div>
+            <!-- 🔹 SLUTT DEMO -->
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Interaktiv liste</h2>
+                <h3>Oppgave</h3>
+                <ol>
+                    <li>Lag en HTML-liste (<code>&lt;ul&gt;</code>) og en knapp</li>
+                    <li>Når man trykker på knappen, skal et nytt <code>&lt;li&gt;</code>-element legges til listen</li>
+                    <li>Endre stilen til listen ved å legge til en CSS-klasse når den blir lang</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h2&gt;Handleliste&lt;/h2&gt;<br>
+    &lt;ul id="liste"&gt;<br>
+        &lt;li&gt;Melk&lt;/li&gt;<br>
+    &lt;/ul&gt;<br>
+    &lt;button onclick="leggTil()"&gt;Legg til vare&lt;/button&gt;<br>
+    &lt;script src="script.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* script.js */<br>
+let teller = 1;<br><br>
+function leggTil() {<br>
+    teller++;<br>
+    let nyLi = document.createElement("li");<br>
+    nyLi.innerText = "Vare " + teller;<br>
+    document.getElementById("liste").appendChild(nyLi);<br><br>
+    let liste = document.getElementById("liste");<br>
+    if (teller &gt;= 5) {<br>
+        liste.classList.add("stor-liste");<br>
+    }<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste</h3>
+                <ul>
+                    <li><input type="checkbox" id="dom1" onchange="saveChecklistProgress()"> Jeg har brukt <code>getElementById</code> eller <code>querySelector</code></li>
+                    <li><input type="checkbox" id="dom2" onchange="saveChecklistProgress()"> Jeg har endret tekst med <code>innerText</code> eller <code>innerHTML</code></li>
+                    <li><input type="checkbox" id="dom3" onchange="saveChecklistProgress()"> Jeg har endret CSS med <code>style</code> eller <code>classList</code></li>
+                    <li><input type="checkbox" id="dom4" onchange="saveChecklistProgress()"> Jeg har laget et nytt element med <code>createElement</code></li>
+                    <li><input type="checkbox" id="dom5" onchange="saveChecklistProgress()"> Jeg har lagt til det nye elementet på siden med <code>appendChild</code></li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 Flott! Du har fullført leksjonen om DOM-manipulering.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen.</div>
+        </div>
+    </div>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "dom123";
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // 🔹 Interaktiv demo – funksjoner
+        let demoTeller = 1;
+        function byttTittel() {
+            const el = document.getElementById('demoTitle');
+            el.innerText = 'Tittel byttet! (' + new Date().toLocaleTimeString() + ')';
+        }
+        function endreTekstDemo() {
+            const el = document.getElementById('demoText');
+            el.innerHTML = 'Denne teksten ble endret via <strong>innerHTML</strong>. 🎉';
+        }
+        function toggleFremhevet() {
+            const card = document.getElementById('demoCard');
+            card.classList.toggle('demo-highlight');
+        }
+        function toggleDempet() {
+            const card = document.getElementById('demoCard');
+            card.classList.toggle('demo-muted');
+        }
+        function leggTilPunkt() {
+            demoTeller++;
+            const li = document.createElement('li');
+            li.innerText = 'Nytt punkt #' + demoTeller;
+            document.getElementById('demoList').appendChild(li);
+        }
+        function nullstillDemo() {
+            document.getElementById('demoTitle').innerText = 'Velkommen til DOM-demoen 👋';
+            document.getElementById('demoText').innerText = 'Trykk på knappene under for å manipulere innholdet i denne boksen.';
+            const list = document.getElementById('demoList');
+            list.innerHTML = '<li>Første punkt</li>';
+            demoTeller = 1;
+            const card = document.getElementById('demoCard');
+            card.classList.remove('demo-highlight', 'demo-muted');
+        }
+
+        // Fremgang: sjekkliste
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                localStorage.setItem(cb.id, cb.checked);
+                var li = cb.parentElement;
+                if (cb.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            var msg = document.getElementById('completionMessage');
+            if (allChecked) {
+                msg.style.display = 'block';
+                localStorage.setItem('modul3_dom_completed', 'true');
+            } else {
+                msg.style.display = 'none';
+                localStorage.setItem('modul3_dom_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var cb = checkboxes[i];
+                var saved = localStorage.getItem(cb.id);
+                if (saved === 'true') {
+                    cb.checked = true;
+                    cb.parentElement.classList.add('completed');
+                }
+            }
+            saveChecklistProgress();
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>
