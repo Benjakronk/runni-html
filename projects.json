@@ -1,0 +1,201 @@
+{
+    "projects": [
+      {
+        "id": 1,
+        "title": "Personlig Visittkort",
+        "icon": "👤",
+        "difficulty": "beginner",
+        "difficultyText": "Nybegynner",
+        "shortDescription": "Lag ditt eget digitale visittkort som du kan vise frem til venner og familie!",
+        "description": "Dette prosjektet er perfekt for deg som vil lage noe personlig og nyttig. Du lærer å organisere informasjon på en pen måte.",
+        "requirements": [],
+        "features": [
+          "Personlig informasjon og kontaktdetaljer",
+          "Favoritthobbyer og interesser",
+          "Lenker til sosiale medier",
+          "Kontaktskjema for beskjeder",
+          "Stilig layout med farger"
+        ],
+        "projectRequirements": [
+          "En hovedoverskrift med ditt navn",
+          "Et profesjonelt eller hyggelig bilde av deg",
+          "En kort beskrivelse av hvem du er",
+          "Kontaktinformasjon (e-post, telefon)",
+          "Liste over hobbyer og interesser",
+          "Lenker til sosiale medier eller nettsider",
+          "Et enkelt kontaktskjema",
+          "Bruk av farger og styling"
+        ],
+        "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>[Ditt navn] - Visittkort</title>\n</head>\n<body>\n    <!-- Din kode her -->\n    \n</body>\n</html>",
+        "tips": "Start enkelt og bygg opp siden gradvis. Tenk på hva du vil at folk skal vite om deg når de ser visitkortet ditt!",
+        "unlockMessage": "Alltid tilgjengelig",
+        "unlockDescription": "Dette prosjektet er alltid tilgjengelig som ditt første prosjekt!"
+      },
+      {
+        "id": 2,
+        "title": "Min Mini-Blog",
+        "icon": "📝",
+        "difficulty": "intermediate",
+        "difficultyText": "Middels",
+        "shortDescription": "Opprett din egen blogg med flere artikler og en fin navigasjonsstruktur!",
+        "description": "Perfekt for deg som liker å skrive og vil lære mer om å organisere innhold på tvers av flere sider.",
+        "requirements": [
+          "modul1_completed",
+          "modul1_bilder_completed"
+        ],
+        "requirementNames": [
+          "Fullføre \"Grunnleggende HTML-struktur\"",
+          "Fullføre \"Bilder og multimedia\""
+        ],
+        "features": [
+          "Hovedside med blogginnlegg",
+          "Minst 3 forskjellige artikler",
+          "Navigasjonsmeny mellom sider",
+          "Bilder og lenker i artiklene",
+          "Kommentarfelt under hver artikkel"
+        ],
+        "projectRequirements": [
+          "En hovedside (index.html) med oversikt over innlegg",
+          "Minst 3 separate artikkel-sider",
+          "Navigasjonsmeny som fungerer mellom sidene",
+          "Hver artikkel må ha overskrift, dato, og innhold",
+          "Minst 2 bilder per artikkel",
+          "Lenker mellom relaterte artikler",
+          "En 'Om meg' side",
+          "Konsistent design på alle sider"
+        ],
+        "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Min Blog - Hjem</title>\n</head>\n<body>\n    <!-- Navigasjon her -->\n    <!-- Hovedinnhold her -->\n    \n</body>\n</html>",
+        "tips": "Lag en mappe for prosjektet og organiser bildene i en egen 'images' mappe. Skriv om noe du brenner for!",
+        "unlockMessage": "Krav for å låse opp:",
+        "buttonTextLocked": "🔒 Fullfør leksjoner først"
+      },
+      {
+        "id": 3,
+        "title": "Drømmereise-Planlegger",
+        "icon": "✈️",
+        "difficulty": "intermediate",
+        "difficultyText": "Middels",
+        "shortDescription": "Design en nettside som planlegger din ultimate drømmereise rundt i verden!",
+        "description": "Et kreativt prosjekt hvor du kombinerer planlegging, design og drømmer om fremtidige eventyr!",
+        "requirements": [
+          "modul1_completed",
+          "modul1_bilder_completed",
+          "modul1_videre_completed",
+          "modul1_tabeller_completed"
+        ],
+        "requirementNames": [
+          "Fullføre \"Grunnleggende HTML-struktur\"",
+          "Fullføre \"Bilder og multimedia\"",
+          "Fullføre \"Flersidig nettsted og navigasjon\"",
+          "Fullføre \"Tabeller og avanserte skjemaer\""
+        ],
+        "features": [
+          "Reisemål med beskrivelser og bilder",
+          "Pakkeliste for turen",
+          "Budsjett-kalkulator (enkle input-felt)",
+          "Interaktiv reiseplan",
+          "Inspirerende design og farger"
+        ],
+        "projectRequirements": [
+          "Hovedside med oversikt over reiseplanen",
+          "Minst 3 reisemål med bilder og beskrivelser",
+          "Pakkeliste organisert i kategorier",
+          "Budsjett-seksjon med input-felt for priser",
+          "Dagsplan for hvert reisemål",
+          "Lenker til offisielle nettsider for destinasjonene",
+          "Inspirerende bilder og farger",
+          "Kontaktinformasjon for nødssituasjoner"
+        ],
+        "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Min Drømmereise</title>\n</head>\n<body>\n    <!-- Planlegg din drømmereise her -->\n    \n</body>\n</html>",
+        "tips": "Velg destinasjoner du virkelig drømmer om å besøke. Bruk farger som minner om stedene du skal til!",
+        "unlockMessage": "Krav for å låse opp:",
+        "buttonTextLocked": "🔒 Fullfør modul 1"
+      },
+      {
+        "id": 4,
+        "title": "Interaktiv Kalkulator",
+        "icon": "🧮",
+        "difficulty": "intermediate",
+        "difficultyText": "Middels",
+        "shortDescription": "Bygg en funksjonell kalkulator med HTML, CSS og JavaScript!",
+        "description": "Lær å kombinere design og funksjonalitet ved å lage en kalkulator som faktisk fungerer.",
+        "requirements": [
+          "modul2_css_intro_completed",
+          "modul2_layout_completed",
+          "modul3_js_intro_completed",
+          "modul3_dom_completed"
+        ],
+        "requirementNames": [
+          "Fullføre \"CSS Introduksjon og syntaks\"",
+          "Fullføre \"Box Model og layout\"", 
+          "Fullføre \"JavaScript grunnleggende\"",
+          "Fullføre \"DOM-manipulering\""
+        ],
+        "features": [
+          "Responsive kalkulator-layout",
+          "Grunnleggende matematiske operasjoner",
+          "Visuell feedback ved knappetrykk",
+          "Feilhåndtering for ugyldig input",
+          "Stilig CSS-design"
+        ],
+        "projectRequirements": [
+          "HTML-struktur med knapper for tall og operasjoner",
+          "CSS Grid eller Flexbox for layout",
+          "Display-skjerm som viser beregninger",
+          "JavaScript for kalkulasjons-logikk",
+          "Hover-effekter på knapper",
+          "Responsivt design som fungerer på mobil",
+          "Clear-funksjon for å nullstille",
+          "Håndtering av desimaltall"
+        ],
+        "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Min Kalkulator</title>\n    <link rel=\"stylesheet\" href=\"kalkulator.css\">\n</head>\n<body>\n    <div class=\"kalkulator\">\n        <div class=\"display\">0</div>\n        <!-- Legg til knapper her -->\n    </div>\n    <script src=\"kalkulator.js\"></script>\n</body>\n</html>",
+        "tips": "Start med grunnleggende operasjoner (+ - × ÷) før du legger til avanserte funksjoner. Test hver funksjon grundig!",
+        "unlockMessage": "Krav for å låse opp:",
+        "buttonTextLocked": "🔒 Fullfør CSS- og JavaScript-leksjoner først"
+      },
+      {
+        "id": 5,
+        "title": "Bildegalleri med Lightbox",
+        "icon": "🖼️",
+        "difficulty": "advanced",
+        "difficultyText": "Avansert",
+        "shortDescription": "Lag et elegant bildegalleri med popup-visning av bilder!",
+        "description": "Et avansert prosjekt som kombinerer responsive design, JavaScript-interaktivitet og elegant brukeropplevelse.",
+        "requirements": [
+          "modul2_layout_completed",
+          "modul2_responsive_completed", 
+          "modul3_js_intro_completed",
+          "modul3_dom_completed",
+          "modul3_events_completed"
+        ],
+        "requirementNames": [
+          "Fullføre \"Box Model og layout\"",
+          "Fullføre \"Responsive design\"",
+          "Fullføre \"JavaScript grunnleggende\"",
+          "Fullføre \"DOM-manipulering\"",
+          "Fullføre \"Events og interaksjon\""
+        ],
+        "features": [
+          "Grid-basert galleri-layout",
+          "Lightbox-effekt ved klikk på bilder",
+          "Navigering mellom bilder i lightbox",
+          "Responsive design for alle enheter",
+          "Smooth animasjoner og overganger"
+        ],
+        "projectRequirements": [
+          "CSS Grid layout for bildene",
+          "Minst 12 bilder i galleriet",
+          "Lightbox som åpnes ved bildeklikk",
+          "Forrige/neste-knapper i lightbox",
+          "Lukk-funksjon (X-knapp og ESC-tast)",
+          "Fade-in/fade-out animasjoner",
+          "Responsive breakpoints for mobil og tablet",
+          "Bildetekster/beskrivelser under bildene"
+        ],
+        "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Mitt Bildegalleri</title>\n    <link rel=\"stylesheet\" href=\"galleri.css\">\n</head>\n<body>\n    <h1>Mitt Bildegalleri</h1>\n    <div class=\"galleri-grid\">\n        <!-- Bilder legges til her -->\n    </div>\n    \n    <!-- Lightbox modal -->\n    <div id=\"lightbox\" class=\"lightbox\">\n        <span class=\"lukk\">&times;</span>\n        <img class=\"lightbox-img\" id=\"lightbox-img\">\n        <div class=\"bildetekst\" id=\"bildetekst\"></div>\n    </div>\n    \n    <script src=\"galleri.js\"></script>\n</body>\n</html>",
+        "tips": "Bruk gratis bilder fra Unsplash eller Pixabay. Fokuser på smooth animasjoner og god brukeropplevelse!",
+        "unlockMessage": "Krav for å låse opp:",
+        "buttonTextLocked": "🔒 Fullfør layout og JavaScript først"
+      }
+    ]
+  }

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodeprosjekter</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Spesifikke overrides for låste prosjekter - bruker !important for å overstyre main.css */
+        .project-card.locked {
+            opacity: 1 !important;
+            background: #f8f9fa !important;
+            border: 2px solid #dee2e6 !important;
+            pointer-events: auto !important;
+            position: relative;
+        }
+        
+        .project-card.locked::before {
+            content: '🔒';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+            z-index: 2;
+        }
+        
+        .project-card.locked .project-header {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d) !important;
+        }
+        
+        .project-card.locked .project-title {
+            color: #ffffff !important;
+        }
+
+        .project-card.locked .project-flavor {
+            color: #ffffff !important;
+        }
+        
+        .project-card.locked .project-difficulty {
+            background: rgb(255, 255, 255) !important;
+            color: #6c757d !important;
+        }
+        
+        .project-card.locked .project-header p {
+            color: #868e96 !important;
+        }
+        
+        .project-card.locked .project-features li {
+            color: #6c757d !important;
+        }
+        
+        .project-card.locked .select-btn {
+            background: #6c757d !important;
+            color: white !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            opacity: 1 !important;
+        }
+        
+        /* Unlock requirements styling - overrides main.css */
+        .unlock-requirements {
+            background: rgba(220, 53, 69, 0.08) !important;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #dc3545 !important;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .project-card:not(.locked) .unlock-requirements {
+            background: rgba(40, 167, 69, 0.08) !important;
+            border-left-color: #28a745 !important;
+        }
+        
+        .unlock-requirements h4 {
+            color: #dc3545 !important;
+            margin-top: 0;
+        }
+        
+        .project-card:not(.locked) .unlock-requirements h4 {
+            color: #28a745 !important;
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .requirement-item .status-icon {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .requirement-item.completed .status-icon {
+            color: #28a745 !important;
+        }
+        
+        .requirement-item.incomplete .status-icon {
+            color: #dc3545 !important;
+        }
+        
+        /* Progress overview - overrides any main.css conflicts */
+        .progress-overview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .progress-overview h2 {
+            margin-top: 0;
+            color: white !important;
+            background: none !important;
+            -webkit-text-fill-color: white !important;
+        }
+        
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .progress-stat {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-stat .number {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .progress-stat .label {
+            font-size: 0.9em;
+        }
+        
+        /* Ensure intro section works with main.css */
+        .intro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .intro h2 {
+            margin-top: 0 !important;
+            background: none !important;
+            -webkit-text-fill-color: white !important;
+            color: white !important;
+        }
+
+        /* Begrens prosjekt-grid til maksimalt 2 kolonner */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            max-width: 1000px; /* Begrenser total bredde */
+            margin: 0 auto;
+            gap: 30px;
+        }
+
+        /* For mindre skjermer, bruk 1 kolonne */
+        @media (max-width: 1000px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+        }
+
+        /* Sikre at prosjektkortene ser bra ut */
+        .project-card {
+            width: 100%;
+            max-width: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🚀 Kodeprosjekter</h1>
+            
+            <!-- Fremgangsindikator -->
+            <div class="progress-overview">
+                <h2>Din fremgang i kurset</h2>
+                <p>Fullfør leksjonene for å låse opp nye prosjekter!</p>
+                <div class="progress-stats">
+                    <div class="progress-stat">
+                        <div class="number" id="completedLessonsCount">0</div>
+                        <div class="label">Fullførte leksjoner</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="number" id="totalProgressPercent">0%</div>
+                        <div class="label">Total fremgang</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="number" id="unlockedProjectsCount">1</div>
+                        <div class="label">Tilgjengelige prosjekter</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="intro">
+                <h2 style="margin-top: 0;">Velg ditt neste prosjekt! 🎯</h2>
+                <p>Prosjektene låses opp etter hvert som du fullfører leksjonene. Start med det første prosjektet og jobb deg oppover!</p>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Prosjektene lastes inn dynamisk via JavaScript -->
+            </div>
+
+            <!-- Prosjektdetaljer som vises når et prosjekt velges -->
+            <div id="projectDetails" class="project-details">
+                <h3 id="selectedProjectTitle">Velg et tilgjengelig prosjekt ovenfor for å se detaljer</h3>
+                <div id="selectedProjectContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var selectedProject = null;
+        var allProjects = [];
+        
+        // Konvertering fra requirements-array til localStorage-keys
+        var lessonKeyMapping = {
+            'modul1_completed': 'modul1_completed',
+            'modul1_bilder_completed': 'modul1_bilder_completed',
+            'modul1_videre_completed': 'modul1_videre_completed',
+            'modul1_tabeller_completed': 'modul1_tabeller_completed',
+            'modul2_css_intro_completed': 'modul2_css_intro_completed',
+            'modul2_selektorer_completed': 'modul2_selektorer_completed',
+            'modul2_layout_completed': 'modul2_layout_completed',
+            'modul2_responsive_completed': 'modul2_responsive_completed',
+            'modul3_js_intro_completed': 'modul3_js_intro_completed',
+            'modul3_dom_completed': 'modul3_dom_completed',
+            'modul3_events_completed': 'modul3_events_completed',
+            'modul3_projects_completed': 'modul3_projects_completed'
+        };
+
+        // Les prosjektdata fra JSON-filen
+        async function loadProjects() {
+            try {
+                const response = await fetch('projects.json');
+                if (!response.ok) {
+                    throw new Error('Kunne ikke laste projects.json');
+                }
+                const data = await response.json();
+                allProjects = data.projects;
+                
+                // Generer HTML for alle prosjekter
+                generateProjectsHTML();
+                
+                // Sjekk låsestatus
+                checkProjectUnlockStatus();
+                
+                // Last inn valgt prosjekt
+                loadSelectedProject();
+                
+            } catch (error) {
+                console.error('Feil ved lasting av prosjekter:', error);
+                // Fallback til en error-melding
+                document.getElementById('projectsGrid').innerHTML = 
+                    '<p style="color: red; text-align: center;">Feil ved lasting av prosjekter. Sjekk at projects.json finnes og er tilgjengelig.</p>';
+            }
+        }
+
+        // Generer HTML for alle prosjekter basert på JSON-data
+        function generateProjectsHTML() {
+            const gridContainer = document.getElementById('projectsGrid');
+            gridContainer.innerHTML = '';
+
+            allProjects.forEach(project => {
+                const projectCard = createProjectCard(project);
+                gridContainer.appendChild(projectCard);
+            });
+        }
+
+        // Lag HTML for et enkelt prosjektkort
+        function createProjectCard(project) {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.id = `project${project.id}`;
+
+            // Bygg requirements HTML hvis de eksisterer
+            let requirementsHTML = '';
+            if (project.requirements && project.requirements.length > 0) {
+                requirementsHTML = `
+                    <div class="unlock-requirements" id="requirements${project.id}">
+                        <h4>${project.unlockMessage || 'Krav for å låse opp:'}</h4>
+                        ${project.requirementNames.map((reqName, index) => `
+                            <div class="requirement-item incomplete" id="req${project.id}-${index + 1}">
+                                <span class="status-icon">✗</span>
+                                <span>${reqName}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="project-header">
+                    <div class="project-icon">${project.icon}</div>
+                    <div class="project-title">${project.title}</div>
+                    <div class="project-difficulty difficulty-${project.difficulty}">${project.difficultyText}</div>
+                    <p>${project.shortDescription}</p>
+                </div>
+                <div class="project-description">
+                    <p>${project.description}</p>
+                    <ul class="project-features">
+                        ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    ${requirementsHTML}
+                </div>
+                <button class="select-btn" onclick="selectProject(${project.id})">
+                    ${project.buttonTextLocked || 'Velg dette prosjektet'}
+                </button>
+            `;
+
+            return card;
+        }
+        
+        function checkProjectUnlockStatus() {
+            var unlockedCount = 0;
+            
+            allProjects.forEach(project => {
+                const requirements = project.requirements || [];
+                const isUnlocked = requirements.every(req => {
+                    return localStorage.getItem(lessonKeyMapping[req] || req) === 'true';
+                });
+                
+                const card = document.getElementById(`project${project.id}`);
+                const button = card.querySelector('.select-btn');
+                
+                if (isUnlocked) {
+                    // Lås opp prosjekt
+                    card.classList.remove('locked');
+                    button.onclick = function() { selectProject(project.id); };
+                    
+                    // Kun oppdater knapptekst hvis prosjektet ikke er valgt
+                    if (!card.classList.contains('selected')) {
+                        button.textContent = 'Velg dette prosjektet';
+                    }
+                    
+                    unlockedCount++;
+                    
+                    // Skjul unlock requirements når prosjektet er låst opp
+                    const reqDiv = document.getElementById(`requirements${project.id}`);
+                    if (reqDiv) {
+                        reqDiv.style.display = 'none';
+                    }
+                } else {
+                    // Lås prosjekt
+                    card.classList.add('locked');
+                    button.onclick = null;
+                    button.textContent = project.buttonTextLocked || '🔒 Fullfør leksjoner først';
+                    
+                    // Vis og oppdater unlock requirements for låste prosjekter
+                    const reqDiv = document.getElementById(`requirements${project.id}`);
+                    if (reqDiv) {
+                        reqDiv.style.display = 'block';
+                    }
+                    updateRequirementStatus(project);
+                }
+            });
+            
+            // Oppdater fremgangsstatistikk
+            updateProgressStats(unlockedCount);
+        }
+        
+        function updateRequirementStatus(project) {
+            if (!project.requirements) return;
+            
+            project.requirements.forEach((req, index) => {
+                const reqItem = document.getElementById(`req${project.id}-${index + 1}`);
+                if (reqItem) {
+                    const isCompleted = localStorage.getItem(lessonKeyMapping[req] || req) === 'true';
+                    const statusIcon = reqItem.querySelector('.status-icon');
+                    
+                    if (isCompleted) {
+                        reqItem.classList.remove('incomplete');
+                        reqItem.classList.add('completed');
+                        statusIcon.textContent = '✓';
+                    } else {
+                        reqItem.classList.remove('completed');
+                        reqItem.classList.add('incomplete');
+                        statusIcon.textContent = '✗';
+                    }
+                }
+            });
+        }
+        
+        function updateProgressStats(unlockedProjects) {
+            // Alle leksjoner fra alle moduler (samme som i index.html)
+            var allLessons = [
+                // Modul 1
+                'modul1_completed',
+                'modul1_bilder_completed', 
+                'modul1_videre_completed',
+                'modul1_tabeller_completed',
+                // Modul 2
+                'modul2_css_intro_completed',
+                'modul2_selektorer_completed',
+                'modul2_layout_completed',
+                'modul2_responsive_completed',
+                // Modul 3
+                'modul3_js_intro_completed',
+                'modul3_dom_completed',
+                'modul3_events_completed',
+                'modul3_projects_completed'
+            ];
+            
+            var completedCount = allLessons.filter(function(lesson) {
+                return localStorage.getItem(lesson) === 'true';
+            }).length;
+            
+            var progressPercent = Math.round((completedCount / allLessons.length) * 100);
+            
+            document.getElementById('completedLessonsCount').textContent = completedCount;
+            document.getElementById('totalProgressPercent').textContent = progressPercent + '%';
+            document.getElementById('unlockedProjectsCount').textContent = unlockedProjects;
+        }
+        
+        function selectProject(projectId) {
+            const project = allProjects.find(p => p.id === projectId);
+            if (!project) return;
+
+            // Sjekk om prosjektet er låst
+            var card = document.getElementById(`project${projectId}`);
+            if (card.classList.contains('locked')) {
+                alert('Dette prosjektet er låst! Fullfør de nødvendige leksjonene først.');
+                return;
+            }
+            
+            // Fjern tidligere valg
+            var cards = document.querySelectorAll('.project-card');
+            var buttons = document.querySelectorAll('.select-btn');
+            
+            cards.forEach(function(card) {
+                card.classList.remove('selected');
+            });
+            
+            buttons.forEach(function(btn) {
+                if (!btn.closest('.project-card').classList.contains('locked')) {
+                    btn.innerHTML = 'Velg dette prosjektet';
+                    btn.classList.remove('selected');
+                }
+            });
+            
+            // Legg til nytt valg
+            card.classList.add('selected');
+            var selectedBtn = card.querySelector('.select-btn');
+            selectedBtn.classList.add('selected');
+            selectedBtn.innerHTML = `✅ Valgt: ${project.title}`;
+            
+            // Vis prosjektdetaljer
+            selectedProject = projectId;
+            showProjectDetails(project);
+            
+            // Lagre valg
+            localStorage.setItem('selectedExtraProject', projectId);
+            
+            // Scroll til detaljer
+            setTimeout(function() {
+                var detailsDiv = document.getElementById('projectDetails');
+                detailsDiv.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+        
+        function showProjectDetails(project) {
+            if (!project) return;
+
+            var detailsDiv = document.getElementById('projectDetails');
+            var titleElement = document.getElementById('selectedProjectTitle');
+            var contentElement = document.getElementById('selectedProjectContent');
+            
+            titleElement.innerHTML = `${project.icon} ${project.title}`;
+            
+            var content = `
+                <p><strong>Om prosjektet:</strong> ${project.description}</p>
+                
+                <h4>Starterkode:</h4>
+                <div class="code-example" style="display: block;">
+                    ${project.starterCode.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}
+                </div>
+                
+                <div class="tip notification-box">
+                    ${project.tips}
+                </div>
+                
+                <div class="checklist">
+                    <h4>Krav til prosjektet:</h4>
+                    <ul id="project${project.id}Checklist">
+            `;
+            
+            project.projectRequirements.forEach(function(req, index) {
+                content += `<li><input type="checkbox" onchange="saveExtraProgress(${project.id})" id="extra${project.id}_${index}"> ${req}</li>`;
+            });
+            
+            content += `
+                    </ul>
+                    <div class="completion-message" id="extraCompletion${project.id}">
+                        🎉 <strong>Fantastisk!</strong> Du har fullført alle kravene for dette prosjektet!
+                    </div>
+                </div>
+                
+                <div class="tip notification-box">
+                    <strong>Når du er ferdig:</strong> Test nettsiden din grundig i nettleseren. Sjekk at alle lenker fungerer og at siden ser bra ut på forskjellige skjermstørrelser!
+                </div>
+            `;
+            
+            contentElement.innerHTML = content;
+            detailsDiv.style.display = 'block';
+            
+            // Last inn lagret fremgang
+            loadExtraProgress(project.id);
+        }
+        
+        function saveExtraProgress(projectId) {
+            var checkboxes = document.querySelectorAll(`#project${projectId}Checklist input[type="checkbox"]`);
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            checkboxes.forEach(function(checkbox) {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            });
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById(`extraCompletion${projectId}`);
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem(`extraProject${projectId}_completed`, 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem(`extraProject${projectId}_completed`, 'false');
+            }
+        }
+        
+        function loadExtraProgress(projectId) {
+            var checkboxes = document.querySelectorAll(`#project${projectId}Checklist input[type="checkbox"]`);
+            
+            checkboxes.forEach(function(checkbox) {
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            });
+            
+            // Sjekk om alle er fullført
+            saveExtraProgress(projectId);
+        }
+
+        function loadSelectedProject() {
+            // Last inn valgt prosjekt hvis det er tilgjengelig
+            var savedProject = localStorage.getItem('selectedExtraProject');
+            if (savedProject) {
+                var projectId = parseInt(savedProject);
+                var project = allProjects.find(p => p.id === projectId);
+                var card = document.getElementById(`project${projectId}`);
+                
+                // Sjekk om prosjektet fortsatt er tilgjengelig
+                if (project && card && !card.classList.contains('locked')) {
+                    selectedProject = projectId;
+                    
+                    // Vis valgt tilstand
+                    card.classList.add('selected');
+                    var selectedBtn = card.querySelector('.select-btn');
+                    if (selectedBtn) {
+                        selectedBtn.classList.add('selected');
+                        selectedBtn.innerHTML = `✅ Valgt: ${project.title}`;
+                    }
+                    
+                    // Vis detaljer
+                    showProjectDetails(project);
+                }
+            }
+        }
+        
+        // Hovedinitialisering
+        window.onload = function() {
+            loadProjects();
+        };
+        
+        // Sjekk for oppdateringer hver 5. sekund (hvis eleven fullfører leksjoner i andre faner)
+        setInterval(function() {
+            if (allProjects.length > 0) {
+                checkProjectUnlockStatus();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

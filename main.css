@@ -759,22 +759,22 @@ li {
 }
 
 .difficulty-beginner {
-    background: rgba(39, 174, 96, 0.1);
+    background: rgb(39, 174, 95);
     color: #155724;
 }
 
 .difficulty-intermediate {
-    background: rgba(243, 156, 18, 0.1);
+    background: rgba(243, 156, 18, 100);
     color: #856404;
 }
 
 .difficulty-advanced {
-    background: rgba(231, 76, 60, 0.1);
+    background: rgba(231, 76, 60, 100);
     color: #721c24;
 }
 
 .extra-projects {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #9100a1 0%, #2c0072 100%);
     color: white;
     padding: var(--spacing-xxl);
     border-radius: var(--radius-xl);
@@ -811,6 +811,7 @@ li {
 
 .project-preview h3 {
     margin-bottom: var(--spacing-sm);
+    color: white;
     font-size: 1.3em;
 }
 
