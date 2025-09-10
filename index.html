@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML & CSS - Startside</title>
+    <title>Benjamins HTML-kurs</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <div class="container">
         <div class="hero">
-            <h1>🚀 HTML & CSS</h1>
-            <p>Lær å lage fantastiske nettsider fra bunnen av! Fra grunnleggende HTML til avanserte prosjekter - alt du trenger for å bli en webmaster.</p>
+            <h1>🚀 Benjamins HTML-kurs</h1>
+            <p>Lær å lage nettsider fra bunnen av! Fra grunnleggende HTML til avanserte prosjekter - alt du trenger for å bli en webmaster.</p>
         </div>
 
         <div class="progress-overview">
@@ -175,6 +175,53 @@
                     </ul>
                 </div>
             </div>
+            <div class="module-card" id="module4">
+                <div class="module-header">
+                    <div class="module-icon">🎮</div>
+                    <div class="module-title">Modul 4: Animasjon og interaktivitet</div>
+                    <div class="module-description">Gjør nettsidene levende med animasjoner og interaktive opplevelser</div>
+                </div>
+                <div class="module-content" id="module4-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul4-flexbox.html">
+                                <span>
+                                    Flexbox og Grid Layout
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-flexbox">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul4-animasjoner.html">
+                                <span>
+                                    CSS Animasjoner og overganger
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-animasjoner">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul4-tastatur.html">
+                                <span>
+                                    Tastatur og avanserte events
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-tastatur">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul4-spill.html">
+                                <span>
+                                    Enkelt spill med JavaScript
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-spill">4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="extra-projects">
@@ -199,7 +246,9 @@
             </a>
         </div>
     </div>
+
     <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
     <script>
         // Fremgangssporing for alle moduler
         function updateProgress() {
@@ -246,6 +295,21 @@
                 'status-dom',
                 'status-events',
                 'status-js-prosjekt'
+            ];
+
+            // Modul 4 leksjoner
+            var modul4Lessons = [
+                'modul4_flexbox_completed',
+                'modul4_animasjoner_completed',
+                'modul4_tastatur_completed',
+                'modul4_spill_completed'
+            ];
+            
+            var modul4StatusElements = [
+                'status-flexbox',
+                'status-animasjoner',
+                'status-tastatur',
+                'status-spill'
             ];
             
             // Oppdater Modul 1 status
@@ -301,19 +365,37 @@
                     }
                 }
             }
+
+            // Oppdater Modul 4 status
+            var modul4CompletedCount = 0;
+            for (var i = 0; i < modul4Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul4Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul4StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul4CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
             
             // Oppdater total statistikk
-            var totalLessons = modul1Lessons.length + modul2Lessons.length + modul3Lessons.length;
-            var totalCompleted = modul1CompletedCount + modul2CompletedCount + modul3CompletedCount;
+            var totalLessons = modul1Lessons.length + modul2Lessons.length + modul3Lessons.length + modul4Lessons.length;
+            var totalCompleted = modul1CompletedCount + modul2CompletedCount + modul3CompletedCount + modul4CompletedCount;
             
             document.getElementById('completedLessons').textContent = totalCompleted;
             document.getElementById('totalProgress').textContent = Math.round((totalCompleted / totalLessons) * 100) + '%';
             
             // Håndter modul-låsing
-            updateModuleAccess(modul1CompletedCount, modul1Lessons.length, modul2CompletedCount, modul2Lessons.length);
+            updateModuleAccess(modul1CompletedCount, modul1Lessons.length, modul2CompletedCount, modul2Lessons.length, modul3CompletedCount, modul3Lessons.length);
         }
         
-        function updateModuleAccess(modul1Completed, modul1Total, modul2Completed, modul2Total) {
+        function updateModuleAccess(modul1Completed, modul1Total, modul2Completed, modul2Total, modul3Completed, modul3Total) {
             var module2 = document.getElementById('module2');
             var module3 = document.getElementById('module3');
             
@@ -372,6 +454,38 @@
                         module3Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 2 er fullført<br><small>Fullfør først Modul 1</small></p>';
                     } else {
                         module3Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 2 er fullført (' + modul2Completed + '/' + modul2Total + ')</p>';
+                    }
+                }
+            }
+
+            // Sjekk om Modul 3 er fullført
+            var modul3Complete = modul3Completed === modul3Total;
+            var module4 = document.getElementById('module4');
+            
+            if (!module4) {
+                return; // Hvis module4 ikke eksisterer ennå
+            }
+            
+            if (modul3Complete && modul2Complete && modul1Complete) {
+                // Lås opp Modul 4
+                module4.classList.remove('locked');
+                var module4Header = module4.querySelector('.module-header');
+                if (module4Header) {
+                    module4Header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }
+            } else {
+                // Lås Modul 4
+                module4.classList.add('locked');
+                var module4Header = module4.querySelector('.module-header');
+                if (module4Header) {
+                    module4Header.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+                }
+                
+                // Vis låst melding med fremgang
+                var module4Content = document.getElementById('module4-content');
+                if (module4Content) {
+                    if (!modul3Complete) {
+                        module4Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 3 er fullført<br><small>Fullør først alle leksjoner i Modul 3</small></p>';
                     }
                 }
             }

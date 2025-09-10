@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4: Tastatur og avanserte events</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Demo-styles for denne leksjonen */
+        .keyboard-demo {
+            background: rgba(76, 175, 80, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #4caf50;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .game-demo {
+            background: rgba(63, 81, 181, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #3f51b5;
+            margin: 20px 0;
+            position: relative;
+            min-height: 300px;
+        }
+        
+        /* Moveable character */
+        .character {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+            z-index: 10;
+        }
+        
+        .character.moving {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        /* Game arena */
+        .game-arena {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f0f8ff, #e6f3ff);
+            border: 3px solid #3f51b5;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .game-arena::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(63, 81, 181, 0.05) 20px,
+                rgba(63, 81, 181, 0.05) 40px
+            );
+            pointer-events: none;
+        }
+        
+        /* Collectible items */
+        .collectible {
+            width: 30px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            animation: float 2s ease-in-out infinite;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .collectible.collected {
+            animation: collectEffect 0.5s ease forwards;
+        }
+        
+        @keyframes collectEffect {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Game controls display */
+        .controls-display {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+        }
+        
+        .key-display {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 2px;
+            font-family: monospace;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .key-display.pressed {
+            background: #4caf50;
+            transform: scale(0.95);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* Score display */
+        .score-display {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #333;
+            border: 2px solid #4caf50;
+        }
+        
+        /* Interactive input demo */
+        .input-demo {
+            background: rgba(255, 193, 7, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-input:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+            outline: none;
+        }
+        
+        .key-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #eee;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        /* Combination demo */
+        .combo-demo {
+            background: rgba(156, 39, 176, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #9c27b0;
+            margin: 20px 0;
+        }
+        
+        .combo-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #9c27b0;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .combo-success {
+            background: #4caf50 !important;
+            color: white;
+            animation: successPulse 0.5s ease;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .game-arena {
+                height: 200px;
+            }
+            .character {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            .controls-display {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>⌨️ Modul 4: Tastatur og avanserte events</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Bruke tastatur-events: <code>keydown</code>, <code>keyup</code>, <code>keypress</code></li>
+                    <li>Identifisere spesifikke taster med <code>event.key</code> og <code>event.code</code></li>
+                    <li>Bevege elementer på skjermen med piltaster</li>
+                    <li>Lage tastaturkombinasjonar (Ctrl+key, Shift+key)</li>
+                    <li>Kombinere tastatur-events med animasjoner</li>
+                    <li>Bygge interaktive opplevelser som forbereder på spillutvikling</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hvorfor tastatur-interaksjon?</h3>
+            <p>Tastaturet åpner for <strong>rask interaksjon</strong>, <strong>spillkontroller</strong>, <strong>hurtigtaster</strong> og <strong>tilgjengelighet</strong>. Det er fundamentet for avanserte webapplikasjoner og spill!</p>
+
+            <div class="tip notification-box">
+                <strong>Viktig:</strong> Tastatur-events fungerer kun når elementet eller siden har fokus. Klikk på siden først for å teste eksemplene!
+            </div>
+
+            <h3>De tre tastatur-eventene</h3>
+            <div class="code-example">
+document.addEventListener('keydown', function(event) {<br>
+    console.log('Tast trykket ned:', event.key);<br>
+});<br>
+<br>
+document.addEventListener('keyup', function(event) {<br>
+    console.log('Tast sluppet:', event.key);<br>
+});<br>
+<br>
+document.addEventListener('keypress', function(event) {<br>
+    console.log('Tast presset (kun printbare tegn):', event.key);<br>
+});
+            </div>
+
+            <div class="input-demo">
+                <h4>🔍 Tastatur Event Demo</h4>
+                <p>Skriv i feltet under og se hvilke events som utløses:</p>
+                <input type="text" class="demo-input" placeholder="Skriv her og se events..." id="eventInput">
+                <div class="key-info" id="keyInfo">
+                    Skriv noe for å se tastatur-informasjon...
+                </div>
+            </div>
+
+            <h3>Identifisere taster</h3>
+            <h4>event.key vs event.code</h4>
+            <div class="code-example">
+document.addEventListener('keydown', function(event) {<br>
+    console.log('event.key:', event.key);     // 'A', 'Enter', 'ArrowUp'<br>
+    console.log('event.code:', event.code);   // 'KeyA', 'Enter', 'ArrowUp'<br>
+    console.log('event.keyCode:', event.keyCode); // 65, 13, 38 (utdatert)<br>
+});
+            </div>
+
+            <div class="keyboard-demo">
+                <h4>⌨️ Vis tastene du trykker</h4>
+                <p>Klikk her og trykk på tastene for å se dem:</p>
+                <div class="controls-display">
+                    <div class="key-display" id="keyW">W</div>
+                    <div class="key-display" id="keyA">A</div>
+                    <div class="key-display" id="keyS">S</div>
+                    <div class="key-display" id="keyD">D</div>
+                    <div class="key-display" id="keySpace">SPACE</div>
+                    <div class="key-display" id="keyEnter">ENTER</div>
+                </div>
+                <p><small>Prøv W, A, S, D, SPACE og ENTER</small></p>
+            </div>
+
+            <h3>Bevege elementer med tastatur</h3>
+            <p>Den mest spennende bruken: kontrollere objekter på skjermen!</p>
+
+            <h4>Grunnleggende bevegelse</h4>
+            <div class="code-example">
+let player = document.getElementById('player');<br>
+let x = 100;<br>
+let y = 100;<br>
+<br>
+document.addEventListener('keydown', function(event) {<br>
+    switch(event.key) {<br>
+        case 'ArrowUp':<br>
+            y -= 10;<br>
+            break;<br>
+        case 'ArrowDown':<br>
+            y += 10;<br>
+            break;<br>
+        case 'ArrowLeft':<br>
+            x -= 10;<br>
+            break;<br>
+        case 'ArrowRight':<br>
+            x += 10;<br>
+            break;<br>
+    }<br>
+    player.style.left = x + 'px';<br>
+    player.style.top = y + 'px';<br>
+});
+            </div>
+
+            <div class="game-demo">
+                <h4>🎮 Interaktiv Demo: Styr karakteren!</h4>
+                <div class="game-arena" id="gameArena">
+                    <div class="character" id="character">🚀</div>
+                    <div class="score-display">Poeng: <span id="score">0</span></div>
+                </div>
+                <div class="controls-display">
+                    <p><strong>Kontroller:</strong></p>
+                    <span class="key-display">↑</span>
+                    <span class="key-display">↓</span>
+                    <span class="key-display">←</span>
+                    <span class="key-display">→</span>
+                    <span style="margin-left: 20px;"><strong>eller</strong></span>
+                    <span class="key-display">W</span>
+                    <span class="key-display">A</span>
+                    <span class="key-display">S</span>
+                    <span class="key-display">D</span>
+                </div>
+                <p><small>Bruk piltaster eller WASD for å bevege karakteren. Samle gule mynter!</small></p>
+            </div>
+
+            <h3>Tastaturkombinasjoner</h3>
+            <p>Kombiner flere taster for avanserte kontroller:</p>
+
+            <div class="code-example">
+document.addEventListener('keydown', function(event) {<br>
+    // Sjekk for modifier-taster<br>
+    if (event.ctrlKey && event.key === 's') {<br>
+        event.preventDefault(); // Stopp standard lagring<br>
+        console.log('Ctrl+S trykket - lagre prosjekt!');<br>
+    }<br>
+    <br>
+    if (event.shiftKey && event.key === 'ArrowUp') {<br>
+        console.log('Shift+↑ - rask bevegelse opp!');<br>
+    }<br>
+    <br>
+    if (event.altKey && event.key === 'Enter') {<br>
+        console.log('Alt+Enter - fullskjerm!');<br>
+    }<br>
+});
+            </div>
+
+            <div class="combo-demo">
+                <h4>🎯 Kombinasjons-Demo</h4>
+                <p>Prøv disse kombinasjonene:</p>
+                <div class="combo-display" id="comboDisplay">
+                    Trykk en kombinasjon...
+                </div>
+                <p><strong>Prøv:</strong> Ctrl+Space, Shift+Enter, Alt+A</p>
+            </div>
+
+            <h3>Beste praksis for tastatur-events</h3>
+            <div class="good-practice notification-box">
+                <strong></strong><br>
+                • Bruk <code>event.key</code> i stedet for <code>keyCode</code><br>
+                • Legg til <code>event.preventDefault()</code> for å stoppe standard oppførsel<br>
+                • Test for både piltaster og WASD for spillkontroller<br>
+                • Gi visuell feedback når taster trykkes<br>
+                • Håndter både keydown og keyup for smooth bevegelse
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Tilgjengelighet:</strong> Sørg for at alle funksjoner også er tilgjengelige med mus/touch for brukere som ikke kan bruke tastatur.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Enkelt spill</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag et enkelt spill hvor spilleren beveger seg rundt og samler objekter:</p>
+                
+                <ol>
+                    <li>Lag en <strong>spillarena</strong> (fast størrelse med kant)</li>
+                    <li>En <strong>spillerkarakter</strong> som kan beveges med piltaster eller WASD</li>
+                    <li><strong>Kollektible objekter</strong> som spawner på tilfeldige steder</li>
+                    <li><strong>Kollisjonsdeteksjon</strong> - når spilleren berører objekter</li>
+                    <li><strong>Poeng-system</strong> som oppdateres når objekter samles</li>
+                    <li><strong>Animasjoner</strong> når objekter samles inn</li>
+                    <li><strong>Kant-kollisjon</strong> - spilleren kan ikke gå utenfor arenaen</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset="UTF-8"&gt;<br>
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+    &lt;title&gt;Samle-spill&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;div class="game-container"&gt;<br>
+        &lt;div class="game-arena" id="arena"&gt;<br>
+            &lt;div class="player" id="player"&gt;🎮&lt;/div&gt;<br>
+            &lt;div class="score"&gt;Poeng: &lt;span id="scoreDisplay"&gt;0&lt;/span&gt;&lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+        &lt;div class="controls"&gt;<br>
+            &lt;p&gt;Bruk piltaster eller WASD for å bevege deg!&lt;/p&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+    &lt;script src="game.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>CSS-startmal</h3>
+                <div class="code-example">
+.game-container {<br>
+    max-width: 800px;<br>
+    margin: 0 auto;<br>
+    padding: 20px;<br>
+}<br>
+<br>
+.game-arena {<br>
+    width: 600px;<br>
+    height: 400px;<br>
+    border: 3px solid #333;<br>
+    position: relative;<br>
+    background: linear-gradient(45deg, #e3f2fd, #bbdefb);<br>
+    overflow: hidden;<br>
+}<br>
+<br>
+.player {<br>
+    width: 40px;<br>
+    height: 40px;<br>
+    position: absolute;<br>
+    font-size: 24px;<br>
+    display: flex;<br>
+    align-items: center;<br>
+    justify-content: center;<br>
+    transition: all 0.1s ease;<br>
+}<br>
+<br>
+.collectible {<br>
+    width: 25px;<br>
+    height: 25px;<br>
+    position: absolute;<br>
+    background: gold;<br>
+    border-radius: 50%;<br>
+    display: flex;<br>
+    align-items: center;<br>
+    justify-content: center;<br>
+}
+                </div>
+
+                <h3>JavaScript-startmal</h3>
+                <div class="code-example">
+// Spillvariabler<br>
+let player = document.getElementById('player');<br>
+let arena = document.getElementById('arena');<br>
+let scoreDisplay = document.getElementById('scoreDisplay');<br>
+<br>
+let playerX = 50;<br>
+let playerY = 50;<br>
+let score = 0;<br>
+let collectibles = [];<br>
+<br>
+// Oppdater spillerposisjon<br>
+function updatePlayerPosition() {<br>
+    player.style.left = playerX + 'px';<br>
+    player.style.top = playerY + 'px';<br>
+}<br>
+<br>
+// Tastatur-kontroller<br>
+document.addEventListener('keydown', function(event) {<br>
+    const speed = 10;<br>
+    <br>
+    switch(event.key) {<br>
+        case 'ArrowUp':<br>
+        case 'w':<br>
+        case 'W':<br>
+            // Legg til bevegelse oppover<br>
+            break;<br>
+        // Legg til resten av retningene...<br>
+    }<br>
+    <br>
+    updatePlayerPosition();<br>
+    checkCollisions();<br>
+});<br>
+<br>
+// Lag collectible objekter<br>
+function spawnCollectible() {<br>
+    // Implementer spawning av objekter<br>
+}<br>
+<br>
+// Sjekk kollisjoner<br>
+function checkCollisions() {<br>
+    // Implementer kollisjondeteksjon<br>
+}<br>
+<br>
+// Start spillet<br>
+updatePlayerPosition();
+                </div>
+
+                <div class="tip notification-box">
+                    <strong>Tips:</strong> Bruk <code>getBoundingClientRect()</code> for nøyaktig kollisjondeteksjon og <code>Math.random()</code> for tilfeldige posisjoner!
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔓 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* game.js - komplett løsning */<br>
+<br>
+// Spillvariabler<br>
+let player = document.getElementById('player');<br>
+let arena = document.getElementById('arena');<br>
+let scoreDisplay = document.getElementById('scoreDisplay');<br>
+<br>
+let playerX = 50;<br>
+let playerY = 50;<br>
+let score = 0;<br>
+let collectibles = [];<br>
+const PLAYER_SIZE = 40;<br>
+const COLLECTIBLE_SIZE = 25;<br>
+const ARENA_WIDTH = 600;<br>
+const ARENA_HEIGHT = 400;<br>
+<br>
+// Oppdater spillerposisjon<br>
+function updatePlayerPosition() {<br>
+    // Begrens til arena<br>
+    playerX = Math.max(0, Math.min(playerX, ARENA_WIDTH - PLAYER_SIZE));<br>
+    playerY = Math.max(0, Math.min(playerY, ARENA_HEIGHT - PLAYER_SIZE));<br>
+    <br>
+    player.style.left = playerX + 'px';<br>
+    player.style.top = playerY + 'px';<br>
+}<br>
+<br>
+// Tastatur-kontroller<br>
+document.addEventListener('keydown', function(event) {<br>
+    const speed = 15;<br>
+    <br>
+    switch(event.key) {<br>
+        case 'ArrowUp':<br>
+        case 'w':<br>
+        case 'W':<br>
+            playerY -= speed;<br>
+            break;<br>
+        case 'ArrowDown':<br>
+        case 's':<br>
+        case 'S':<br>
+            playerY += speed;<br>
+            break;<br>
+        case 'ArrowLeft':<br>
+        case 'a':<br>
+        case 'A':<br>
+            playerX -= speed;<br>
+            break;<br>
+        case 'ArrowRight':<br>
+        case 'd':<br>
+        case 'D':<br>
+            playerX += speed;<br>
+            break;<br>
+    }<br>
+    <br>
+    updatePlayerPosition();<br>
+    checkCollisions();<br>
+});<br>
+<br>
+// Lag collectible objekter<br>
+function spawnCollectible() {<br>
+    const collectible = document.createElement('div');<br>
+    collectible.className = 'collectible';<br>
+    collectible.textContent = '💎';<br>
+    <br>
+    const x = Math.random() * (ARENA_WIDTH - COLLECTIBLE_SIZE);<br>
+    const y = Math.random() * (ARENA_HEIGHT - COLLECTIBLE_SIZE);<br>
+    <br>
+    collectible.style.left = x + 'px';<br>
+    collectible.style.top = y + 'px';<br>
+    <br>
+    arena.appendChild(collectible);<br>
+    collectibles.push({element: collectible, x: x, y: y});<br>
+}<br>
+<br>
+// Sjekk kollisjoner<br>
+function checkCollisions() {<br>
+    collectibles.forEach((collectible, index) => {<br>
+        const dx = playerX - collectible.x;<br>
+        const dy = playerY - collectible.y;<br>
+        const distance = Math.sqrt(dx*dx + dy*dy);<br>
+        <br>
+        if (distance < 30) {<br>
+            // Samlet inn!<br>
+            collectible.element.style.animation = 'collectEffect 0.5s ease forwards';<br>
+            score += 10;<br>
+            scoreDisplay.textContent = score;<br>
+            <br>
+            setTimeout(() => {<br>
+                if (collectible.element.parentNode) {<br>
+                    collectible.element.remove();<br>
+                }<br>
+            }, 500);<br>
+            <br>
+            collectibles.splice(index, 1);<br>
+            <br>
+            // Spawn nytt objekt<br>
+            setTimeout(spawnCollectible, 1000);<br>
+        }<br>
+    });<br>
+}<br>
+<br>
+// Start spillet<br>
+updatePlayerPosition();<br>
+for(let i = 0; i < 3; i++) {<br>
+    setTimeout(() => spawnCollectible(), i * 500);<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur1"> Har jeg brukt <code>keydown</code> events for spillkontroller?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur2"> Kan spilleren bevege seg med både piltaster og WASD?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur3"> Har jeg implementert kant-kollisjon (spilleren stopper ved kanten)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur4"> Fungerer kollisjondeteksjon mellom spiller og objekter?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur5"> Oppdateres poengsummen når objekter samles?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur6"> Har jeg lagt til animasjoner når objekter samles inn?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur7"> Spawner det nye objekter automatisk?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="tastatur8"> Er spillet responsivt og fungerer det smooth?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Du behersker nå tastatur-events og er klar for spillutvikling!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon tar vi alt du har lært og lager et komplett spill med flere nivåer og funksjoner!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔓 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "tastatur123";
+
+        // Game variables for demo
+        let demoCharacter = document.getElementById('character');
+        let gameArena = document.getElementById('gameArena');
+        let demoScore = 0;
+        let characterX = 50; // Percentage
+        let characterY = 50; // Percentage
+        let collectibles = [];
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Update character position
+        function updateCharacterPosition() {
+            characterX = Math.max(5, Math.min(characterX, 95));
+            characterY = Math.max(5, Math.min(characterY, 95));
+            
+            demoCharacter.style.left = characterX + '%';
+            demoCharacter.style.top = characterY + '%';
+        }
+
+        // Spawn collectible
+        function spawnCollectible() {
+            if (collectibles.length >= 3) return;
+            
+            const collectible = document.createElement('div');
+            collectible.className = 'collectible';
+            collectible.textContent = '⭐';
+            
+            const x = 10 + Math.random() * 80;
+            const y = 10 + Math.random() * 80;
+            
+            collectible.style.left = x + '%';
+            collectible.style.top = y + '%';
+            
+            gameArena.appendChild(collectible);
+            collectibles.push({element: collectible, x: x, y: y});
+        }
+
+        // Check collisions
+        function checkCollisions() {
+            collectibles.forEach((collectible, index) => {
+                const dx = characterX - collectible.x;
+                const dy = characterY - collectible.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distance < 8) {
+                    collectible.element.classList.add('collected');
+                    demoScore += 10;
+                    document.getElementById('score').textContent = demoScore;
+                    
+                    setTimeout(() => {
+                        if (collectible.element.parentNode) {
+                            collectible.element.remove();
+                        }
+                    }, 500);
+                    
+                    collectibles.splice(index, 1);
+                    setTimeout(spawnCollectible, 1000);
+                }
+            });
+        }
+
+        // Keyboard input demo
+        const eventInput = document.getElementById('eventInput');
+        const keyInfo = document.getElementById('keyInfo');
+
+        eventInput.addEventListener('keydown', function(event) {
+            keyInfo.innerHTML = `
+                <strong>Event:</strong> keydown<br>
+                <strong>Key:</strong> "${event.key}"<br>
+                <strong>Code:</strong> "${event.code}"<br>
+                <strong>KeyCode:</strong> ${event.keyCode}<br>
+                <strong>Ctrl:</strong> ${event.ctrlKey} | <strong>Shift:</strong> ${event.shiftKey} | <strong>Alt:</strong> ${event.altKey}
+            `;
+        });
+
+        // Key display demo
+        const keyDisplays = {
+            'w': document.getElementById('keyW'),
+            'a': document.getElementById('keyA'),
+            's': document.getElementById('keyS'),
+            'd': document.getElementById('keyD'),
+            ' ': document.getElementById('keySpace'),
+            'Enter': document.getElementById('keyEnter')
+        };
+
+        // Combination demo
+        const comboDisplay = document.getElementById('comboDisplay');
+
+        // Main keyboard event handler
+        document.addEventListener('keydown', function(event) {
+            // Game controls
+            const speed = 5;
+            let moved = false;
+            
+            switch(event.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    characterY -= speed;
+                    moved = true;
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    characterY += speed;
+                    moved = true;
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    characterX -= speed;
+                    moved = true;
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    characterX += speed;
+                    moved = true;
+                    break;
+            }
+            
+            if (moved) {
+                demoCharacter.classList.add('moving');
+                updateCharacterPosition();
+                checkCollisions();
+                setTimeout(() => {
+                    demoCharacter.classList.remove('moving');
+                }, 100);
+            }
+
+            // Key display demo
+            const key = event.key.toLowerCase();
+            if (keyDisplays[key] || keyDisplays[event.key]) {
+                const display = keyDisplays[key] || keyDisplays[event.key];
+                display.classList.add('pressed');
+                setTimeout(() => display.classList.remove('pressed'), 200);
+            }
+
+            // Combination demo
+            if (event.ctrlKey && event.key === ' ') {
+                comboDisplay.textContent = 'Ctrl+Space detektert! 🎉';
+                comboDisplay.classList.add('combo-success');
+                setTimeout(() => {
+                    comboDisplay.classList.remove('combo-success');
+                    comboDisplay.textContent = 'Trykk en kombinasjon...';
+                }, 2000);
+            } else if (event.shiftKey && event.key === 'Enter') {
+                comboDisplay.textContent = 'Shift+Enter detektert! ✨';
+                comboDisplay.classList.add('combo-success');
+                setTimeout(() => {
+                    comboDisplay.classList.remove('combo-success');
+                    comboDisplay.textContent = 'Trykk en kombinasjon...';
+                }, 2000);
+            } else if (event.altKey && event.key.toLowerCase() === 'a') {
+                comboDisplay.textContent = 'Alt+A detektert! 🚀';
+                comboDisplay.classList.add('combo-success');
+                setTimeout(() => {
+                    comboDisplay.classList.remove('combo-success');
+                    comboDisplay.textContent = 'Trykk en kombinasjon...';
+                }, 2000);
+            }
+        });
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul4_tastatur_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul4_tastatur_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Initialize game
+        window.onload = function() {
+            loadChecklistProgress();
+            updateCharacterPosition();
+            
+            // Spawn initial collectibles
+            setTimeout(spawnCollectible, 500);
+            setTimeout(spawnCollectible, 1500);
+            setTimeout(spawnCollectible, 2500);
+        };
+    </script>
+</body>
+</html>

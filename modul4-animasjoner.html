@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4: CSS Animasjoner og overganger</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Demo-styles for denne leksjonen */
+        .animation-demo {
+            background: rgba(156, 39, 176, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #9c27b0;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .transition-demo {
+            background: rgba(255, 152, 0, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ff9800;
+            margin: 20px 0;
+        }
+        
+        /* Transition eksempler */
+        .hover-box {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 10px;
+            border-radius: 12px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .hover-box:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        .button-demo {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button-demo:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .button-demo:active {
+            transform: translateY(0);
+        }
+        
+        /* Keyframe animasjoner */
+        .bounce-box {
+            width: 80px;
+            height: 80px;
+            background: #e74c3c;
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .slide-in {
+            width: 200px;
+            height: 60px;
+            background: #27ae60;
+            margin: 20px auto;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            animation: slideIn 1.5s ease-out infinite;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .pulse-box {
+            width: 100px;
+            height: 100px;
+            background: #f39c12;
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Interaktive animasjoner */
+        .interactive-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .interactive-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Kontrollerte animasjoner */
+        .controlled-animation {
+            width: 150px;
+            height: 50px;
+            background: #8e44ad;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .controlled-animation.animate {
+            animation: wiggle 0.5s ease-in-out;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>✨ Modul 4: CSS Animasjoner og overganger</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Bruke CSS <code>transition</code> for smooth overganger</li>
+                    <li>Lage animasjoner med <code>@keyframes</code></li>
+                    <li>Forstå <code>transform</code>-egenskaper (scale, rotate, translate)</li>
+                    <li>Animere hover-effekter på knapper og kort</li>
+                    <li>Kontrollere animasjoner med JavaScript</li>
+                    <li>Optimalisere animasjoner for beste ytelse</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hvorfor animasjoner?</h3>
+            <p>Animasjoner gjør nettsider mer <strong>engasjerende</strong>, gir <strong>visuell feedback</strong> til brukeren, og skaper en <strong>profesjonell opplevelse</strong>. Men husk: less is more - små animasjoner er bedre enn overdrevne!</p>
+
+            <div class="tip notification-box">
+                Animasjoner skal <em>forbedre</em> brukeropplevelsen, ikke distrahere fra innholdet!
+            </div>
+
+            <h3>CSS Transitions - Smooth overganger</h3>
+            <p>Transitions lager smooth overganger mellom to tilstander (f.eks. normal og hover).</p>
+
+            <h4>Grunnleggende transition</h4>
+            <div class="code-example">
+.button {<br>
+    background: #3498db;<br>
+    color: white;<br>
+    padding: 12px 24px;<br>
+    border: none;<br>
+    border-radius: 6px;<br>
+    cursor: pointer;<br>
+    <br>
+    /* Transition på alle egenskaper, 0.3s varighet, ease timing */<br>
+    transition: all 0.3s ease;<br>
+}<br>
+<br>
+.button:hover {<br>
+    background: #2980b9;<br>
+    transform: translateY(-2px);<br>
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);<br>
+}
+            </div>
+
+            <div class="transition-demo">
+                <h4>🔄 Transition Demo</h4>
+                <p>Hold musen over elementene for å se transitions:</p>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                    <div class="hover-box">Hover meg!</div>
+                    <button class="button-demo">Hover knapp</button>
+                </div>
+            </div>
+
+            <h4>Transition-egenskaper</h4>
+            <div class="code-example">
+.element {<br>
+    /* Spesifikk egenskap, varighet, timing-funksjon, forsinkelse */<br>
+    transition: background-color 0.3s ease 0.1s;<br>
+    <br>
+    /* Flere egenskaper */<br>
+    transition: <br>
+        background-color 0.3s ease,<br>
+        transform 0.2s ease-out,<br>
+        box-shadow 0.4s ease-in;<br>
+    <br>
+    /* Shorthand for alle egenskaper */<br>
+    transition: all 0.3s ease;<br>
+}<br>
+<br>
+/* Timing-funksjoner */<br>
+transition-timing-function: ease;        /* Standard, smooth start og slutt */<br>
+transition-timing-function: linear;      /* Konstant hastighet */<br>
+transition-timing-function: ease-in;     /* Langsom start */<br>
+transition-timing-function: ease-out;    /* Langsom slutt */<br>
+transition-timing-function: ease-in-out; /* Langsom start og slutt */
+            </div>
+
+            <h3>Transform - Endre utseende uten layout</h3>
+            <p>Transform lar deg <strong>rotere</strong>, <strong>skalere</strong>, <strong>flytte</strong> og <strong>skjeve</strong> elementer uten å påvirke dokumentflyten.</p>
+
+            <div class="code-example">
+/* Grunnleggende transforms */<br>
+transform: scale(1.2);                    /* Gjør 20% større */<br>
+transform: rotate(45deg);                 /* Roter 45 grader */<br>
+transform: translateX(50px);              /* Flytt 50px til høyre */<br>
+transform: translateY(-10px);             /* Flytt 10px opp */<br>
+<br>
+/* Kombinere flere transforms */<br>
+transform: scale(1.1) rotate(5deg) translateY(-2px);<br>
+<br>
+/* 3D transforms */<br>
+transform: rotateX(30deg);                /* Roter rundt X-akse */<br>
+transform: rotateY(30deg);                /* Roter rundt Y-akse */<br>
+transform: perspective(1000px) rotateY(30deg); /* Med perspektiv */
+            </div>
+
+            <h3>CSS Animations med @keyframes</h3>
+            <p>Keyframe-animasjoner lar deg definere komplekse animasjoner som kjører automatisk eller på kommando.</p>
+
+            <h4>Lage en keyframe-animasjon</h4>
+            <div class="code-example">
+/* Definer animasjonen */<br>
+@keyframes bounce {<br>
+    0%, 20%, 50%, 80%, 100% {<br>
+        transform: translateY(0);<br>
+    }<br>
+    40% {<br>
+        transform: translateY(-30px);<br>
+    }<br>
+    60% {<br>
+        transform: translateY(-15px);<br>
+    }<br>
+}<br>
+<br>
+/* Bruk animasjonen */<br>
+.bouncing-ball {<br>
+    animation: bounce 2s infinite;<br>
+}
+            </div>
+
+            <div class="animation-demo">
+                <h4>🎬 Keyframe Animasjoner</h4>
+                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                    <div>
+                        <p><strong>Bounce</strong></p>
+                        <div class="bounce-box"></div>
+                    </div>
+                    <div>
+                        <p><strong>Slide In</strong></p>
+                        <div class="slide-in">Slide Inn!</div>
+                    </div>
+                    <div>
+                        <p><strong>Pulse</strong></p>
+                        <div class="pulse-box"></div>
+                    </div>
+                    <div>
+                        <p><strong>Loading Spinner</strong></p>
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h4>Animation-egenskaper</h4>
+            <div class="code-example">
+.element {<br>
+    animation-name: myAnimation;          /* Navn på keyframes */<br>
+    animation-duration: 2s;               /* Hvor lenge animasjonen varer */<br>
+    animation-timing-function: ease;      /* Timing-kurve */<br>
+    animation-delay: 0.5s;               /* Forsinkelse før start */<br>
+    animation-iteration-count: infinite;  /* Hvor mange ganger (tall eller infinite) */<br>
+    animation-direction: alternate;       /* normal, reverse, alternate, alternate-reverse */<br>
+    animation-fill-mode: forwards;        /* none, forwards, backwards, both */<br>
+    animation-play-state: running;        /* running eller paused */<br>
+    <br>
+    /* Shorthand */<br>
+    animation: myAnimation 2s ease 0.5s infinite alternate forwards;<br>
+}
+            </div>
+
+            <h3>Animasjoner med JavaScript</h3>
+            <p>Du kan kontrollere animasjoner med JavaScript for mer interaktivitet:</p>
+
+            <div class="code-example">
+/* CSS */<br>
+.wiggle {<br>
+    animation: wiggle 0.5s ease-in-out;<br>
+}<br>
+<br>
+@keyframes wiggle {<br>
+    0%, 100% { transform: rotate(0deg); }<br>
+    25% { transform: rotate(-5deg); }<br>
+    75% { transform: rotate(5deg); }<br>
+}<br>
+<br>
+/* JavaScript */<br>
+function startWiggle() {<br>
+    const element = document.getElementById('myElement');<br>
+    element.classList.add('wiggle');<br>
+    <br>
+    // Fjern klassen etter animasjon er ferdig<br>
+    setTimeout(() => {<br>
+        element.classList.remove('wiggle');<br>
+    }, 500);<br>
+}
+            </div>
+
+            <div class="animation-demo">
+                <h4>🎮 Kontrollert Animasjon</h4>
+                <div class="controlled-animation" onclick="triggerWiggle(this)">
+                    Klikk meg for wiggle!
+                </div>
+            </div>
+
+            <h3>Beste praksis for animasjoner</h3>
+            <div class="good-practice notification-box">
+                <strong></strong><br>
+                • Bruk <code>transform</code> og <code>opacity</code> for best ytelse<br>
+                • Hold animasjoner under 0.5s for UI-feedback<br>
+                • Bruk <code>ease-out</code> for exit-animasjoner<br>
+                • Test på mindre kraftige enheter<br>
+                • Gi brukere mulighet til å skru av animasjoner
+            </div>
+
+            <div class="bad-practice notification-box">
+                <strong></strong><br>
+                • Animere <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code> (treg)<br>
+                • For mange samtidige animasjoner<br>
+                • Animasjoner som hindrer funksjonalitet<br>
+                • Animasjoner som kan trigge epilepsi
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Animert interaktivt kort-galleri</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag et animert kort-galleri som viser dine ferdigheter med CSS-animasjoner:</p>
+                
+                <ol>
+                    <li>Lag 6 kort med <strong>hover-animasjoner</strong> (scale, shadow, transform)</li>
+                    <li>Legg til en <strong>loading-animasjon</strong> som vises når siden lastes</li>
+                    <li>Lag kort som <strong>animerer inn</strong> med staggered timing (forskjøvet)</li>
+                    <li>Legg til <strong>klikk-animasjoner</strong> styrt av JavaScript</li>
+                    <li>Inkluder en <strong>"like"-knapp</strong> med pulse-animasjon</li>
+                    <li>Bonus: Legg til et <strong>filter-system</strong> med smooth overganger</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset="UTF-8"&gt;<br>
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+    &lt;title&gt;Animert Kort-galleri&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;div class="loading-screen" id="loadingScreen"&gt;<br>
+        &lt;div class="spinner"&gt;&lt;/div&gt;<br>
+        &lt;p&gt;Laster galleri...&lt;/p&gt;<br>
+    &lt;/div&gt;<br>
+    <br>
+    &lt;main class="gallery-container" id="galleryContainer"&gt;<br>
+        &lt;h1&gt;✨ Animert Galleri&lt;/h1&gt;<br>
+        <br>
+        &lt;div class="filter-buttons"&gt;<br>
+            &lt;button class="filter-btn active" data-filter="all"&gt;Alle&lt;/button&gt;<br>
+            &lt;button class="filter-btn" data-filter="nature"&gt;Natur&lt;/button&gt;<br>
+            &lt;button class="filter-btn" data-filter="tech"&gt;Teknologi&lt;/button&gt;<br>
+        &lt;/div&gt;<br>
+        <br>
+        &lt;div class="cards-grid"&gt;<br>
+            &lt;div class="card" data-category="nature"&gt;<br>
+                &lt;div class="card-image"&gt;🌸&lt;/div&gt;<br>
+                &lt;h3&gt;Vakre blomster&lt;/h3&gt;<br>
+                &lt;p&gt;En vakker blomstereng om våren&lt;/p&gt;<br>
+                &lt;button class="like-btn" onclick="likeCard(this)"&gt;<br>
+                    &lt;span class="heart"&gt;♡&lt;/span&gt; Like<br>
+                &lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+            <br>
+            &lt;!-- Legg til flere kort her med ulike kategorier --&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/main&gt;<br>
+    <br>
+    &lt;script src="script.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>CSS-startmal</h3>
+                <div class="code-example">
+/* Reset og grunnleggende styling */<br>
+* { margin: 0; padding: 0; box-sizing: border-box; }<br>
+body { font-family: 'Segoe UI', sans-serif; }<br>
+<br>
+/* Loading screen */<br>
+.loading-screen {<br>
+    /* Legg til loading-styling og animasjon her */<br>
+}<br>
+<br>
+/* Hovedcontainer */<br>
+.gallery-container {<br>
+    opacity: 0;<br>
+    transform: translateY(20px);<br>
+    transition: all 0.5s ease;<br>
+}<br>
+<br>
+.gallery-container.loaded {<br>
+    opacity: 1;<br>
+    transform: translateY(0);<br>
+}<br>
+<br>
+/* Kort-styling */<br>
+.card {<br>
+    /* Legg til hover-animasjoner og transitions her */<br>
+}<br>
+<br>
+/* Like-knapp animasjon */<br>
+.like-btn {<br>
+    /* Legg til pulse-animasjon og hover-effekter */<br>
+}<br>
+<br>
+/* Keyframe animasjoner */<br>
+@keyframes slideInStagger {<br>
+    /* Definer slide-inn animasjon */<br>
+}<br>
+<br>
+@keyframes pulse {<br>
+    /* Definer pulse-animasjon for like-knapp */<br>
+}
+                </div>
+
+                <div class="tip notification-box">
+                    <strong></strong> Bruk <code>animation-delay</code> for å lage staggered animasjoner: <code>animation-delay: calc(0.1s * var(--index))</code>
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔓 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* styles.css - komplett løsning */<br>
+<br>
+* { margin: 0; padding: 0; box-sizing: border-box; }<br>
+body { font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }<br>
+<br>
+/* Loading screen */<br>
+.loading-screen {<br>
+    position: fixed;<br>
+    top: 0; left: 0;<br>
+    width: 100%; height: 100%;<br>
+    background: linear-gradient(135deg, #667eea, #764ba2);<br>
+    display: flex;<br>
+    flex-direction: column;<br>
+    align-items: center;<br>
+    justify-content: center;<br>
+    color: white;<br>
+    z-index: 1000;<br>
+    transition: opacity 0.5s ease;<br>
+}<br>
+<br>
+.loading-screen.hidden {<br>
+    opacity: 0;<br>
+    pointer-events: none;<br>
+}<br>
+<br>
+.spinner {<br>
+    width: 50px; height: 50px;<br>
+    border: 4px solid rgba(255,255,255,0.3);<br>
+    border-top: 4px solid white;<br>
+    border-radius: 50%;<br>
+    animation: spin 1s linear infinite;<br>
+    margin-bottom: 20px;<br>
+}<br>
+<br>
+@keyframes spin {<br>
+    0% { transform: rotate(0deg); }<br>
+    100% { transform: rotate(360deg); }<br>
+}<br>
+<br>
+/* Hovedcontainer */<br>
+.gallery-container {<br>
+    padding: 40px 20px;<br>
+    max-width: 1200px;<br>
+    margin: 0 auto;<br>
+    opacity: 0;<br>
+    transform: translateY(30px);<br>
+    transition: all 0.8s ease;<br>
+}<br>
+<br>
+.gallery-container.loaded {<br>
+    opacity: 1;<br>
+    transform: translateY(0);<br>
+}<br>
+<br>
+/* Filter-knapper */<br>
+.filter-buttons {<br>
+    display: flex; gap: 10px;<br>
+    justify-content: center;<br>
+    margin: 30px 0;<br>
+}<br>
+<br>
+.filter-btn {<br>
+    padding: 10px 20px;<br>
+    border: 2px solid #667eea;<br>
+    background: transparent;<br>
+    color: #667eea;<br>
+    border-radius: 25px;<br>
+    cursor: pointer;<br>
+    transition: all 0.3s ease;<br>
+}<br>
+<br>
+.filter-btn:hover, .filter-btn.active {<br>
+    background: #667eea;<br>
+    color: white;<br>
+    transform: translateY(-2px);<br>
+}<br>
+<br>
+/* Kort-grid */<br>
+.cards-grid {<br>
+    display: grid;<br>
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));<br>
+    gap: 30px;<br>
+}<br>
+<br>
+/* Kort-styling */<br>
+.card {<br>
+    background: white;<br>
+    border-radius: 15px;<br>
+    overflow: hidden;<br>
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);<br>
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);<br>
+    opacity: 0;<br>
+    transform: translateY(30px) scale(0.9);<br>
+    animation: slideInCard 0.6s ease forwards;<br>
+}<br>
+<br>
+.card:nth-child(1) { animation-delay: 0.1s; }<br>
+.card:nth-child(2) { animation-delay: 0.2s; }<br>
+.card:nth-child(3) { animation-delay: 0.3s; }<br>
+.card:nth-child(4) { animation-delay: 0.4s; }<br>
+.card:nth-child(5) { animation-delay: 0.5s; }<br>
+.card:nth-child(6) { animation-delay: 0.6s; }<br>
+<br>
+@keyframes slideInCard {<br>
+    to {<br>
+        opacity: 1;<br>
+        transform: translateY(0) scale(1);<br>
+    }<br>
+}<br>
+<br>
+.card:hover {<br>
+    transform: translateY(-10px) scale(1.02);<br>
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);<br>
+}<br>
+<br>
+.card-image {<br>
+    font-size: 4em;<br>
+    text-align: center;<br>
+    padding: 30px;<br>
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);<br>
+}<br>
+<br>
+.card h3, .card p {<br>
+    padding: 0 20px;<br>
+}<br>
+<br>
+.card h3 { margin: 15px 0 10px; }<br>
+.card p { color: #666; margin-bottom: 20px; }<br>
+<br>
+/* Like-knapp */<br>
+.like-btn {<br>
+    width: calc(100% - 40px);<br>
+    margin: 0 20px 20px;<br>
+    padding: 12px;<br>
+    border: 2px solid #e91e63;<br>
+    background: white;<br>
+    color: #e91e63;<br>
+    border-radius: 25px;<br>
+    cursor: pointer;<br>
+    transition: all 0.3s ease;<br>
+    font-size: 16px;<br>
+    display: flex;<br>
+    align-items: center;<br>
+    justify-content: center;<br>
+    gap: 8px;<br>
+}<br>
+<br>
+.like-btn:hover {<br>
+    background: #e91e63;<br>
+    color: white;<br>
+    transform: scale(1.05);<br>
+}<br>
+<br>
+.like-btn.liked {<br>
+    background: #e91e63;<br>
+    color: white;<br>
+    animation: likedPulse 0.3s ease;<br>
+}<br>
+<br>
+.like-btn.liked .heart {<br>
+    animation: heartBeat 0.5s ease;<br>
+}<br>
+<br>
+@keyframes likedPulse {<br>
+    0% { transform: scale(1); }<br>
+    50% { transform: scale(1.1); }<br>
+    100% { transform: scale(1); }<br>
+}<br>
+<br>
+@keyframes heartBeat {<br>
+    0%, 100% { transform: scale(1); }<br>
+    50% { transform: scale(1.3); }<br>
+}<br>
+<br>
+/* Filter animasjoner */<br>
+.card.hidden {<br>
+opacity: 0;<br>
+                        transform: scale(0.8) translateY(20px);<br>
+                        pointer-events: none;<br>
+                    }<br>
+                    <br>
+                    /* Responsive design */<br>
+                    @media (max-width: 768px) {<br>
+                        .filter-buttons {<br>
+                            flex-wrap: wrap;<br>
+                        }<br>
+                        .cards-grid {<br>
+                            grid-template-columns: 1fr;<br>
+                            gap: 20px;<br>
+                        }<br>
+                    }<br>
+                    <br>
+                    /* ===== JavaScript eksempel (script.js) ===== */<br>
+                    <br>
+                    // Loading animasjon<br>
+                    window.addEventListener('load', function() {<br>
+                        setTimeout(() => {<br>
+                            document.getElementById('loadingScreen').classList.add('hidden');<br>
+                            document.getElementById('galleryContainer').classList.add('loaded');<br>
+                        }, 1500);<br>
+                    });<br>
+                    <br>
+                    // Like-funksjonalitet<br>
+                    function likeCard(button) {<br>
+                        button.classList.toggle('liked');<br>
+                        const heart = button.querySelector('.heart');<br>
+                        heart.textContent = button.classList.contains('liked') ? '♥' : '♡';<br>
+                    }<br>
+                    <br>
+                    // Filter-funksjonalitet<br>
+                    document.querySelectorAll('.filter-btn').forEach(btn => {<br>
+                        btn.addEventListener('click', function() {<br>
+                            // Oppdater aktive knapper<br>
+                            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));<br>
+                            this.classList.add('active');<br>
+                            <br>
+                            // Filter kort<br>
+                            const filter = this.dataset.filter;<br>
+                            const cards = document.querySelectorAll('.card');<br>
+                            <br>
+                            cards.forEach(card => {<br>
+                                if (filter === 'all' || card.dataset.category === filter) {<br>
+                                    card.classList.remove('hidden');<br>
+                                } else {<br>
+                                    card.classList.add('hidden');<br>
+                                }<br>
+                            });<br>
+                        });<br>
+                    });
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner1"> Har jeg brukt <code>transition</code> for hover-effekter på kort?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner2"> Har jeg laget en <code>@keyframes</code> animasjon (f.eks. loading spinner)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner3"> Bruker jeg <code>transform</code> i stedet for width/height for bedre ytelse?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner4"> Har jeg lagt til animasjoner som trigges av JavaScript?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner5"> Har jeg brukt staggered timing for kort som animerer inn?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner6"> Fungerer alle animasjoner smooth og ikke for raskt/sakte?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner7"> Har jeg testet på ulike enheter/nettlesere?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="animasjoner8"> Forbedrer animasjonene brukeropplevelsen uten å distrahere?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Imponerende!</strong> Du behersker nå CSS-animasjoner og kan skape levende, engasjerende nettsider!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du tastatur-events og mer avansert interaktivitet som forbereder deg på spillutvikling!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔓 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "animasjoner123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Interaktiv wiggle demo
+        function triggerWiggle(element) {
+            element.classList.add('animate');
+            setTimeout(() => {
+                element.classList.remove('animate');
+            }, 500);
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul4_animasjoner_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul4_animasjoner_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

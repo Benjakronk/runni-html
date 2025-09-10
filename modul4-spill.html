@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4: Enkelt spill med JavaScript</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Demo-styles for denne leksjonen */
+        .game-showcase {
+            background: rgba(33, 150, 243, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #2196f3;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .concept-demo {
+            background: rgba(255, 87, 34, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ff5722;
+            margin: 20px 0;
+        }
+        
+        /* Complete game styles */
+        .game-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .game-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .game-arena {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #e3f2fd 25%, transparent 25%), 
+                        linear-gradient(-45deg, #e3f2fd 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #e3f2fd 75%),
+                        linear-gradient(-45deg, transparent 75%, #e3f2fd 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .player {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+            z-index: 10;
+        }
+        
+        .player.moving {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+        }
+        
+        .enemy {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            animation: enemyMove 3s linear infinite;
+            box-shadow: 0 3px 10px rgba(244, 67, 54, 0.4);
+        }
+        
+        @keyframes enemyMove {
+            0% { transform: translateX(-50px); }
+            100% { transform: translateX(850px); }
+        }
+        
+        .collectible {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffd700, #ffb300);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            animation: collectibleFloat 2s ease-in-out infinite;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes collectibleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+        
+        .power-up {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            animation: powerUpPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 3px 12px rgba(156, 39, 176, 0.5);
+        }
+        
+        @keyframes powerUpPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .collected {
+            animation: collectEffect 0.5s ease forwards !important;
+        }
+        
+        @keyframes collectEffect {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .game-controls {
+            padding: 20px;
+            background: #f5f5f5;
+            text-align: center;
+        }
+        
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .game-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+        }
+        
+        .btn-pause {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+        
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .game-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .key-instructions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .instruction-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .key-combo {
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        .game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            z-index: 100;
+        }
+        
+        .game-over-content {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .level-indicator {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #333;
+            border: 2px solid #667eea;
+        }
+        
+        .health-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .game-container {
+                margin: 10px;
+            }
+            .game-arena {
+                height: 300px;
+            }
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .key-instructions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🎮 Modul 4: Enkelt spill med JavaScript</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Kombinere HTML, CSS og JavaScript til et komplett spill</li>
+                    <li>Implementere spillogikk: score, timer, game states</li>
+                    <li>Bruke kollisjondeteksjon for spillmekanikker</li>
+                    <li>Lage game loop og kontinuerlig oppdatering</li>
+                    <li>Håndtere multiple objekttyper (spiller, fiender, power-ups)</li>
+                    <li>Implementere nivåer og progressive vanskelighetsgrad</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Spillutvikling med HTML, CSS og JavaScript</h3>
+            <p>Moderne webspill bruker samme teknologier som nettsider: <strong>HTML for struktur</strong>, <strong>CSS for styling og animasjoner</strong>, og <strong>JavaScript for logikk og interaktivitet</strong>.</p>
+
+            <div class="tip notification-box">
+                <strong>Spillutvikling lærer deg:</strong> Problemløsning, logisk tenkning, matematikk, og hvordan kombinere teknologier til komplekse systemer!
+            </div>
+
+            <h3>Grunnleggende spillkonsepter</h3>
+
+            <div class="concept-demo">
+                <h4>🏗️ Spillarkitektur</h4>
+                <div class="code-example">
+// Spillets grunnstruktur<br>
+const game = {<br>
+    player: { x: 50, y: 50, health: 100 },<br>
+    enemies: [],<br>
+    collectibles: [],<br>
+    score: 0,<br>
+    level: 1,<br>
+    gameState: 'playing' // 'playing', 'paused', 'gameOver'<br>
+};<br>
+<br>
+// Game loop - kjører kontinuerlig<br>
+function gameLoop() {<br>
+    if (game.gameState === 'playing') {<br>
+        updateGame();<br>
+        renderGame();<br>
+        checkCollisions();<br>
+    }<br>
+    requestAnimationFrame(gameLoop);<br>
+}
+                </div>
+            </div>
+
+            <h3>Kollisjondeteksjon</h3>
+            <p>Hjertet i spillmekanikk - når to objekter "berører" hverandre:</p>
+
+            <div class="code-example">
+function checkCollision(obj1, obj2) {<br>
+    const dx = obj1.x - obj2.x;<br>
+    const dy = obj1.y - obj2.y;<br>
+    const distance = Math.sqrt(dx * dx + dy * dy);<br>
+    const minDistance = (obj1.radius + obj2.radius);<br>
+    <br>
+    return distance < minDistance;<br>
+}<br>
+<br>
+// Alternativ: Bounding box kollisjon<br>
+function boxCollision(rect1, rect2) {<br>
+    return rect1.x < rect2.x + rect2.width &&<br>
+           rect1.x + rect1.width > rect2.x &&<br>
+           rect1.y < rect2.y + rect2.height &&<br>
+           rect1.y + rect1.height > rect2.y;<br>
+}
+            </div>
+
+            <h3>Spilltilstander (Game States)</h3>
+            <div class="code-example">
+const gameStates = {<br>
+    MENU: 'menu',<br>
+    PLAYING: 'playing',<br>
+    PAUSED: 'paused',<br>
+    GAME_OVER: 'gameOver',<br>
+    LEVEL_COMPLETE: 'levelComplete'<br>
+};<br>
+<br>
+function handleGameState() {<br>
+    switch(currentState) {<br>
+        case gameStates.PLAYING:<br>
+            updateGameplay();<br>
+            break;<br>
+        case gameStates.PAUSED:<br>
+            showPauseMenu();<br>
+            break;<br>
+        case gameStates.GAME_OVER:<br>
+            showGameOverScreen();<br>
+            break;<br>
+    }<br>
+}
+            </div>
+
+            <h3>Demo-spill: Space Collector</h3>
+            <p>La oss se et komplett spill i aksjon!</p>
+
+            <div class="game-showcase">
+                <div class="game-container">
+                    <div class="game-header">
+                        <h3>🚀 Space Collector</h3>
+                        <div class="game-stats">
+                            <div class="stat-item">Score: <span id="demoScore">0</span></div>
+                            <div class="stat-item">Level: <span id="demoLevel">1</span></div>
+                            <div class="stat-item">Lives: <span id="demoLives">3</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-arena" id="demoArena">
+                        <div class="level-indicator">Level <span id="levelDisplay">1</span></div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="healthFill" style="width: 100%;"></div>
+                        </div>
+                        <div class="player" id="demoPlayer">🚀</div>
+                        <div class="game-over-screen" id="gameOverScreen">
+                            <div class="game-over-content">
+                                <h2>Game Over!</h2>
+                                <p>Score: <span id="finalScore">0</span></p>
+                                <button class="game-btn btn-start" onclick="restartDemo()">Spill igjen</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <div class="control-buttons">
+                            <button class="game-btn btn-start" id="startBtn" onclick="startDemo()">Start Spill</button>
+                            <button class="game-btn btn-pause" id="pauseBtn" onclick="pauseDemo()" disabled>Pause</button>
+                            <button class="game-btn btn-reset" onclick="resetDemo()">Reset</button>
+                        </div>
+                        
+                        <div class="key-instructions">
+                            <div class="instruction-card">
+                                <h4>Bevegelse</h4>
+                                <div class="key-combo">↑ ↓ ← →</div>
+                                <div class="key-combo">WASD</div>
+                            </div>
+                            <div class="instruction-card">
+                                <h4>Mål</h4>
+                                <p>Samle <span style="color: #ffd700;">⭐</span> stjerner<br>
+                                Unngå <span style="color: #f44336;">💥</span> fiender</p>
+                            </div>
+                            <div class="instruction-card">
+                                <h4>Power-ups</h4>
+                                <p><span style="color: #9c27b0;">⚡</span> gir ekstra poeng<br>
+                                og invincibility</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Lag ditt eget spill!</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag et komplett spill med alle elementene fra kurset:</p>
+                
+                <ol>
+                    <li><strong>Spillarkitektur</strong> - player, enemies, collectibles, score</li>
+                    <li><strong>Game loop</strong> - kontinuerlig oppdatering av spilltilstand</li>
+                    <li><strong>Kollisjondeteksjon</strong> - mellom alle objekttyper</li>
+                    <li><strong>Multiple nivåer</strong> - progressiv vanskelighetsgrad</li>
+                    <li><strong>Power-ups</strong> - spesielle objekter med bonus-effekter</li>
+                    <li><strong>Animasjoner</strong> - CSS og JavaScript-drevne effekter</li>
+                    <li><strong>Game states</strong> - start, pause, game over</li>
+                    <li><strong>Responsive design</strong> - fungerer på alle enheter</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset="UTF-8"&gt;<br>
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+    &lt;title&gt;Mitt Spill&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="game.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;div class="game-container"&gt;<br>
+        &lt;div class="game-header"&gt;<br>
+            &lt;h1&gt;Mitt Kule Spill&lt;/h1&gt;<br>
+            &lt;div class="stats"&gt;<br>
+                &lt;span&gt;Score: &lt;span id="score"&gt;0&lt;/span&gt;&lt;/span&gt;<br>
+                &lt;span&gt;Level: &lt;span id="level"&gt;1&lt;/span&gt;&lt;/span&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+        <br>
+        &lt;div class="game-arena" id="arena"&gt;<br>
+            &lt;div class="player" id="player"&gt;🎮&lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+        <br>
+        &lt;div class="game-controls"&gt;<br>
+            &lt;button onclick="startGame()"&gt;Start&lt;/button&gt;<br>
+            &lt;button onclick="pauseGame()"&gt;Pause&lt;/button&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+    <br>
+    &lt;script src="game.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>JavaScript-struktur</h3>
+                <div class="code-example">
+// game.js - grunnstruktur<br>
+<br>
+// Spillvariabler<br>
+const game = {<br>
+    player: { x: 50, y: 50, health: 100 },<br>
+    enemies: [],<br>
+    collectibles: [],<br>
+    score: 0,<br>
+    level: 1,<br>
+    gameState: 'stopped',<br>
+    isRunning: false<br>
+};<br>
+<br>
+// Konstanter<br>
+const GAME_WIDTH = 800;<br>
+const GAME_HEIGHT = 400;<br>
+const PLAYER_SPEED = 5;<br>
+<br>
+// Hovedfunksjoner<br>
+function startGame() {<br>
+    game.gameState = 'playing';<br>
+    game.isRunning = true;<br>
+    gameLoop();<br>
+}<br>
+<br>
+function gameLoop() {<br>
+    if (!game.isRunning) return;<br>
+    <br>
+    updateGame();<br>
+    renderGame();<br>
+    checkAllCollisions();<br>
+    <br>
+    requestAnimationFrame(gameLoop);<br>
+}<br>
+<br>
+function updateGame() {<br>
+    // Oppdater spillerposisjon<br>
+    // Flytt fiender<br>
+    // Spawn nye objekter<br>
+    // Sjekk level progression<br>
+}<br>
+<br>
+function checkAllCollisions() {<br>
+    // Player vs enemies<br>
+    // Player vs collectibles<br>
+    // Player vs power-ups<br>
+}<br>
+<br>
+// Tastatur-kontroller<br>
+document.addEventListener('keydown', handleKeyDown);<br>
+document.addEventListener('keyup', handleKeyUp);<br>
+<br>
+function handleKeyDown(event) {<br>
+    switch(event.key) {<br>
+        case 'ArrowUp':<br>
+        case 'w':<br>
+            // Beveg spiller opp<br>
+            break;<br>
+        // Legg til resten av retningene<br>
+    }<br>
+}
+                </div>
+
+                <div class="tip notification-box">
+                    <strong></strong><br>
+                    • Bruk <code>requestAnimationFrame()</code> for smooth animasjoner<br>
+                    • Test kollisjon hver frame for responsivitet<br>
+                    • Lag modulær kode - en funksjon per oppgave<br>
+                    • Start enkelt og bygg utover gradvis
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔓 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+/* Komplett spillkode - game.js */<br>
+<br>
+// Spillkonfigurasjon<br>
+const CONFIG = {<br>
+    ARENA_WIDTH: 800,<br>
+    ARENA_HEIGHT: 400,<br>
+    PLAYER_SPEED: 4,<br>
+    ENEMY_SPEED: 2,<br>
+    SPAWN_RATE: 0.02<br>
+};<br>
+<br>
+// Spilltilstand<br>
+const game = {<br>
+    player: { x: 50, y: 50, health: 100, invincible: false },<br>
+    enemies: [],<br>
+    collectibles: [],<br>
+    powerUps: [],<br>
+    score: 0,<br>
+    level: 1,<br>
+    gameState: 'stopped',<br>
+    keys: {},<br>
+    lastSpawn: 0<br>
+};<br>
+<br>
+// Spillobjekter<br>
+class GameObject {<br>
+    constructor(x, y, type) {<br>
+        this.x = x;<br>
+        this.y = y;<br>
+        this.type = type;<br>
+        this.element = this.createElement();<br>
+    }<br>
+    <br>
+    createElement() {<br>
+        const el = document.createElement('div');<br>
+        el.className = this.type;<br>
+        el.style.left = this.x + '%';<br>
+        el.style.top = this.y + '%';<br>
+        return el;<br>
+    }<br>
+    <br>
+    update() {<br>
+        this.element.style.left = this.x + '%';<br>
+        this.element.style.top = this.y + '%';<br>
+    }<br>
+    <br>
+    remove() {<br>
+        if (this.element.parentNode) {<br>
+            this.element.parentNode.removeChild(this.element);<br>
+        }<br>
+    }<br>
+}<br>
+<br>
+// Spillfunksjoner<br>
+function startGame() {<br>
+    game.gameState = 'playing';<br>
+    document.getElementById('startBtn').disabled = true;<br>
+    document.getElementById('pauseBtn').disabled = false;<br>
+    gameLoop();<br>
+}<br>
+<br>
+function gameLoop() {<br>
+    if (game.gameState !== 'playing') return;<br>
+    <br>
+    updatePlayer();<br>
+    updateEnemies();<br>
+    spawnObjects();<br>
+    checkCollisions();<br>
+    updateUI();<br>
+    <br>
+    requestAnimationFrame(gameLoop);<br>
+}<br>
+<br>
+function updatePlayer() {<br>
+    if (game.keys['ArrowUp'] || game.keys['w']) {<br>
+        game.player.y = Math.max(0, game.player.y - CONFIG.PLAYER_SPEED);<br>
+    }<br>
+    if (game.keys['ArrowDown'] || game.keys['s']) {<br>
+        game.player.y = Math.min(95, game.player.y + CONFIG.PLAYER_SPEED);<br>
+    }<br>
+    if (game.keys['ArrowLeft'] || game.keys['a']) {<br>
+        game.player.x = Math.max(0, game.player.x - CONFIG.PLAYER_SPEED);<br>
+    }<br>
+    if (game.keys['ArrowRight'] || game.keys['d']) {<br>
+        game.player.x = Math.min(95, game.player.x + CONFIG.PLAYER_SPEED);<br>
+    }<br>
+    <br>
+    const playerEl = document.getElementById('player');<br>
+    playerEl.style.left = game.player.x + '%';<br>
+    playerEl.style.top = game.player.y + '%';<br>
+}<br>
+<br>
+function spawnObjects() {<br>
+    if (Math.random() < CONFIG.SPAWN_RATE) {<br>
+        if (Math.random() < 0.7) {<br>
+            spawnCollectible();<br>
+        } else if (Math.random() < 0.9) {<br>
+            spawnEnemy();<br>
+        } else {<br>
+            spawnPowerUp();<br>
+        }<br>
+    }<br>
+}<br>
+<br>
+function checkCollisions() {<br>
+    // Player vs collectibles<br>
+    game.collectibles.forEach((obj, index) => {<br>
+        if (checkCollision(game.player, obj)) {<br>
+            obj.element.classList.add('collected');<br>
+            game.score += 10;<br>
+            setTimeout(() => obj.remove(), 500);<br>
+            game.collectibles.splice(index, 1);<br>
+        }<br>
+    });<br>
+    <br>
+    // Player vs enemies<br>
+    if (!game.player.invincible) {<br>
+        game.enemies.forEach((enemy, index) => {<br>
+            if (checkCollision(game.player, enemy)) {<br>
+                game.player.health -= 20;<br>
+                if (game.player.health <= 0) {<br>
+                    gameOver();<br>
+                }<br>
+                enemy.remove();<br>
+                game.enemies.splice(index, 1);<br>
+            }<br>
+        });<br>
+    }<br>
+}<br>
+<br>
+function checkCollision(obj1, obj2) {<br>
+    const dx = obj1.x - obj2.x;<br>
+    const dy = obj1.y - obj2.y;<br>
+    return Math.sqrt(dx*dx + dy*dy) < 8;<br>
+}<br>
+<br>
+// Event listeners<br>
+document.addEventListener('keydown', (e) => {<br>
+    game.keys[e.key] = true;<br>
+});<br>
+<br>
+document.addEventListener('keyup', (e) => {<br>
+    game.keys[e.key] = false;<br>
+});<br>
+<br>
+function spawnCollectible() {<br>
+    const collectible = new GameObject(<br>
+        Math.random() * 90,<br>
+        Math.random() * 90,<br>
+        'collectible'<br>
+    );<br>
+    collectible.element.textContent = '⭐';<br>
+    document.getElementById('arena').appendChild(collectible.element);<br>
+    game.collectibles.push(collectible);<br>
+}<br>
+<br>
+function spawnEnemy() {<br>
+    const enemy = new GameObject(<br>
+        Math.random() * 90,<br>
+        Math.random() * 90,<br>
+        'enemy'<br>
+    );<br>
+    enemy.element.textContent = '💥';<br>
+    enemy.speed = CONFIG.ENEMY_SPEED;<br>
+    enemy.direction = Math.random() * Math.PI * 2;<br>
+    document.getElementById('arena').appendChild(enemy.element);<br>
+    game.enemies.push(enemy);<br>
+}<br>
+<br>
+function spawnPowerUp() {<br>
+    const powerUp = new GameObject(<br>
+        Math.random() * 90,<br>
+        Math.random() * 90,<br>
+        'power-up'<br>
+    );<br>
+    powerUp.element.textContent = '⚡';<br>
+    document.getElementById('arena').appendChild(powerUp.element);<br>
+    game.powerUps.push(powerUp);<br>
+}<br>
+<br>
+function updateEnemies() {<br>
+    game.enemies.forEach((enemy, index) => {<br>
+        enemy.x += Math.cos(enemy.direction) * enemy.speed;<br>
+        enemy.y += Math.sin(enemy.direction) * enemy.speed;<br>
+        <br>
+        // Bounce off walls<br>
+        if (enemy.x <= 0 || enemy.x >= 95) {<br>
+            enemy.direction = Math.PI - enemy.direction;<br>
+        }<br>
+        if (enemy.y <= 0 || enemy.y >= 95) {<br>
+            enemy.direction = -enemy.direction;<br>
+        }<br>
+        <br>
+        enemy.update();<br>
+    });<br>
+}<br>
+<br>
+function updateUI() {<br>
+    document.getElementById('score').textContent = game.score;<br>
+    document.getElementById('level').textContent = game.level;<br>
+    document.getElementById('healthFill').style.width = game.player.health + '%';<br>
+}<br>
+<br>
+function gameOver() {<br>
+    game.gameState = 'gameOver';<br>
+    document.getElementById('finalScore').textContent = game.score;<br>
+    document.getElementById('gameOverScreen').style.display = 'flex';<br>
+    document.getElementById('startBtn').disabled = false;<br>
+    document.getElementById('pauseBtn').disabled = true;<br>
+}<br>
+<br>
+function resetGame() {<br>
+    game.player = { x: 50, y: 50, health: 100, invincible: false };<br>
+    game.enemies.forEach(enemy => enemy.remove());<br>
+    game.collectibles.forEach(obj => obj.remove());<br>
+    game.powerUps.forEach(obj => obj.remove());<br>
+    game.enemies = [];<br>
+    game.collectibles = [];<br>
+    game.powerUps = [];<br>
+    game.score = 0;<br>
+    game.level = 1;<br>
+    game.gameState = 'stopped';<br>
+    document.getElementById('gameOverScreen').style.display = 'none';<br>
+    updateUI();<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill1"> Har jeg implementert en spillloop med <code>requestAnimationFrame()</code>?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill2"> Fungerer kollisjondeteksjon mellom spiller og objekter?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill3"> Har jeg minst 3 objekttyper (spiller, fiender, collectibles)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill4"> Oppdateres score og UI-elementer riktig?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill5"> Har jeg implementert game states (start, pause, game over)?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill6"> Spawner det nye objekter automatisk under spillet?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill7"> Har jeg lagt til animasjoner og visuelle effekter?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="spill8"> Er spillet komplett spillbart fra start til slutt?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>GRATULERER!</strong> Du har laget ditt eget komplett spill! Du behersker nå moderne webutvikling!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                Du kan nå kombinere HTML, CSS og JavaScript til avanserte, interaktive opplevelser!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔓 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "spill123";
+
+        // Demo game variables
+        const demoGame = {
+            player: { x: 50, y: 50, health: 100 },
+            enemies: [],
+            collectibles: [],
+            powerUps: [],
+            score: 0,
+            level: 1,
+            gameState: 'stopped',
+            keys: {},
+            animationId: null
+        };
+
+        // Demo game functions
+        function startDemo() {
+            demoGame.gameState = 'playing';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+            demoGameLoop();
+        }
+
+        function pauseDemo() {
+            if (demoGame.gameState === 'playing') {
+                demoGame.gameState = 'paused';
+                document.getElementById('pauseBtn').textContent = 'Resume';
+            } else {
+                demoGame.gameState = 'playing';
+                document.getElementById('pauseBtn').textContent = 'Pause';
+                demoGameLoop();
+            }
+        }
+
+        function resetDemo() {
+            demoGame.gameState = 'stopped';
+            demoGame.enemies.forEach(enemy => enemy.element.remove());
+            demoGame.collectibles.forEach(obj => obj.element.remove());
+            demoGame.powerUps.forEach(obj => obj.element.remove());
+            demoGame.enemies = [];
+            demoGame.collectibles = [];
+            demoGame.powerUps = [];
+            demoGame.score = 0;
+            demoGame.level = 1;
+            demoGame.player.health = 100;
+            document.getElementById('gameOverScreen').style.display = 'none';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('pauseBtn').textContent = 'Pause';
+            updateDemoUI();
+        }
+
+        function restartDemo() {
+            resetDemo();
+            startDemo();
+        }
+
+        function demoGameLoop() {
+            if (demoGame.gameState !== 'playing') return;
+
+            updateDemoPlayer();
+            updateDemoEnemies();
+            spawnDemoObjects();
+            checkDemoCollisions();
+            updateDemoUI();
+
+            demoGame.animationId = requestAnimationFrame(demoGameLoop);
+        }
+
+        function updateDemoPlayer() {
+            if (demoGame.keys['ArrowUp'] || demoGame.keys['w'] || demoGame.keys['W']) {
+                demoGame.player.y = Math.max(5, demoGame.player.y - 2);
+            }
+            if (demoGame.keys['ArrowDown'] || demoGame.keys['s'] || demoGame.keys['S']) {
+                demoGame.player.y = Math.min(90, demoGame.player.y + 2);
+            }
+            if (demoGame.keys['ArrowLeft'] || demoGame.keys['a'] || demoGame.keys['A']) {
+                demoGame.player.x = Math.max(5, demoGame.player.x - 2);
+            }
+            if (demoGame.keys['ArrowRight'] || demoGame.keys['d'] || demoGame.keys['D']) {
+                demoGame.player.x = Math.min(90, demoGame.player.x + 2);
+            }
+
+            const playerEl = document.getElementById('demoPlayer');
+            playerEl.style.left = demoGame.player.x + '%';
+            playerEl.style.top = demoGame.player.y + '%';
+        }
+
+        function spawnDemoObjects() {
+            if (Math.random() < 0.015) {
+                if (Math.random() < 0.6) {
+                    spawnDemoCollectible();
+                } else if (Math.random() < 0.9) {
+                    spawnDemoEnemy();
+                } else {
+                    spawnDemoPowerUp();
+                }
+            }
+        }
+
+        function spawnDemoCollectible() {
+            const collectible = {
+                x: Math.random() * 85,
+                y: Math.random() * 85,
+                element: document.createElement('div')
+            };
+            collectible.element.className = 'collectible';
+            collectible.element.textContent = '⭐';
+            collectible.element.style.left = collectible.x + '%';
+            collectible.element.style.top = collectible.y + '%';
+            document.getElementById('demoArena').appendChild(collectible.element);
+            demoGame.collectibles.push(collectible);
+        }
+
+        function spawnDemoEnemy() {
+            const enemy = {
+                x: Math.random() * 85,
+                y: Math.random() * 85,
+                element: document.createElement('div'),
+                direction: Math.random() * Math.PI * 2,
+                speed: 1
+            };
+            enemy.element.className = 'enemy';
+            enemy.element.textContent = '💥';
+            enemy.element.style.left = enemy.x + '%';
+            enemy.element.style.top = enemy.y + '%';
+            document.getElementById('demoArena').appendChild(enemy.element);
+            demoGame.enemies.push(enemy);
+        }
+
+        function spawnDemoPowerUp() {
+            const powerUp = {
+                x: Math.random() * 85,
+                y: Math.random() * 85,
+                element: document.createElement('div')
+            };
+            powerUp.element.className = 'power-up';
+            powerUp.element.textContent = '⚡';
+            powerUp.element.style.left = powerUp.x + '%';
+            powerUp.element.style.top = powerUp.y + '%';
+            document.getElementById('demoArena').appendChild(powerUp.element);
+            demoGame.powerUps.push(powerUp);
+        }
+
+        function updateDemoEnemies() {
+            demoGame.enemies.forEach((enemy, index) => {
+                enemy.x += Math.cos(enemy.direction) * enemy.speed;
+                enemy.y += Math.sin(enemy.direction) * enemy.speed;
+
+                if (enemy.x <= 0 || enemy.x >= 90) {
+                    enemy.direction = Math.PI - enemy.direction;
+                }
+                if (enemy.y <= 0 || enemy.y >= 90) {
+                    enemy.direction = -enemy.direction;
+                }
+
+                enemy.element.style.left = enemy.x + '%';
+                enemy.element.style.top = enemy.y + '%';
+            });
+        }
+
+        function checkDemoCollisions() {
+            // Player vs collectibles
+            demoGame.collectibles.forEach((obj, index) => {
+                if (checkDemoCollision(demoGame.player, obj)) {
+                    obj.element.classList.add('collected');
+                    demoGame.score += 10;
+                    setTimeout(() => {
+                        if (obj.element.parentNode) {
+                            obj.element.remove();
+                        }
+                    }, 500);
+                    demoGame.collectibles.splice(index, 1);
+                }
+            });
+
+            // Player vs enemies
+            demoGame.enemies.forEach((enemy, index) => {
+                if (checkDemoCollision(demoGame.player, enemy)) {
+                    demoGame.player.health -= 25;
+                    if (demoGame.player.health <= 0) {
+                        demoGameOver();
+                    }
+                    enemy.element.remove();
+                    demoGame.enemies.splice(index, 1);
+                }
+            });
+
+            // Player vs power-ups
+            demoGame.powerUps.forEach((powerUp, index) => {
+                if (checkDemoCollision(demoGame.player, powerUp)) {
+                    powerUp.element.classList.add('collected');
+                    demoGame.score += 25;
+                    demoGame.player.health = Math.min(100, demoGame.player.health + 20);
+                    setTimeout(() => {
+                        if (powerUp.element.parentNode) {
+                            powerUp.element.remove();
+                        }
+                    }, 500);
+                    demoGame.powerUps.splice(index, 1);
+                }
+            });
+        }
+
+        function checkDemoCollision(obj1, obj2) {
+            const dx = obj1.x - obj2.x;
+            const dy = obj1.y - obj2.y;
+            return Math.sqrt(dx*dx + dy*dy) < 8;
+        }
+
+        function updateDemoUI() {
+            document.getElementById('demoScore').textContent = demoGame.score;
+            document.getElementById('demoLevel').textContent = demoGame.level;
+            document.getElementById('healthFill').style.width = demoGame.player.health + '%';
+            document.getElementById('levelDisplay').textContent = demoGame.level;
+        }
+
+        function demoGameOver() {
+            demoGame.gameState = 'gameOver';
+            document.getElementById('finalScore').textContent = demoGame.score;
+            document.getElementById('gameOverScreen').style.display = 'flex';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+        }
+
+        // Keyboard handlers
+        document.addEventListener('keydown', (e) => {
+            demoGame.keys[e.key] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            demoGame.keys[e.key] = false;
+        });
+
+        // Password modal functions
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Checklist functions
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul4_spill_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul4_spill_completed', 'false');
+            }
+        }
+
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            saveChecklistProgress();
+        }
+
+        // Modal click outside to close
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            loadChecklistProgress();
+            updateDemoUI();
+        };
+    </script>
+</body>
+</html>
