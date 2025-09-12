@@ -29,6 +29,63 @@
         </div>
 
         <div class="modules-grid">
+            <!-- Modul 0: Kom i gang -->
+            <div class="module-card" id="module0">
+                <div class="module-header">
+                    <div class="module-icon">🚀</div>
+                    <div class="module-title">Modul 0: Kom i gang</div>
+                    <div class="module-description">Grunnleggende verktøy og konsepter for webutvikling. Ikke obligatorisk, men er veldig nyttig.</div>
+                </div>
+                <div class="module-content" id="module0-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul0-leksjon1.html">
+                                <span>
+                                    Visual Studio Code og arbeidsområde
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-vscode">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul0-leksjon2.html">
+                                <span>
+                                    Filer, mapper og organisering
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-files">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul0-leksjon3.html">
+                                <span>
+                                    Hvordan nettsider fungerer
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-concepts">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul0-leksjon4.html">
+                                <span>
+                                    Grunnleggende feilsøking
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-debugging">4</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul0-leksjon5.html">
+                                <span>
+                                    Avansert feilsøking og beste praksis
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-advanced-debugging">5</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <!-- Modul 1: Grunnleggende HTML -->
             <div class="module-card">
                 <div class="module-header">
@@ -48,12 +105,21 @@
                             </a>
                         </li>
                         <li class="lesson-item">
+                            <a href="modul1-kommentarer.html">
+                                <span>
+                                    Kodekommentarer - Forklar koden
+                                    <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
+                                </span>
+                                <span class="lesson-status" id="status-kommentarer">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
                             <a href="modul1-bilder.html">
                                 <span>
                                     Bilder og multimedia
                                     <span class="lesson-difficulty difficulty-beginner">Nybegynner</span>
                                 </span>
-                                <span class="lesson-status" id="status-bilder">2</span>
+                                <span class="lesson-status" id="status-bilder">3</span>
                             </a>
                         </li>
                         <li class="lesson-item">
@@ -62,7 +128,7 @@
                                     Flersidig nettsted og navigasjon
                                     <span class="lesson-difficulty difficulty-intermediate">Middels</span>
                                 </span>
-                                <span class="lesson-status" id="status-videre">3</span>
+                                <span class="lesson-status" id="status-videre">4</span>
                             </a>
                         </li>
                         <li class="lesson-item">
@@ -71,7 +137,7 @@
                                     Tabeller og avanserte skjemaer
                                     <span class="lesson-difficulty difficulty-intermediate">Middels</span>
                                 </span>
-                                <span class="lesson-status" id="status-tabeller">4</span>
+                                <span class="lesson-status" id="status-tabeller">5</span>
                             </a>
                         </li>
                     </ul>
@@ -252,9 +318,27 @@
     <script>
         // Fremgangssporing for alle moduler
         function updateProgress() {
+            // Modul 0 leksjoner
+            var modul0Lessons = [
+                'modul0_leksjon1_completed',
+                'modul0_leksjon2_completed',
+                'modul0_leksjon3_completed', 
+                'modul0_leksjon4_completed',
+                'modul0_leksjon5_completed'
+            ];
+
+            var modul0StatusElements = [
+                'status-vscode',
+                'status-files',
+                'status-concepts',
+                'status-debugging',
+                'status-advanced-debugging'
+            ];
+
             // Modul 1 leksjoner
             var modul1Lessons = [
                 'modul1_completed',
+                'modul1_kommentarer_completed',
                 'modul1_bilder_completed', 
                 'modul1_videre_completed',
                 'modul1_tabeller_completed'
@@ -262,6 +346,7 @@
             
             var modul1StatusElements = [
                 'status-grunnleggende',
+                'status-kommentarer',
                 'status-bilder', 
                 'status-videre',
                 'status-tabeller'
@@ -311,6 +396,24 @@
                 'status-tastatur',
                 'status-spill'
             ];
+
+            // Oppdater Modul 0 status
+            var modul0CompletedCount = 0;
+            for (var i = 0; i < modul0Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul0Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul0StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul0CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
             
             // Oppdater Modul 1 status
             var modul1CompletedCount = 0;
@@ -385,8 +488,8 @@
             }
             
             // Oppdater total statistikk
-            var totalLessons = modul1Lessons.length + modul2Lessons.length + modul3Lessons.length + modul4Lessons.length;
-            var totalCompleted = modul1CompletedCount + modul2CompletedCount + modul3CompletedCount + modul4CompletedCount;
+            var totalLessons = modul0Lessons.length + modul1Lessons.length + modul2Lessons.length + modul3Lessons.length + modul4Lessons.length;
+            var totalCompleted = modul0CompletedCount + modul1CompletedCount + modul2CompletedCount + modul3CompletedCount + modul4CompletedCount;
             
             document.getElementById('completedLessons').textContent = totalCompleted;
             document.getElementById('totalProgress').textContent = Math.round((totalCompleted / totalLessons) * 100) + '%';

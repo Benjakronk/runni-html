@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1: Kodekommentarer - Forklar koden</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 1: Kodekommentarer - Forklar koden</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne modulen skal du kunne:</p>
+                <ul>
+                    <li>Forstå hvorfor kodekommentarer er viktige</li>
+                    <li>Skrive HTML-kommentarer korrekt</li>
+                    <li>Bruke kommentarer til å forklare hva koden din gjør</li>
+                    <li>Organisere koden din med beskrivende kommentarer</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er kodekommentarer?</h3>
+            <p>Kodekommentarer er tekst som forklarer hva koden din gjør, men som ikke vises på nettsiden. De hjelper deg og andre å forstå koden senere.</p>
+
+            <div class="tip notification-box">
+                <strong>Viktig:</strong> Kommentarer vises ikke på nettsiden, men kan sees i kildekoden!
+            </div>
+
+            <h3>HTML-kommentarer</h3>
+            <p>I HTML skriver vi kommentarer slik:</p>
+            <div class="code-example">
+&lt;!-- Dette er en kommentar --&gt;<br>
+&lt;h1&gt;Min nettside&lt;/h1&gt;<br>
+&lt;!-- Her kommer hovedinnholdet --&gt;<br>
+&lt;p&gt;Dette er et avsnitt.&lt;/p&gt;
+            </div>
+
+            <h3>Når skal du bruke kommentarer?</h3>
+            <p>Bruk kommentarer for å:</p>
+            <ul>
+                <li><strong>Forklare hva seksjoner gjør:</strong> "Dette er navigasjonsmenyen"</li>
+                <li><strong>Beskrive kompliserte deler:</strong> "Dette bildet endrer størrelse automatisk"</li>
+                <li><strong>Organisere koden:</strong> "--- HEADER SLUTT ---"</li>
+                <li><strong>Huske ting du må gjøre senere:</strong> "TODO: Legg til flere farger"</li>
+            </ul>
+
+            <h3>Eksempler på gode kommentarer</h3>
+
+            <h4>Seksjonsinndeling</h4>
+            <div class="code-example">
+&lt;!-- ========== HEADER SEKSJON ========== --&gt;<br>
+&lt;header&gt;<br>
+    &lt;!-- Hovedlogo og tittel --&gt;<br>
+    &lt;h1&gt;Min nettside&lt;/h1&gt;<br>
+    <br>
+    &lt;!-- Navigasjonsmeny --&gt;<br>
+    &lt;nav&gt;<br>
+        &lt;a href="index.html"&gt;Hjem&lt;/a&gt;<br>
+        &lt;a href="om.html"&gt;Om meg&lt;/a&gt;<br>
+    &lt;/nav&gt;<br>
+&lt;/header&gt;<br>
+<br>
+&lt;!-- ========== HOVEDINNHOLD ========== --&gt;<br>
+&lt;main&gt;<br>
+    &lt;!-- Velkommen-seksjon med bilde --&gt;<br>
+    &lt;h2&gt;Velkommen!&lt;/h2&gt;<br>
+    &lt;img src="bilde.jpg" alt="Bilde av meg"&gt;<br>
+&lt;/main&gt;
+            </div>
+
+            <h4>Forklarende kommentarer</h4>
+            <div class="code-example">
+&lt;!-- Dette bildet skaleres automatisk på mindre skjermer --&gt;<br>
+&lt;img src="stort-bilde.jpg" alt="Landskap" style="max-width: 100%;"&gt;<br>
+<br>
+&lt;!-- Kontaktskjema - alle feltene er påkrevd --&gt;<br>
+&lt;form&gt;<br>
+    &lt;!-- Navn-felt med placeholder-tekst --&gt;<br>
+    &lt;input type="text" placeholder="Ditt navn" required&gt;<br>
+    <br>
+    &lt;!-- E-post valideres automatisk av nettleseren --&gt;<br>
+    &lt;input type="email" placeholder="din@epost.no" required&gt;<br>
+&lt;/form&gt;
+            </div>
+
+            <h4>TODO-kommentarer</h4>
+            <div class="code-example">
+&lt;!-- TODO: Legg til flere bilder i galleriet --&gt;<br>
+&lt;!-- TODO: Lag bedre CSS for navigasjonen --&gt;<br>
+&lt;!-- FIXME: Denne lenken fungerer ikke på mobil --&gt;<br>
+&lt;a href="kontakt.html"&gt;Kontakt meg&lt;/a&gt;
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Godt råd:</strong> Skriv kommentarer mens du koder, ikke etterpå! Da husker du best hva du tenkte.
+            </div>
+
+            <h3>Kommentarer som skal unngås</h3>
+            <div class="warning notification-box">
+                <strong>Unngå disse typene kommentarer:</strong>
+                <ul>
+                    <li><code>&lt;!-- Dette er en h1-tag --&gt;</code> (for åpenbart)</li>
+                    <li><code>&lt;!-- Slutt på div --&gt;</code> (ikke nødvendig for enkle tagger)</li>
+                    <li><code>&lt;!-- Her er en lenke --&gt;</code> (kan sees fra koden)</li>
+                </ul>
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Kommentert "Om meg"-side</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Ta din eksisterende "Om meg"-side fra forrige leksjon og legg til beskrivende kommentarer. Din kode skal inneholde:</p>
+                <ol>
+                    <li>Seksjonsinndeling med tydelige kommentarer (header, main, footer)</li>
+                    <li>Kommentarer som forklarer hva hver seksjon gjør</li>
+                    <li>Beskrivende kommentarer for bilder og lenker</li>
+                    <li>En TODO-kommentar for noe du vil forbedre senere</li>
+                    <li>Kommentarer som viser at du forstår hva hver del av koden gjør</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Om meg&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;!-- Legg til dine kommentarer her! --&gt;<br>
+    <br>
+    &lt;!-- ========== HEADER SEKSJON ========== --&gt;<br>
+    <br>
+    &lt;!-- Hovedoverskrift med mitt navn --&gt;<br>
+    &lt;h1&gt;Hei, jeg heter [Ditt navn]&lt;/h1&gt;<br>
+    <br>
+    &lt;!-- ========== HOVEDINNHOLD ========== --&gt;<br>
+    <br>
+    &lt;!-- Kort beskrivelse av meg selv --&gt;<br>
+    &lt;p&gt;Jeg er en elev som lærer programmering.&lt;/p&gt;<br>
+    <br>
+    &lt;!-- TODO: Skriv ferdig resten av koden med kommentarer! --&gt;<br>
+    <br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <div class="important-note notification-box">
+                    <strong>Viktig:</strong> For hver linje med HTML-kode, legg til en kommentar som forklarer hva den gjør!
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔓 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Om meg&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;!-- ========== HEADER SEKSJON ========== --&gt;<br>
+    <br>
+    &lt;!-- Hovedoverskrift med mitt navn - størst tekst på siden --&gt;<br>
+    &lt;h1&gt;Hei, jeg heter [Ditt navn]&lt;/h1&gt;<br>
+    <br>
+    &lt;!-- ========== HOVEDINNHOLD ========== --&gt;<br>
+    <br>
+    &lt;!-- Kort beskrivelse av meg selv - første inntrykk --&gt;<br>
+    &lt;p&gt;Jeg er en elev som lærer programmering. Jeg synes det er spennende å lage nettsider!&lt;/p&gt;<br>
+    <br>
+    &lt;!-- Undermeny for hobbyer --&gt;<br>
+    &lt;h2&gt;Mine hobbyer:&lt;/h2&gt;<br>
+    <br>
+    &lt;!-- Liste over ting jeg liker - punktliste uten nummerering --&gt;<br>
+    &lt;ul&gt;<br>
+        &lt;li&gt;Gaming&lt;/li&gt;  &lt;!-- Favoritthobby --&gt;<br>
+        &lt;li&gt;Fotball&lt;/li&gt;  &lt;!-- Spiller på lag --&gt;<br>
+        &lt;li&gt;Musikk&lt;/li&gt;  &lt;!-- Hører på alt mulig --&gt;<br>
+        &lt;li&gt;Programmering&lt;/li&gt;  &lt;!-- Ny interesse --&gt;<br>
+    &lt;/ul&gt;<br>
+    <br>
+    &lt;!-- Placeholder-bilde som automatisk tilpasser seg skjermstørrelse --&gt;<br>
+    &lt;img src="https://via.placeholder.com/300x200" alt="Et eksempelbilde av meg" style="max-width: 100%;"&gt;<br>
+    <br>
+    &lt;!-- ========== LENKER SEKSJON ========== --&gt;<br>
+    <br>
+    &lt;!-- Ekstern lenke til min favorittnettside - åpnes i samme vindu --&gt;<br>
+    &lt;p&gt;Min favorittnettside: &lt;a href="https://www.youtube.com"&gt;YouTube&lt;/a&gt;&lt;/p&gt;<br>
+    <br>
+    &lt;!-- ========== INTERAKSJON SEKSJON ========== --&gt;<br>
+    <br>
+    &lt;h3&gt;Si hei til meg:&lt;/h3&gt;<br>
+    <br>
+    &lt;!-- Tekstfelt hvor besøkende kan skrive navnet sitt --&gt;<br>
+    &lt;input type="text" placeholder="Skriv navnet ditt her"&gt;<br>
+    <br>
+    &lt;!-- Knapp som ikke gjør noe ennå (trenger JavaScript senere) --&gt;<br>
+    &lt;button&gt;Si hei!&lt;/button&gt;<br>
+    <br>
+    &lt;!-- TODO: Legg til flere bilder og gjør siden penere med CSS --&gt;<br>
+    &lt;!-- TODO: Få knappen til å faktisk gjøre noe med JavaScript --&gt;<br>
+    &lt;!-- FIXME: Bildet burde være et ekte bilde av meg, ikke placeholder --&gt;<br>
+    <br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Gå tilbake til tidligere prosjekter og legg til kommentarer</li>
+                    <li>Lag en kommentarstil som du bruker konsistent (f.eks. "===== SEKSJON =====")</li>
+                    <li>Prøv å lese andres kode og se om du forstår den uten kommentarer</li>
+                    <li>Skriv kommentarer på engelsk - det er vanlig i programmeringsverden</li>
+                </ol>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for kodekommentarer</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment1"> Har jeg kommentert alle hovedseksjoner? (header, main, etc.)</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment2"> Forklarer kommentarene mine hva koden gjør, ikke bare hva den er?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment3"> Har jeg brukt beskrivende kommentarer for bilder og lenker?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment4"> Har jeg lagt til TODO-kommentarer for framtidige forbedringer?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment5"> Er kommentarene mine skrevet på norsk og lett å forstå?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment6"> Viser kommentarene at jeg forstår hva koden gjør?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment7"> Har jeg unngått åpenbare kommentarer som "dette er en h1-tag"?</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="comment8"> Kan andre elever forstå min kode ved å lese kommentarene?</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Nå kan du forklare koden din slik at alle forstår den!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du mer avansert HTML-strukturering og hvordan du kan bruke kommentarer til å organisere store prosjekter!
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔒 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "kommentarer123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul1_kommentarer_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul1_kommentarer_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+
+        // Lukk modal hvis man klikker utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target == modal) {
+                closePasswordModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

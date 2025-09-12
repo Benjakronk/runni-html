@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0: Avansert feilsøking og beste praksis</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 0: Avansert feilsøking og beste praksis</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Bruke avanserte feilsøkingsverktøy</li>
+                    <li>Forstå og tolke komplekse feilmeldinger</li>
+                    <li>Validere HTML og CSS-kode</li>
+                    <li>Etablere gode arbeidsrutiner for å unngå feil</li>
+                    <li>Feilsøke på tvers av forskjellige nettlesere</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Avanserte utviklerverktøy</h3>
+            <p>Utviklerverktøy har mange funksjoner utover det grunnleggende. La oss utforske de mest nyttige:</p>
+
+            <div class="layout-demo">
+                <h4>Console-kommandoer og tricks:</h4>
+                <div class="section-demo">
+                    <strong>Feilmeldinger og advarsler</strong><br>
+                    Rødt = feil som stopper koden, Gult = advarsler som kan skape problemer
+                </div>
+                <div class="div-demo">
+                    <strong>Network-fanen detaljer</strong><br>
+                    Se nøyaktig hvilke filer som ikke kan lastes og hvorfor (404, 500, osv.)
+                </div>
+                <div class="section-demo">
+                    <strong>Elements-fanen tricks</strong><br>
+                    Høyreklikk på element → "Edit as HTML" for å teste store endringer
+                </div>
+            </div>
+
+            <h4>Computed-fanen - din hemmelige våpen</h4>
+            <p>I Elements-fanen, finn Computed-fanen til høyre. Den viser alle CSS-regler som påvirker elementet:</p>
+            
+            <div class="code-example">
+Eksempel: Hvorfor er teksten min ikke rød?<br>
+1. Velg tekst-elementet i Elements<br>
+2. Åpne Computed-fanen<br>
+3. Søk etter "color"<br>
+4. Se hvilken regel som faktisk gjelder<br>
+5. Klikk på regelen for å se hvor den kommer fra
+            </div>
+
+            <h3>HTML og CSS-validering</h3>
+            <p>Validatorer sjekker om koden din følger offisielle standarder:</p>
+
+            <div class="format-comparison">
+                <div class="format-card">
+                    <div class="format-icon">📋</div>
+                    <h4>HTML Validator</h4>
+                    <p><strong>validator.w3.org</strong><br>Sjekker om HTML-koden følger standarder og finner feil du kanskje ikke ser</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🎨</div>
+                    <h4>CSS Validator</h4>
+                    <p><strong>jigsaw.w3.org/css-validator</strong><br>Validerer CSS-syntaks og egenskaper</p>
+                </div>
+            </div>
+
+            <div class="good-practice notification-box">
+                Hvorfor validere? Fanger opp feil du ikke ser, sikrer at koden fungerer i alle nettlesere, og lærer deg riktig syntaks!
+            </div>
+
+            <h3>Vanlige komplekse problemer</h3>
+            <p>Når du blir mer avansert, støter du på mer subtile problemer:</p>
+
+            <h4>CSS-spesifisitet - når CSS ikke gjør det du forventer</h4>
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Selektor-type</th>
+                            <th>Eksempel</th>
+                            <th>Styrke</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Element</td>
+                            <td><code>p { color: blue; }</code></td>
+                            <td>Svakest</td>
+                        </tr>
+                        <tr>
+                            <td>Klasse</td>
+                            <td><code>.tekst { color: green; }</code></td>
+                            <td>Sterkere</td>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td><code>#hovedtekst { color: red; }</code></td>
+                            <td>Sterkest</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Hvis du har <code>&lt;p id="hovedtekst" class="tekst"&gt;</code>, blir teksten rød fordi ID har høyest spesifisitet!</p>
+
+            <h4>Cache-problemer</h4>
+            <p>Nettleseren lagrer filer lokalt for raskere lasting. Gamle versjoner kan skape forvirring:</p>
+            
+            <div class="important-note notification-box">
+                <strong>Løsninger på cache-problemer:</strong>
+                <ul>
+                    <li><strong>Hard refresh:</strong> Ctrl+F5 (Windows) eller Cmd+Shift+R (Mac)</li>
+                    <li><strong>Åpne utviklerverktøy:</strong> Høyreklikk på oppdater-knappen → "Empty Cache and Hard Reload"</li>
+                    <li><strong>Inkognito/privat modus:</strong> Tester uten cache</li>
+                </ul>
+            </div>
+
+            <h3>Cross-browser testing</h3>
+            <p>Forskjellige nettlesere kan oppføre seg ulikt. Her er hva du bør teste:</p>
+
+            <div class="layout-demo">
+                <h4>Test i disse nettleserne:</h4>
+                <ul>
+                    <li><strong>Chrome:</strong> Mest brukt, vanligvis fungerer alt her</li>
+                    <li><strong>Firefox:</strong> God for testing av standarder</li>
+                    <li><strong>Edge:</strong> Microsofts nettleser, viktig for Windows-brukere</li>
+                    <li><strong>Safari:</strong> Hvis mulig, test på Mac/iPhone</li>
+                </ul>
+            </div>
+
+            <h3>Beste praksis for å unngå feil</h3>
+            <p>Forebygging er bedre enn feilsøking:</p>
+
+            <div class="checklist" style="background: rgba(39, 174, 96, 0.05); border-color: #27ae60;">
+                <h3 style="color: #27ae60;">Kodeorganisering:</h3>
+                <ul>
+                    <li>Bruk konsistent innrykk (2 eller 4 mellomrom)</li>
+                    <li>Kommenter komplisert kode</li>
+                    <li>Bruk beskrivende klassenavn</li>
+                    <li>Hold CSS og HTML i separate filer</li>
+                    <li>Organiser CSS logisk (layout, typografi, komponenter)</li>
+                </ul>
+            </div>
+
+            <div class="checklist" style="background: rgba(52, 152, 219, 0.05); border-color: #3498db;">
+                <h3 style="color: #3498db;">Testrutiner:</h3>
+                <ul>
+                    <li>Lagre og test ofte - ikke vent til alt er ferdig</li>
+                    <li>Test i minst to forskjellige nettlesere</li>
+                    <li>Valider HTML og CSS regelmessig</li>
+                    <li>Sjekk både på desktop og mobil</li>
+                    <li>Test med og uten JavaScript aktivert</li>
+                </ul>
+            </div>
+
+            <div class="project-box">
+                <h2>Praktisk øvelse: Avansert feilsøking</h2>
+                
+                <p>Her er en mer kompleks feilsøkingsutfordring som kombinerer flere problemer:</p>
+
+                <h3>Oppgave: Fiks denne "profesjonelle" nettsiden</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang="no"&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset="UTF-8"&gt;<br>
+    &lt;title&gt;Min Profesjonelle Side&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;<br>
+    &lt;style&gt;<br>
+        body {<br>
+            font-family: Arial, sans-serif;<br>
+            margin: 0;<br>
+            background: linear-gradient(45deg, #667eea, #764ba2);<br>
+        }<br>
+        .header {<br>
+            background: white;<br>
+            padding: 20px;<br>
+            text-align: center;<br>
+        }<br>
+        #logo {<br>
+            color: blue !important;<br>
+        }<br>
+        .tekst {<br>
+            color: green;<br>
+        }<br>
+        #logo {<br>
+            color: red;<br>
+        }<br>
+    &lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;div class="header"&gt;<br>
+        &lt;h1 id="logo" class="tekst"&gt;Mitt Firmanavn&lt;/h1&gt;<br>
+        &lt;nav&gt;<br>
+            &lt;a href="hjem.html"&gt;Hjem&lt;/a&gt;<br>
+            &lt;a href="om-oss.html"&gt;Om oss&lt;/a&gt;<br>
+            &lt;a href="kontakt.html"&gt;Kontakt&lt;/a&gt;<br>
+        &lt;/nav&gt;<br>
+    &lt;/div&gt;<br>
+    <br>
+    &lt;main&gt;<br>
+        &lt;section&gt;<br>
+            &lt;h2&gt;Velkommen!&lt;/h2&gt;<br>
+            &lt;p&gt;Dette er vår fantastiske nettside.&lt;/p&gt;<br>
+            &lt;img src="images/hero-bilde.jpg" alt="Hero bilde"&gt;<br>
+        &lt;/section&gt;<br>
+        <br>
+        &lt;section&gt;<br>
+            &lt;h2&gt;Våre tjenester&lt;/h2&gt;<br>
+            &lt;div class="tjeneste-kort"&gt;<br>
+                &lt;h3&gt;Webutvikling&lt;/h3&gt;<br>
+                &lt;p&gt;Vi lager fantastiske nettsider.&lt;/p&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/section&gt;<br>
+    &lt;/main&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Feilsøkingsutfordring:</h3>
+                <ol>
+                    <li><strong>Analyser CSS-spesifisiteten:</strong> Hvilken farge blir logoen?</li>
+                    <li><strong>Test filreferanser:</strong> Vil CSS-filen og bildet laste?</li>
+                    <li><strong>Valider koden:</strong> Bruk W3C validator</li>
+                    <li><strong>Test i forskjellige nettlesere:</strong> Ser siden lik ut overalt?</li>
+                    <li><strong>Optimaliser koden:</strong> Fjern unødvendig kode og forbedre strukturen</li>
+                </ol>
+
+                <h3>Forventede problemer:</h3>
+                <ul>
+                    <li>CSS-fil eksisterer sannsynligvis ikke</li>
+                    <li>Bildet finnes sannsynligvis ikke</li>
+                    <li>CSS-spesifisitet kan være forvirrende</li>
+                    <li>Navigasjonslenker peker til ikke-eksisterende sider</li>
+                    <li>Duplikat CSS-regler</li>
+                </ul>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Avanserte verktøy å utforske</h3>
+                <ul>
+                    <li><strong>Lighthouse:</strong> Bygget inn i Chrome DevTools - analyserer ytelse og tilgjengelighet</li>
+                    <li><strong>Responsive Design Mode:</strong> Test forskjellige skjermstørrelser</li>
+                    <li><strong>Color picker:</strong> Høyreklikk på farger i CSS for å endre dem visuelt</li>
+                    <li><strong>Console.log() debugging:</strong> Legge til meldinger i JavaScript-kode</li>
+                </ul>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Profesjonelle tips</h3>
+                <ul>
+                    <li><strong>Dokumenter problemet:</strong> Ta skjermbilder og noter ned stegene for å reprodusere</li>
+                    <li><strong>Lag en minimal test-case:</strong> Reduser problemet til færrest mulig linjer kode</li>
+                    <li><strong>Bruk versjonskontroll:</strong> Git lar deg gå tilbake til fungerende versjoner</li>
+                    <li><strong>Test edge cases:</strong> Hva skjer med veldig lang tekst eller små skjermer?</li>
+                    <li><strong>Vær systematisk:</strong> Endre en ting om gangen og test hver endring</li>
+                </ul>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced1"> Jeg kan bruke avanserte funksjoner i utviklerverktøy</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced2"> Jeg forstår CSS-spesifisitet og kan feilsøke CSS-problemer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced3"> Jeg kan validere HTML og CSS-kode med online verktøy</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced4"> Jeg har etablert gode arbeidsrutiner for kodeorganisering</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced5"> Jeg forstår cache-problemer og kan løse dem</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced6"> Jeg tester koden min i forskjellige nettlesere</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced7"> Jeg kan lage minimal test-cases for komplekse problemer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="advanced8"> Jeg har løst feilsøkingsutfordringen i denne leksjonen</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Imponerende!</strong> Du har nå avanserte feilsøkingsferdigheter som mange profesjonelle utviklere bruker daglig. Du er klar til å takle mer komplekse prosjekter med selvtillit!
+                </div>
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Gratulerer med fullført Modul 0!</strong> Du har nå et solid fundament innen verktøy, organisering, forståelse og problemløsing. Dette fundamentet vil bære deg gjennom resten av kurset og gjøre deg til en mye mer effektiv utvikler.
+                
+                <p><strong>Neste steg:</strong> Du er nå klar til å dykke inn i Modul 1 og begynne å lære HTML på ordentlig!</p>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Fasit til feilsøkingsutfordringen</h3>
+                <p><strong>Analyser av problemene:</strong></p>
+                <ol>
+                    <li><strong>Logo-fargen:</strong> Blir blå på grunn av <code>!important</code> i første #logo regel</li>
+                    <li><strong>CSS-fil:</strong> <code>css/styles.css</code> eksisterer sannsynligvis ikke</li>
+                    <li><strong>Bildet:</strong> <code>images/hero-bilde.jpg</code> eksisterer sannsynligvis ikke</li>
+                    <li><strong>Duplikat CSS:</strong> To #logo regler - kan forenkles</li>
+                    <li><strong>Navigasjon:</strong> Lenker peker til filer som ikke eksisterer</li>
+                    <li><strong>Organisering:</strong> CSS burde være i ekstern fil, ikke inline</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul0_leksjon5_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul0_leksjon5_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

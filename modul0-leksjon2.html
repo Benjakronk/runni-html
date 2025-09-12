@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0: Filer, mapper og organisering</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 0: Filer, mapper og organisering</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forstå forskjellen på filer og mapper</li>
+                    <li>Organisere prosjektfiler på en ryddig måte</li>
+                    <li>Kjenne til de viktigste filtypene for webutvikling</li>
+                    <li>Lage en god mappestruktur for nettsideprosjekter</li>
+                    <li>Bruke riktige filnavn og navngivningskonvensjoner</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er filer og mapper?</h3>
+            <p>Før vi begynner å lage nettsider, må du forstå hvordan datamaskinen din organiserer informasjon:</p>
+            
+            <ul>
+                <li><strong>Fil:</strong> Et dokument som inneholder informasjon (tekst, bilder, kode, musikk, osv.)</li>
+                <li><strong>Mappe/Folder:</strong> En "boks" som kan inneholde filer og andre mapper</li>
+                <li><strong>Filtype:</strong> Bestemmes av endelsen etter punktum (.html, .css, .jpg)</li>
+                <li><strong>Filbane/Path:</strong> "Adressen" til en fil på datamaskinen din</li>
+            </ul>
+
+            <div class="tip notification-box">
+                Tenk på mapper som skuffer i et skrivebordt, og filer som dokumentene du oppbevarer i skuffene!
+            </div>
+
+            <h3>Viktige filtyper for webutvikling</h3>
+            <p>Som webutvikler kommer du til å jobbe med disse filtypene:</p>
+
+            <div class="format-comparison">
+                <div class="format-card">
+                    <div class="format-icon">📄</div>
+                    <h4>.html</h4>
+                    <p><strong>Nettsider</strong><br>Struktur og innhold på nettsider</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🎨</div>
+                    <h4>.css</h4>
+                    <p><strong>Stilark</strong><br>Utseende og design på nettsider</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">⚡</div>
+                    <h4>.js</h4>
+                    <p><strong>JavaScript</strong><br>Interaktivitet og funksjonalitet</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🖼️</div>
+                    <h4>.jpg/.png</h4>
+                    <p><strong>Bilder</strong><br>Fotografier og grafikk</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">📝</div>
+                    <h4>.txt/.md</h4>
+                    <p><strong>Tekst</strong><br>Notater og dokumentasjon</p>
+                </div>
+            </div>
+
+            <h3>God mappestruktur for nettsideprosjekt</h3>
+            <p>En ryddig mappestruktur gjør det enklere å finne filer og holder prosjektet organisert:</p>
+
+            <div class="file-structure">
+                <h4>🗂️ Anbefalt struktur for et nettstedprosjekt</h4>
+                <div class="folder-tree">
+                    <div class="level-0"><span class="folder">📁 mitt-nettsted/</span></div>
+                    <div class="level-1">📄 index.html <small>(hovedsiden - ALLTID dette navnet)</small></div>
+                    <div class="level-1">📄 om-meg.html</div>
+                    <div class="level-1">📄 kontakt.html</div>
+                    <div class="level-1"><span class="folder">📁 css/</span></div>
+                    <div class="level-2"><span class="file">🎨 styles.css</span></div>
+                    <div class="level-2"><span class="file">🎨 print.css</span></div>
+                    <div class="level-1"><span class="folder">📁 js/</span></div>
+                    <div class="level-2"><span class="file">⚡ script.js</span></div>
+                    <div class="level-1"><span class="folder">📁 images/</span></div>
+                    <div class="level-2"><span class="file">🖼️ logo.png</span></div>
+                    <div class="level-2"><span class="file">🖼️ profil.jpg</span></div>
+                    <div class="level-1">📝 README.txt <small>(notater om prosjektet)</small></div>
+                </div>
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Hovedsiden MÅ hete index.html!</strong> Dette er en webstandard - servere leter automatisk etter en fil som heter "index.html" når noen besøker nettstedet ditt.
+            </div>
+
+            <h3>Hvorfor er organisering viktig?</h3>
+            <div class="layout-demo">
+                <h4>🎯 Fordeler med god organisering:</h4>
+                <ul>
+                    <li><strong>Lettere å finne filer</strong> når prosjektet vokser</li>
+                    <li><strong>Mindre sannsynlighet for feil</strong> i lenker og referanser</li>
+                    <li><strong>Profesjonell arbeidsmetode</strong> som brukes i hele bransjen</li>
+                    <li><strong>Enklere å dele prosjektet</strong> med andre</li>
+                    <li><strong>Raskere utvikling</strong> når du vet hvor ting er</li>
+                </ul>
+
+                <h4>❌ Problemer med dårlig organisering:</h4>
+                <ul>
+                    <li>Bruker lang tid på å finne riktig fil</li>
+                    <li>Bilder og CSS-filer som ikke fungerer</li>
+                    <li>Forvirring når prosjektet blir stort</li>
+                    <li>Vanskelig for andre å forstå koden din</li>
+                </ul>
+            </div>
+
+            <h3>Navngivningskonvensjoner</h3>
+            <p>Følg disse reglene når du navngir filer og mapper:</p>
+
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>✅ Bruk</th>
+                            <th>❌ Unngå</th>
+                            <th>Hvorfor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>min-side.html</code></td>
+                            <td><code>Min Side.html</code></td>
+                            <td>Mellomrom kan skape problemer</td>
+                        </tr>
+                        <tr>
+                            <td><code>profil-bilde.jpg</code></td>
+                            <td><code>Profil Bilde (kopi).jpg</code></td>
+                            <td>Spesialtegn og paranteser problematiske</td>
+                        </tr>
+                        <tr>
+                            <td><code>index.html</code></td>
+                            <td><code>INDEX.HTML</code></td>
+                            <td>Små bokstaver er standard</td>
+                        </tr>
+                        <tr>
+                            <td><code>om-oss.html</code></td>
+                            <td><code>om_oss.html</code></td>
+                            <td>Bindestrek er mer vanlig enn underscore</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="project-box">
+                <h2>Praktisk øvelse: Lag din første prosjektmappe</h2>
+                
+                <p>Nå skal du lage en ordentlig mappestruktur for ditt første nettside-prosjekt!</p>
+                
+                <h3>Steg-for-steg instruksjoner:</h3>
+                <ol>
+                    <li><strong>Opprett hovedmappen:</strong>
+                        <ul>
+                            <li>Høyreklikk på skrivebordet eller i en mappe</li>
+                            <li>Velg "Ny" → "Mappe"</li>
+                            <li>Kall den <code>mitt-forste-nettsted</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Lag undermapper:</strong> Opprett disse mappene inne i hovedmappen:
+                        <ul>
+                            <li><code>css</code></li>
+                            <li><code>js</code></li>
+                            <li><code>images</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Opprett HTML-fil:</strong>
+                        <ul>
+                            <li>Åpne VS Code</li>
+                            <li>Velg File → Open Folder</li>
+                            <li>Velg din <code>mitt-forste-nettsted</code> mappe</li>
+                            <li>Opprett <code>index.html</code> i hovedmappen</li>
+                        </ul>
+                    </li>
+                    <li><strong>Opprett CSS-fil:</strong>
+                        <ul>
+                            <li>I css-mappen, opprett <code>styles.css</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Test strukturen:</strong> Legg inn grunnleggende HTML-kode i index.html:
+                        <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Mitt første organiserte nettsted&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="css/styles.css"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1&gt;Velkommen til mitt organiserte nettsted!&lt;/h1&gt;<br>
+    &lt;p&gt;Denne siden bruker organiserte mapper og filer.&lt;/p&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                        </div>
+                    </li>
+                    <li><strong>Legg til CSS:</strong> I css/styles.css:
+                        <div class="code-example">
+body {<br>
+    font-family: Arial, sans-serif;<br>
+    background-color: lightblue;<br>
+    margin: 40px;<br>
+}<br>
+<br>
+h1 {<br>
+    color: darkblue;<br>
+    text-align: center;<br>
+}
+                        </div>
+                    </li>
+                    <li><strong>Åpne i nettleser:</strong> Dobbeltklikk på index.html for å teste</li>
+                </ol>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Utvidelsesoppgaver</h3>
+                <ul>
+                    <li><strong>Lag flere sider:</strong> Opprett <code>om-meg.html</code> og <code>kontakt.html</code></li>
+                    <li><strong>Legg til et bilde:</strong> Last ned et bilde og legg det i images-mappen</li>
+                    <li><strong>Opprett en JavaScript-fil:</strong> Lag <code>script.js</code> i js-mappen</li>
+                    <li><strong>Dokumenter prosjektet:</strong> Opprett <code>README.txt</code> med beskrivelse</li>
+                </ul>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Viktige tips for filreferanser</h3>
+                <p><strong>Relative stier:</strong> Når du refererer til filer, bruk relative stier fra der HTML-filen ligger:</p>
+                <ul>
+                    <li><code>css/styles.css</code> - går inn i css-mappen</li>
+                    <li><code>images/logo.png</code> - går inn i images-mappen</li>
+                    <li><code>../</code> - går opp én mappenivå</li>
+                </ul>
+                <p><strong>Aldri bruk absolutte stier</strong> som <code>C:/Users/...</code> - de fungerer bare på din datamaskin!</p>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files1"> Jeg forstår forskjellen på filer og mapper</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files2"> Jeg kan lage en logisk mappestruktur</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files3"> Jeg kjenner til de viktigste filtypene (.html, .css, .js, .jpg/.png)</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files4"> Jeg har laget mitt første organiserte prosjekt</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files5"> Jeg bruker riktige navngivningskonvensjoner</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files6"> Jeg forstår hvorfor index.html må hete akkurat det</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files7"> Jeg kan bruke relative stier til å referere til filer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="files8"> CSS-filen min er koblet til HTML og fungerer</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Flott!</strong> Du kan nå organisere webprosjekter som en proff! Denne kunnskapen vil spare deg for mye tid og frustrasjon senere.
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du hvordan nettsider faktisk fungerer - hva som skjer når du åpner en nettside i nettleseren!
+            </div>
+
+            <!-- Troubleshooting section -->
+            <div class="important-note notification-box">
+                <h3>Hjelp! Noe fungerer ikke...</h3>
+                
+                <p><strong>Q: CSS-filen laster ikke - nettsiden ser helt vanlig ut?</strong><br>
+                A: Sjekk at <code>&lt;link rel="stylesheet" href="css/styles.css"&gt;</code> har riktig sti. CSS-filen må ligge i css-mappen.</p>
+
+                <p><strong>Q: Jeg får ikke til å lage mapper?</strong><br>
+                A: Høyreklikk i filutforskeren og velg "Ny" → "Mappe". På Mac: høyreklikk og velg "New Folder".</p>
+
+                <p><strong>Q: VS Code viser ikke mappestrukturen min?</strong><br>
+                A: Bruk "File" → "Open Folder" for å åpne hele prosjektmappen, ikke bare en enkelt fil.</p>
+
+                <p><strong>Q: Hva om jeg har laget feil mappestruktur?</strong><br>
+                A: Ikke stress! Du kan flytte filer mellom mapper ved å dra og slippe dem. Bare husk å oppdatere stiene i HTML-koden din.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul0_leksjon2_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul0_leksjon2_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+
+    <style>
+        .level-0 { margin-left: 0; font-weight: bold; }
+        .level-1 { margin-left: 20px; }
+        .level-2 { margin-left: 40px; color: #666; }
+        
+        .folder { color: #6f42c1; font-weight: bold; }
+        .file { color: #27ae60; }
+        
+        .format-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .format-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .format-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .format-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .format-card h4 {
+            color: #2c3e50;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .demo-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .demo-table th,
+        .demo-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .demo-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .demo-table code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</body>
+</html>

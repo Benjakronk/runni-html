@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0: Visual Studio Code og arbeidsområde</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 0: Visual Studio Code og arbeidsområde</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Navigere i Visual Studio Code</li>
+                    <li>Åpne og lukke filer og mapper</li>
+                    <li>Bruke den innebygde terminalen</li>
+                    <li>Forstå de viktigste funksjonene i VS Code</li>
+                    <li>Opprette din første HTML-fil</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er Visual Studio Code?</h3>
+            <p>Visual Studio Code (VS Code) er en gratis teksteditor laget spesielt for programmering. Den er som Microsoft Word, men for kode! VS Code hjelper deg med å skrive kode ved å:</p>
+            <ul>
+                <li><strong>Fremheve syntaks med farger</strong> - forskjellige deler av koden får forskjellige farger</li>
+                <li><strong>Foreslå kode mens du skriver</strong> - som autokorrigering, men for programmering</li>
+                <li><strong>Finne og rette opp feil</strong> - den varsler deg om problemer</li>
+                <li><strong>Organisere prosjektene dine</strong> - holder orden på alle filene</li>
+            </ul>
+
+            <div class="tip notification-box">
+                <strong></strong> Del skjermen din i to, slik at VS Code er på høyre side, og denne nettsiden er på venstre.
+                Da blir det lettere å følge kurset!
+            </div>
+
+            <h3>Grunnleggende navigasjon i VS Code</h3>
+            <p>VS Code består av flere hovedområder:</p>
+
+            <div class="layout-demo">
+                <h4>🗂️ Explorer Panel (til venstre)</h4>
+                <p>Her ser du alle filer og mapper i prosjektet ditt. Det er som en filutforsker, men integrert i editoren.</p>
+                
+                <h4>📝 Editor Area (i midten)</h4>
+                <p>Dette er der du skriver koden din. Du kan ha flere filer åpne samtidig i forskjellige faner.</p>
+                
+                <h4>💻 Terminal (nederst)</h4>
+                <p>En kommandolinje som du kan bruke for avanserte oppgaver. Du trenger ikke å bruke den mye i starten!</p>
+                
+                <h4>🧩 Extensions (venstre sidebar)</h4>
+                <p>Tillegg som gjør VS Code enda bedre. Som apper på telefonen!</p>
+            </div>
+
+            <h3>Viktige hurtigtaster</h3>
+            <p>Disse hurtigtastene vil spare deg for mye tid:</p>
+            
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hurtigtast</th>
+                            <th>Funksjon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ctrl + N</strong></td>
+                            <td>Ny fil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ctrl + S</strong></td>
+                            <td>Lagre fil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ctrl + O</strong></td>
+                            <td>Åpne fil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ctrl + Shift + P</strong></td>
+                            <td>Kommandopallett (søk etter funksjoner)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ctrl + `</strong></td>
+                            <td>Åpne/lukke terminal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip notification-box">
+                Du trenger ikke å huske alle hurtigtastene med en gang. Begynn med Ctrl + N og Ctrl + S - de bruker du mest!
+            </div>
+
+            <h3>Nyttige VS Code-funksjoner for nybegynnere</h3>
+            
+            <h4>🎨 Syntaksutheving</h4>
+            <p>VS Code gjenkjenner automatisk hva slags fil du jobber med og farger koden din. HTML-tagger blir blå, tekst blir sort, attributter blir røde, osv.</p>
+            
+            <h4>🔍 IntelliSense (autoforslag)</h4>
+            <p>Når du begynner å skrive, foreslår VS Code hva du kanskje vil skrive. Trykk Tab eller Enter for å akseptere forslaget.</p>
+            
+            <h4>🐛 Problem-fanen</h4>
+            <p>Hvis det er feil i koden din, vises de i Problem-fanen nederst. Rødt = feil, gult = advarsler.</p>
+
+            <div class="project-box">
+                <h2>Praktisk øvelse: Din første HTML-fil</h2>
+                
+                <p>Nå skal du lage din aller første HTML-fil i VS Code!</p>
+                
+                <h3>Steg-for-steg instruksjoner:</h3>
+                <ol>
+                    <li><strong>Åpne VS Code</strong> (hvis det ikke allerede er åpent)</li>
+                    <li><strong>Opprett en ny fil:</strong> Trykk <code>Ctrl + N</code> eller gå til File → New File</li>
+                    <li><strong>Lagre filen med riktig navn:</strong> Trykk <code>Ctrl + S</code>, skriv <code>min-forste-side.html</code> og trykk Enter</li>
+                    <li><strong>Skriv inn denne koden:</strong> (kopier nøyaktig)
+                        <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Min første nettside&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1&gt;Hei verden!&lt;/h1&gt;<br>
+    &lt;p&gt;Dette er min første nettside laget i VS Code.&lt;/p&gt;<br>
+    &lt;p&gt;Jeg lærer webutvikling! 🎉&lt;/p&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                        </div>
+                    </li>
+                    <li><strong>Lagre filen igjen:</strong> Trykk <code>Ctrl + S</code></li>
+                    <li><strong>Åpne filen i nettleseren:</strong> 
+                        <ul>
+                            <li>Høyreklikk på filen i Explorer-panelet</li>
+                            <li>Velg "Reveal in File Explorer"</li>
+                            <li>Dobbeltklikk på filen for å åpne den i nettleseren</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="good-practice notification-box">
+                    Gratulerer! Du har nå laget din første nettside! Hvis du ser "Hei verden!" i nettleseren, har du gjort alt riktig.
+                </div>
+
+                <h3>Hva skjedde akkurat?</h3>
+                <p>La oss forklare koden du nettopp skrev:</p>
+                <ul>
+                    <li><code>&lt;!DOCTYPE html&gt;</code> - Forteller nettleseren at dette er en HTML5-side</li>
+                    <li><code>&lt;html&gt;</code> - Starter hele HTML-dokumentet</li>
+                    <li><code>&lt;head&gt;</code> - Inneholder informasjon om siden (ikke synlig på siden)</li>
+                    <li><code>&lt;title&gt;</code> - Teksten som vises i nettleser-fanen</li>
+                    <li><code>&lt;body&gt;</code> - Alt innhold som vises på selve nettsiden</li>
+                    <li><code>&lt;h1&gt;</code> - En stor overskrift</li>
+                    <li><code>&lt;p&gt;</code> - Et avsnitt med tekst</li>
+                </ul>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Bonus: Nyttige VS Code-tips</h3>
+                <ul>
+                    <li><strong>Zoom inn/ut:</strong> Hold Ctrl og rull med musehjulet for å gjøre teksten større/mindre</li>
+                    <li><strong>Flere cursors:</strong> Hold Alt og klikk flere steder for å skrive på flere linjer samtidig</li>
+                    <li><strong>Undo/Redo:</strong> Ctrl + Z for å angre, Ctrl + Y for å gjøre om igjen</li>
+                    <li><strong>Emmet-snarveier:</strong> Skriv <code>!</code> og trykk Tab for å få grunnleggende HTML-struktur automatisk</li>
+                </ul>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Eksperiment: Lek deg med koden!</h3>
+                <p>Prøv å endre på HTML-filen din:</p>
+                <ul>
+                    <li>Endre tittelen i <code>&lt;title&gt;</code>-taggen</li>
+                    <li>Legg til flere <code>&lt;p&gt;</code>-tagger med egen tekst</li>
+                    <li>Prøv <code>&lt;h2&gt;</code> og <code>&lt;h3&gt;</code> for mindre overskrifter</li>
+                    <li>Legg til en <code>&lt;strong&gt;</code>-tagg rundt noe tekst for å gjøre den fet</li>
+                </ul>
+                <p><strong>Husk:</strong> Lagre filen (Ctrl + S) og oppdater nettleseren (F5) for å se endringene!</p>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode1"> Jeg kan åpne VS Code</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode2"> Jeg kan opprette en ny fil (Ctrl + N)</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode3"> Jeg kan lagre filer med riktig filnavn (Ctrl + S)</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode4"> Jeg kan åpne en HTML-fil i nettleseren</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode5"> Jeg forstår de viktigste områdene i VS Code (Explorer, Editor, Terminal)</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode6"> Jeg har laget min første HTML-fil og den vises riktig i nettleseren</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode7"> Jeg har prøvd å endre koden og sett resultatet</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="vscode8"> Jeg vet hvordan jeg lagrer arbeidet mitt</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Du har tatt dine første steg inn i webuviklingens verden! VS Code er nå ditt nye verktøy for å lage nettsider.
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du hvordan du organiserer filer og mapper på en smart måte, og om de viktigste filtypene du kommer til å jobbe med!
+            </div>
+
+            <!-- Troubleshooting section -->
+            <div class="important-note notification-box">
+                <h3>Hjelp! Noe fungerer ikke...</h3>
+                
+                <p><strong>Q: HTML-filen åpner seg i VS Code i stedet for nettleseren?</strong><br>
+                A: Høyreklikk på filen i filutforskeren (ikke i VS Code) og velg "Åpne med" → din nettleser.</p>
+
+                <p><strong>Q: Jeg ser bare kode i nettleseren, ikke en pen nettside?</strong><br>
+                A: Sjekk at filen heter nøyaktig <code>min-forste-side.html</code> med <code>.html</code> på slutten.</p>
+
+                <p><strong>Q: VS Code ser annerledes ut enn beskrevet?</strong><br>
+                A: Det er normalt! VS Code kan se litt forskjellig ut avhengig av tema og innstillinger, men funksjonaliteten er den samme.</p>
+
+                <p><strong>Q: Jeg får ikke til hurtigtastene?</strong><br>
+                A: Ikke stress! Du kan bruke menyene i stedet. Gå til File-menyen for å finne "New File", "Save", osv.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul0_leksjon1_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul0_leksjon1_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

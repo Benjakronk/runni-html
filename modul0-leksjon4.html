@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0: Grunnleggende feilsøking</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 0: Grunnleggende feilsøking</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Identifisere vanlige feil i HTML og CSS</li>
+                    <li>Bruke nettleserens utviklerverktøy for feilsøking</li>
+                    <li>Forstå feilmeldinger og hvordan reagere på dem</li>
+                    <li>Utvikle en systematisk tilnærming til problemløsing</li>
+                    <li>Vite hvor du kan finne hjelp når du står fast</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Feilsøking er en superkraft!</h3>
+            <p>Å kunne finne og fikse feil er en av de viktigste ferdighetene en programmerer kan ha. Selv profesjonelle utviklere bruker mesteparten av tiden sin på å løse problemer, ikke skrive ny kode.</p>
+
+            <div class="good-practice notification-box">
+                Feilsøking handler ikke om å være smart eller flink - det handler om å være systematisk og tålmodig. Dette kan læres!
+            </div>
+
+            <h3>Vanlige feil for nybegynnere</h3>
+            <p>La oss se på de mest vanlige feilene og hvordan du kan unngå dem:</p>
+
+            <h4>HTML-feil</h4>
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Feil kode</th>
+                            <th>Riktig kode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Glemte å lukke tagger</td>
+                            <td><code>&lt;p&gt;Tekst &lt;strong&gt;fet tekst&lt;/p&gt;</code></td>
+                            <td><code>&lt;p&gt;Tekst &lt;strong&gt;fet tekst&lt;/strong&gt;&lt;/p&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Feil filnavn i referanser</td>
+                            <td><code>&lt;img src="bil.jpg"&gt;</code></td>
+                            <td><code>&lt;img src="bilde.jpg"&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Manglende anførselstegn</td>
+                            <td><code>&lt;p class=stor&gt;</code></td>
+                            <td><code>&lt;p class="stor"&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Feil i filstier</td>
+                            <td><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td>
+                            <td><code>&lt;link rel="stylesheet" href="css/styles.css"&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>CSS-feil</h4>
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Feil kode</th>
+                            <th>Riktig kode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Glemte semikolon</td>
+                            <td><code>color: red</code></td>
+                            <td><code>color: red;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Feil selektor</td>
+                            <td><code>.knapp { }</code> når klassen heter "button"</td>
+                            <td><code>.button { }</code></td>
+                        </tr>
+                        <tr>
+                            <td>Stavefeil i egenskaper</td>
+                            <td><code>bakground-color: blue;</code></td>
+                            <td><code>background-color: blue;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Manglende krøllparenteser</td>
+                            <td><code>h1 color: red;</code></td>
+                            <td><code>h1 { color: red; }</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Utviklerverktøy - din beste venn</h3>
+            <p>Nettleserens utviklerverktøy er det viktigste verktøyet for feilsøking. Her er hvordan du bruker det:</p>
+
+            <div class="layout-demo">
+                <h4>Slik åpner du utviklerverktøy:</h4>
+                <ul>
+                    <li>Høyreklikk på nettsiden → "Inspiser element"</li>
+                    <li>Eller trykk <strong>F12</strong></li>
+                    <li>Eller Ctrl+Shift+I (Windows) / Cmd+Option+I (Mac)</li>
+                </ul>
+
+                <h4>Viktige faner å kjenne til:</h4>
+                <div class="section-demo">
+                    <strong>Elements</strong><br>
+                    Se og endre HTML og CSS i sanntid. Perfekt for å teste endringer før du skriver dem i koden din.
+                </div>
+                <div class="div-demo">
+                    <strong>Console</strong><br>
+                    Se feilmeldinger og advarsler. Røde meldinger = problemer du bør fikse.
+                </div>
+                <div class="section-demo">
+                    <strong>Network</strong><br>
+                    Se alle filer som nettsiden prøver å laste. Røde filer = filer som ikke kan lastes.
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                Ikke vær redd for å eksperimentere i utviklerverktøy! Alle endringer du gjør der er midlertidige - oppdater siden så er alt tilbake til normalt.
+            </div>
+
+            <h3>Systematisk feilsøking</h3>
+            <p>Følg denne prosessen når noe ikke fungerer:</p>
+
+            <div class="code-example">
+1. STOPP - ikke panikk! Alle får feil.<br>
+2. LES feilmeldingen nøye - den prøver å hjelpe deg<br>
+3. SJEKK de mest vanlige feilene først<br>
+4. TEST én ting om gangen - ikke endre alt på en gang<br>
+5. BRUK utviklerverktøy for å undersøke<br>
+6. SAMMENLIGN med fungerende eksempler<br>
+7. SPØR om hjelp når du står fast
+            </div>
+
+            <h4>Sjekkliste for vanlige problemer:</h4>
+            <div class="checklist" style="background: rgba(243, 156, 18, 0.05); border-color: #f39c12;">
+                <h3 style="color: #f39c12;">Når CSS ikke fungerer:</h3>
+                <ul>
+                    <li>Er CSS-filen koblet til HTML med riktig filsti?</li>
+                    <li>Har jeg stavefeil i CSS-egenskaper?</li>
+                    <li>Mangler jeg semikolon eller krøllparenteser?</li>
+                    <li>Er selektor-navnet riktig? (.button vs .knapp)</li>
+                    <li>Har jeg lagret begge filene?</li>
+                </ul>
+            </div>
+
+            <div class="checklist" style="background: rgba(52, 152, 219, 0.05); border-color: #3498db;">
+                <h3 style="color: #3498db;">Når bilder ikke vises:</h3>
+                <ul>
+                    <li>Er filnavnet skrevet riktig? (bilde.jpg vs bil.jpg)</li>
+                    <li>Er filstien riktig? (images/logo.png)</li>
+                    <li>Ligger bildet faktisk i den mappen?</li>
+                    <li>Er filtypen riktig? (.jpg, .png, .gif)</li>
+                    <li>Har jeg alt-attributt?</li>
+                </ul>
+            </div>
+
+            <div class="project-box">
+                <h2>Praktisk øvelse: Finn og rett opp feil</h2>
+                
+                <p>Her er en HTML-fil med 8 feil. Kan du finne dem alle?</p>
+
+                <h3>Oppgave: Feilsøk denne koden</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;title&gt;Øvelse i feilsøking&lt;/title&gt;<br>
+    &lt;link rel="stylesheet" href="stil.css"&gt;<br>
+    &lt;style&gt;<br>
+        body {<br>
+            bakground-color: lightblue<br>
+            font-family: Arial;<br>
+        }<br>
+        .overskrift {<br>
+            color: dark-blue;<br>
+            font-size: 24px<br>
+        }<br>
+    &lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+    &lt;h1 class="overskrift"&gt;Velkommen til min side&lt;/h1&gt;<br>
+    &lt;p&gt;Dette er en paragraf med &lt;strong&gt;fet tekst&lt;/p&gt;<br>
+    &lt;img src="bilde.jpg" alt="Et fint bilde"&gt;<br>
+    &lt;a href="kontakt.html&gt;Kontakt meg&lt;/a&gt;<br>
+    &lt;ul&gt;<br>
+        &lt;li&gt;Første punkt&lt;/li&gt;<br>
+        &lt;li&gt;Andre punkt<br>
+        &lt;li&gt;Tredje punkt&lt;/li&gt;<br>
+    &lt;/ul&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Hvordan løse oppgaven:</h3>
+                <ol>
+                    <li>Kopier koden over til en ny HTML-fil</li>
+                    <li>Åpne filen i nettleseren - den vil ikke se perfekt ut</li>
+                    <li>Åpne utviklerverktøy (F12)</li>
+                    <li>Se etter feilmeldinger i Console-fanen</li>
+                    <li>Bruk Elements-fanen for å inspektere strukturen</li>
+                    <li>Rett opp en feil om gangen og test</li>
+                </ol>
+
+                <div class="extension-tasks">
+                    <h3>Tips til feilene:</h3>
+                    <ul>
+                        <li>Det er stavefeil i CSS-egenskaper</li>
+                        <li>Noen tagger er ikke lukket ordentlig</li>
+                        <li>CSS-verdier mangler semikolon</li>
+                        <li>Det er feil i HTML-attributter</li>
+                        <li>Filreferanser kan være feil</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Forebyggende tips</h3>
+                <ul>
+                    <li><strong>Lagre ofte</strong> - trykk Ctrl+S etter hver endring</li>
+                    <li><strong>Bruk riktig innrykk</strong> for å gjøre koden lesbar</li>
+                    <li><strong>Kommenter koden</strong> så du husker hva den gjør</li>
+                    <li><strong>Test i nettleseren</strong> etter hver endring</li>
+                    <li><strong>Bruk konsekvente navngivningskonvensjoner</strong></li>
+                    <li><strong>Hold mappestrukturen ryddig</strong></li>
+                </ul>
+            </div>
+
+            <h3>Hvor få hjelp når du står fast</h3>
+            <p>Alle utviklere trenger hjelp av og til. Her er de beste stedene å søke:</p>
+
+            <div class="format-comparison">
+                <div class="format-card">
+                    <div class="format-icon">📚</div>
+                    <h4>MDN Web Docs</h4>
+                    <p>Den offisielle dokumentasjonen for HTML, CSS og JavaScript. Pålitelig og oppdatert.</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">❓</div>
+                    <h4>Stack Overflow</h4>
+                    <p>Spørsmål og svar fra utviklere verden over. Søk før du spør!</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">💬</div>
+                    <h4>Klassevenner</h4>
+                    <p>Ofte har noen andre i klassen hatt samme problem. Spør rundt!</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🎥</div>
+                    <h4>YouTube</h4>
+                    <p>Visuelle forklaringer av konsepter og løsninger på vanlige problemer.</p>
+                </div>
+            </div>
+
+            <div class="good-practice notification-box">
+                Når du spør om hjelp, beskriv problemet tydelig: "Jeg prøver å gjøre X, men får Y i stedet. Her er koden min..." Dette gjør det mye lettere for andre å hjelpe deg.
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug1"> Jeg kan identifisere vanlige HTML og CSS-feil</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug2"> Jeg kan åpne og bruke nettleserens utviklerverktøy</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug3"> Jeg vet hvordan jeg skal lese feilmeldinger</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug4"> Jeg har en systematisk tilnærming til problemløsing</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug5"> Jeg har funnet og rettet feil i øvelseskoden</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug6"> Jeg vet hvor jeg kan finne hjelp når jeg står fast</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug7"> Jeg forstår viktigheten av å teste ofte</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="debug8"> Jeg er ikke redd for å eksperimentere med koden min</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Utmerket!</strong> Du har nå grunnleggende feilsøkingsferdigheter som vil hjelpe deg gjennom hele kurset. Husk: alle utviklere får feil - det som skiller gode utviklere er at de kan finne og fikse dem raskt!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du mer avanserte feilsøkingsteknikker og beste praksis for å unngå problemer fra starten av!
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Fasit til øvelsen</h3>
+                <p><strong>Feilene i koden var:</strong></p>
+                <ol>
+                    <li><code>bakground-color</code> → <code>background-color</code> (stavefeil)</li>
+                    <li>Mangler semikolon etter <code>lightblue</code></li>
+                    <li><code>dark-blue</code> → <code>darkblue</code> (eller <code>"dark blue"</code>)</li>
+                    <li>Mangler semikolon etter <code>24px</code></li>
+                    <li><code>&lt;strong&gt;</code> ikke lukket før <code>&lt;/p&gt;</code></li>
+                    <li>Mangler anførselstegn i lenken: <code>href="kontakt.html"</code></li>
+                    <li><code>&lt;li&gt;Andre punkt</code> mangler <code>&lt;/li&gt;</code></li>
+                    <li>Filen <code>stil.css</code> eksisterer sannsynligvis ikke</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul0_leksjon4_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul0_leksjon4_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

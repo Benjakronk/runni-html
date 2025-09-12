@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0: Hvordan nettsider fungerer</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>Modul 0: Hvordan nettsider fungerer</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forklare hva en nettside egentlig er</li>
+                    <li>Forstå forskjellen mellom lokal utvikling og internett</li>
+                    <li>Kjenne til hvordan nettlesere tolker kode</li>
+                    <li>Forstå samspillet mellom HTML, CSS og JavaScript</li>
+                    <li>Vite hva som skjer når du åpner en nettside</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er en nettside egentlig?</h3>
+            <p>En nettside er egentlig bare en samling av filer (tekst, bilder, kode) som nettleseren din kan forstå og vise frem på en pen måte.</p>
+
+            <div class="layout-demo">
+                <h4>🏠 Tenk på det som å bygge et hus:</h4>
+                <div class="section-demo">
+                    <strong>HTML = Grunnmuren og veggene (struktur)</strong><br>
+                    Definerer hvor døren skal være, hvor mange rom det skal være, hvor vinduene plasseres
+                </div>
+                <div class="div-demo">
+                    <strong>CSS = Maling, tapet og møbler (utseende)</strong><br>
+                    Bestemmer farger, størrelser, plasseringen av ting, og hvordan alt ser ut
+                </div>
+                <div class="section-demo">
+                    <strong>JavaScript = Lys, varme og rørleggerarbeid (funksjonalitet)</strong><br>
+                    Gjør at ting faktisk fungerer - lys som kan skrus av/på, varme som kan justeres
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                Uten HTML har du ikke noe hus. Uten CSS er huset grått og kjedelig. Uten JavaScript fungerer ikke knappene og lysene!
+            </div>
+
+            <h3>Lokal utvikling vs. internett</h3>
+            <p>Det er viktig å forstå hvor filene dine ligger og hvem som kan se dem:</p>
+
+            <div class="format-comparison">
+                <div class="format-card">
+                    <div class="format-icon">💻</div>
+                    <h4>Lokal utvikling</h4>
+                    <p><strong>Det du gjør nå:</strong></p>
+                    <ul style="text-align: left; font-size: 0.9em;">
+                        <li>Filene ligger på din datamaskin</li>
+                        <li>Kun du kan se nettsiden</li>
+                        <li>Rask å teste endringer</li>
+                        <li>Gratis og sikkert å eksperimentere</li>
+                        <li>Adressen starter med "file://"</li>
+                    </ul>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🌐</div>
+                    <h4>På internett</h4>
+                    <p><strong>Når siden er "live":</strong></p>
+                    <ul style="text-align: left; font-size: 0.9em;">
+                        <li>Filene ligger på en server</li>
+                        <li>Alle kan besøke nettsiden</li>
+                        <li>Krever hosting og domenenavn</li>
+                        <li>Koster penger (vanligvis)</li>
+                        <li>Adressen starter med "https://"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Hvordan nettleseren jobber</h3>
+            <p>Når du åpner en nettside, skjer dette bak kulissene:</p>
+
+            <div class="demo-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Steg</th>
+                            <th>Hva skjer</th>
+                            <th>Eksempel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Laster HTML</strong></td>
+                            <td>Leser HTML-filen og forstår strukturen</td>
+                            <td>"Aha, det skal være en overskrift her"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Laster CSS</strong></td>
+                            <td>Henter stilark og anvender styling</td>
+                            <td>"Overskriften skal være blå og stor"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Laster bilder</strong></td>
+                            <td>Henter alle bilder som er referert</td>
+                            <td>Laster logo.png og profil.jpg</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Kjører JavaScript</strong></td>
+                            <td>Utfører kode for interaktivitet</td>
+                            <td>"Når knappen klikkes, vis en melding"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Viser resultatet</strong></td>
+                            <td>Tegner den ferdige siden på skjermen</td>
+                            <td>Du ser den ferdige nettsiden!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Frontend vs. Backend</h3>
+            <p>I webuviklingsverden skiller vi mellom to hovedområder:</p>
+
+            <div class="layout-demo">
+                <div class="section-demo">
+                    <h4>🎨 Frontend (Det du lærer i dette kurset)</h4>
+                    <p><strong>Det brukeren ser og interagerer med:</strong></p>
+                    <ul>
+                        <li>HTML - struktur og innhold</li>
+                        <li>CSS - utseende og design</li>
+                        <li>JavaScript - knapper, animasjoner, interaktivitet</li>
+                        <li>Kjører i nettleseren på brukerens datamaskin</li>
+                    </ul>
+                </div>
+                
+                <div class="div-demo">
+                    <h4>⚙️ Backend (Avansert - ikke i dette kurset)</h4>
+                    <p><strong>Det som skjer på serveren:</strong></p>
+                    <ul>
+                        <li>Databaser som lagrer informasjon</li>
+                        <li>Servere som behandler forespørsler</li>
+                        <li>Språk som Python, Java, PHP</li>
+                        <li>Kjører på servere som eier nettsiden</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="good-practice notification-box">
+                Som nybegynner fokuserer du på frontend. Det er mer enn nok å lære, og du kan lage fantastiske nettsider bare med HTML, CSS og JavaScript!
+            </div>
+
+            <h3>Hva skjer når du skriver en nettadresse?</h3>
+            <p>La oss følge reisen når du skriver "google.com" i nettleseren:</p>
+
+            <div class="code-example">
+1. Du skriver "google.com" og trykker Enter<br>
+2. Nettleseren spør internett: "Hvor finner jeg google.com?"<br>
+3. DNS-servere svarer: "Den ligger på IP-adressen 172.217.16.174"<br>
+4. Nettleseren kobler til Googles servere<br>
+5. Serveren sender tilbake HTML, CSS og JavaScript-filer<br>
+6. Nettleseren tolker filene og viser Google-siden<br>
+7. Du kan søke og klikke på ting!
+            </div>
+
+            <div class="project-box">
+                <h2>Praktisk utforskning: Utforsk hvordan nettsider er bygget</h2>
+                
+                <p>Nå skal du se bak kulissene på ekte nettsider og forstå hvordan de er bygget!</p>
+                
+                <h3>Øvelse 1: Se kildekoden</h3>
+                <ol>
+                    <li><strong>Gå til en nettside du liker</strong> (f.eks. nrk.no eller vg.no)</li>
+                    <li><strong>Høyreklikk</strong> hvor som helst på siden</li>
+                    <li><strong>Velg "Vis kildekode"</strong> eller "View Source"</li>
+                    <li><strong>Se på HTML-koden:</strong>
+                        <ul>
+                            <li>Kan du gjenkjenne noen tagger? (&lt;h1&gt;, &lt;p&gt;, &lt;img&gt;)</li>
+                            <li>Ser du hvor CSS-filene kobles til? (&lt;link rel="stylesheet"&gt;)</li>
+                            <li>Finner du noen JavaScript? (&lt;script&gt;)</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Øvelse 2: Bruk utviklerverktøy</h3>
+                <ol>
+                    <li><strong>På samme nettside, trykk F12</strong> eller høyreklikk → "Inspiser element"</li>
+                    <li><strong>Utforsk Elements-fanen:</strong>
+                        <ul>
+                            <li>Hold musen over HTML-kode - se hvordan det markeres på siden</li>
+                            <li>Klikk på pilen øverst til venstre, så klikk på et element på siden</li>
+                            <li>Prøv å endre tekst direkte i koden (dobbeltklikk på tekst)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Se på Network-fanen:</strong>
+                        <ul>
+                            <li>Oppdater siden (F5) mens Network-fanen er åpen</li>
+                            <li>Se alle filene som lastes ned (HTML, CSS, JS, bilder)</li>
+                            <li>Klikk på en fil for å se innholdet</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Øvelse 3: Sammenlign med dine egne filer</h3>
+                <ol>
+                    <li><strong>Åpne din egen HTML-fil</strong> fra forrige leksjon</li>
+                    <li><strong>Bruk utviklerverktøy</strong> på din egen side også</li>
+                    <li><strong>Sammenlign:</strong>
+                        <ul>
+                            <li>Hvor mye enklere er din kode enn store nettsider?</li>
+                            <li>Kan du se CSS-filen din i Network-fanen?</li>
+                            <li>Hva er forskjellene og likhetene?</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre utforskning</h3>
+                <ul>
+                    <li><strong>Prøv forskjellige nettsider:</strong> Sammenlign kildekoden til nrk.no, vg.no og youtube.com</li>
+                    <li><strong>Test offline:</strong> Koble fra internett og prøv å åpne nettsider - hva skjer?</li>
+                    <li><strong>Undersøk mobile nettsider:</strong> Hvordan ser samme nettside ut på mobil vs desktop?</li>
+                    <li><strong>Se på feilmeldinger:</strong> Prøv å skrive feil nettadresse - hva sier nettleseren?</li>
+                </ul>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Viktig å huske</h3>
+                <p><strong>Alt du ser på nettsider er laget av mennesker</strong> - akkurat som deg! Hver knapp, hver farge, hver animasjon er programmert av noen som en gang var nybegynner.</p>
+                
+                <p>Store nettsider som YouTube og Facebook startet som enkle prosjekter. Du er allerede på vei til å kunne lage lignende ting!</p>
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts1"> Jeg forstår hva en nettside egentlig er</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts2"> Jeg vet forskjellen mellom lokal utvikling og internett</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts3"> Jeg forstår samspillet mellom HTML, CSS og JavaScript</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts4"> Jeg har utforsket kildekoden til en ekte nettside</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts5"> Jeg kan bruke utviklerverktøy for å inspektere elementer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts6"> Jeg forstår forskjellen på frontend og backend</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts7"> Jeg vet hva som skjer når nettleseren laster en side</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="concepts8"> Jeg har sammenlignet min egen kode med profesjonelle nettsider</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Du forstår nå hvordan nettsider fungerer bak kulissene. Denne forståelsen gjør deg til en mye bedre webutvikler!
+                </div>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Neste steg:</strong> I neste leksjon lærer du grunnleggende feilsøking - hvordan finne og fikse problemer når ting ikke fungerer som forventet!
+            </div>
+
+            <!-- Troubleshooting section -->
+            <div class="important-note notification-box">
+                <h3>Hjelp! Noe fungerer ikke...</h3>
+                
+                <p><strong>Q: Jeg finner ikke "Vis kildekode" når jeg høyreklikker?</strong><br>
+                A: Prøv å høyreklikke et annet sted på siden. Noen elementer blokkerer høyreklikk. Du kan også prøve Ctrl+U.</p>
+
+                <p><strong>Q: Utviklerverktøy ser komplisert ut - hvor skal jeg klikke?</strong><br>
+                A: Start med Elements-fanen. Du trenger ikke forstå alt med en gang - bare utforsk og eksperimenter!</p>
+
+                <p><strong>Q: Kildekoden på store nettsider ser veldig komplisert ut?</strong><br>
+                A: Det er helt normalt! Store nettsider har tusenvis av linjer kode. Du lærer de samme teknikkene, bare i mindre skala.</p>
+
+                <p><strong>Q: Hva om jeg roter til noe når jeg endrer kode i utviklerverktøy?</strong><br>
+                A: Ikke bekymre deg! Endringene du gjør i utviklerverktøy er bare midlertidige. Oppdater siden (F5) så er alt tilbake til normalt.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul0_leksjon3_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul0_leksjon3_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>
