@@ -1,3 +1,7 @@
+<!-- TODO -->
+<!-- Celebration panel: celebration.css, celebrationCode.js & celebration-section.html -->
+<!-- Fix css overlap. -->
+
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -5,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benjamins HTML-kurs</title>
     <link rel="stylesheet" href="main.css">
+    <!-- <link rel="stylesheet" href="celebration.css"> -->
 </head>
 <body>
     <div class="container">
@@ -34,7 +39,7 @@
                 <div class="module-header">
                     <div class="module-icon">🧑‍🚀</div>
                     <div class="module-title">Modul 0: Kom i gang</div>
-                    <div class="module-description">Grunnleggende verktøy og konsepter for webutvikling. Ikke obligatorisk, men er veldig nyttig.</div>
+                    <div class="module-description">Grunnleggende verktøy og konsepter for webutvikling. Ikke obligatorisk, men veldig nyttig!💫</div>
                 </div>
                 <div class="module-content" id="module0-content">
                     <ul class="lessons-list">
@@ -241,6 +246,7 @@
                     </ul>
                 </div>
             </div>
+            <!-- Modul 4: Animasjon og interaktivitet -->
             <div class="module-card" id="module4">
                 <div class="module-header">
                     <div class="module-icon">🎮</div>
@@ -283,6 +289,63 @@
                                     <span class="lesson-difficulty difficulty-advanced">Avansert</span>
                                 </span>
                                 <span class="lesson-status" id="status-spill">4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Modul 5: API-er og avanserte teknikker -->
+            <div class="module-card" id="module5">
+                <div class="module-header">
+                    <div class="module-icon">🌐</div>
+                    <div class="module-title">Modul 5: API-er og avanserte teknikker</div>
+                    <div class="module-description">Integrer med eksterne tjenester og bygg moderne webapplikasjoner</div>
+                </div>
+                <div class="module-content" id="module5-content">
+                    <ul class="lessons-list">
+                        <li class="lesson-item">
+                            <a href="modul5-api-intro.html">
+                                <span>
+                                    API-er og HTTP-forespørsler
+                                    <span class="lesson-difficulty difficulty-intermediate">Middels</span>
+                                </span>
+                                <span class="lesson-status" id="status-api-intro">1</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul5-async-js.html">
+                                <span>
+                                    Asynkron JavaScript
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-async-js">2</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul5-data-processing.html">
+                                <span>
+                                    Databehandling og søk
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-data-processing">3</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul5-local-storage.html">
+                                <span>
+                                    Lokal lagring og brukerinnstillinger
+                                    <span class="lesson-difficulty difficulty-advanced">Avansert</span>
+                                </span>
+                                <span class="lesson-status" id="status-local-storage">4</span>
+                            </a>
+                        </li>
+                        <li class="lesson-item">
+                            <a href="modul5-api-app.html">
+                                <span>
+                                    Komplett API-integrert applikasjon
+                                    <span class="lesson-difficulty difficulty-expert">Ekspert</span>
+                                </span>
+                                <span class="lesson-status" id="status-api-app">5</span>
                             </a>
                         </li>
                     </ul>
@@ -397,6 +460,23 @@
                 'status-spill'
             ];
 
+            // Modul 5 leksjoner
+            var modul5Lessons = [
+                'modul5_api_intro_completed',
+                'modul5_async_js_completed',
+                'modul5_data_processing_completed',
+                'modul5_local_storage_completed',
+                'modul5_api_app_completed'
+            ];
+
+            var modul5StatusElements = [
+                'status-api-intro',
+                'status-async-js',
+                'status-data-processing',
+                'status-local-storage',
+                'status-api-app'
+            ];
+
             // Oppdater Modul 0 status
             var modul0CompletedCount = 0;
             for (var i = 0; i < modul0Lessons.length; i++) {
@@ -486,19 +566,37 @@
                     }
                 }
             }
+
+            // Oppdater Modul 5 status
+            var modul5CompletedCount = 0;
+            for (var i = 0; i < modul5Lessons.length; i++) {
+                var isCompleted = localStorage.getItem(modul5Lessons[i]) === 'true';
+                var statusElement = document.getElementById(modul5StatusElements[i]);
+                
+                if (statusElement) {
+                    if (isCompleted) {
+                        modul5CompletedCount++;
+                        statusElement.textContent = '✓';
+                        statusElement.classList.add('completed');
+                    } else {
+                        statusElement.textContent = i + 1;
+                        statusElement.classList.remove('completed');
+                    }
+                }
+            }
             
             // Oppdater total statistikk
-            var totalLessons = modul0Lessons.length + modul1Lessons.length + modul2Lessons.length + modul3Lessons.length + modul4Lessons.length;
-            var totalCompleted = modul0CompletedCount + modul1CompletedCount + modul2CompletedCount + modul3CompletedCount + modul4CompletedCount;
+            var totalLessons = modul0Lessons.length + modul1Lessons.length + modul2Lessons.length + modul3Lessons.length + modul4Lessons.length + modul5Lessons.length;
+            var totalCompleted = modul0CompletedCount + modul1CompletedCount + modul2CompletedCount + modul3CompletedCount + modul4CompletedCount + modul5CompletedCount;
             
             document.getElementById('completedLessons').textContent = totalCompleted;
             document.getElementById('totalProgress').textContent = Math.round((totalCompleted / totalLessons) * 100) + '%';
             
             // Håndter modul-låsing
-            updateModuleAccess(modul1CompletedCount, modul1Lessons.length, modul2CompletedCount, modul2Lessons.length, modul3CompletedCount, modul3Lessons.length);
+            updateModuleAccess(modul1CompletedCount, modul1Lessons.length, modul2CompletedCount, modul2Lessons.length, modul3CompletedCount, modul3Lessons.length, modul4CompletedCount, modul4Lessons.length);
         }
         
-        function updateModuleAccess(modul1Completed, modul1Total, modul2Completed, modul2Total, modul3Completed, modul3Total) {
+        function updateModuleAccess(modul1Completed, modul1Total, modul2Completed, modul2Total, modul3Completed, modul3Total, modul4Completed, modul4Total) {
             var module2 = document.getElementById('module2');
             var module3 = document.getElementById('module3');
             
@@ -592,6 +690,38 @@
                     }
                 }
             }
+
+            // Sjekk om Modul 4 er fullført og lås opp/ned Modul 5
+            var modul4Complete = modul4Completed === modul4Total;
+            var module5 = document.getElementById('module5');
+
+            if (!module5) {
+                return; // Hvis module5 ikke eksisterer ennå
+            }
+
+            if (modul4Complete && modul3Complete && modul2Complete && modul1Complete) {
+                // Lås opp Modul 5
+                module5.classList.remove('locked');
+                var module5Header = module5.querySelector('.module-header');
+                if (module5Header) {
+                    module5Header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }
+            } else {
+                // Lås Modul 5
+                module5.classList.add('locked');
+                var module5Header = module5.querySelector('.module-header');
+                if (module5Header) {
+                    module5Header.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+                }
+                
+                // Vis låst melding med fremgang
+                var module5Content = document.getElementById('module5-content');
+                if (module5Content) {
+                    if (!modul4Complete) {
+                        module5Content.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-style: italic;">🔒 Låses opp når Modul 4 er fullført<br><small>Fullør først alle leksjoner i Modul 4</small></p>';
+                    }
+                }
+            }
         }
         
         // Kjør når siden lastes
@@ -602,5 +732,6 @@
         // Oppdater fremgang hver 5. sekund (hvis brukeren har vært aktiv i andre faner)
         setInterval(updateProgress, 5000);
     </script>
+    <!-- <script src="celebrationCode.js"></script> -->
 </body>
 </html>

@@ -1,0 +1,485 @@
+/* completion.css - Styling for gratulasjonsseksjonen */
+
+/* Hovedcontainer for gratulasjonsseksjonen */
+.completion-section {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    border: 3px solid #f39c12;
+    border-radius: 20px;
+    padding: 40px 30px;
+    margin: 40px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(243, 156, 18, 0.3);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Skjul/vis animasjoner */
+.completion-section.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+}
+
+.completion-section.visible {
+    display: block;
+    animation: completionSlideIn 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes completionSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Konfetti-animasjoner */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    animation: confettiFall 4s linear infinite;
+}
+
+.confetti-1 { left: 10%; animation-delay: 0s; background: #e74c3c; }
+.confetti-2 { left: 20%; animation-delay: 0.5s; background: #3498db; }
+.confetti-3 { left: 30%; animation-delay: 1s; background: #2ecc71; }
+.confetti-4 { left: 40%; animation-delay: 1.5s; background: #f39c12; }
+.confetti-5 { left: 50%; animation-delay: 2s; background: #9b59b6; }
+.confetti-6 { left: 60%; animation-delay: 0.3s; background: #1abc9c; }
+.confetti-7 { left: 70%; animation-delay: 0.8s; background: #e67e22; }
+.confetti-8 { left: 80%; animation-delay: 1.3s; background: #f1c40f; }
+.confetti-9 { left: 90%; animation-delay: 1.8s; background: #c0392b; }
+.confetti-10 { left: 15%; animation-delay: 2.3s; background: #8e44ad; }
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Hovedoverskrift */
+.celebration-header {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Trofe-container */
+.trophy-container {
+    position: relative;
+    margin: 30px 0;
+    display: inline-block;
+}
+
+.trophy {
+    font-size: 5rem;
+    animation: trophyBounce 2s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+}
+
+.trophy-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, transparent 70%);
+    animation: glowPulse 2s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes trophyBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-8px); }
+}
+
+@keyframes glowPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+/* Tittel og beskrivelse */
+.completion-title {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 30px 0 20px 0;
+    line-height: 1.3;
+}
+
+.completion-description {
+    font-size: 1.3rem;
+    color: #34495e;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Statistikk-kort */
+.completion-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 40px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #e74c3c;
+    margin-bottom: 5px;
+    animation: numberPop 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.stat-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.stat-detail {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+@keyframes numberPop {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Modulgrid */
+.modules-completed {
+    margin: 50px 0;
+}
+
+.modules-completed h3 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.completed-module {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.completed-module:hover {
+    transform: translateY(-3px);
+    border-color: #667eea;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.module-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.module-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.module-subtitle {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.module-checkmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+    color: #27ae60;
+}
+
+/* Belønninger */
+.special-rewards {
+    margin: 50px 0;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    border: 2px solid #667eea;
+}
+
+.special-rewards h3 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.special-rewards p {
+    color: #34495e;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.reward-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.reward-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.reward-icon {
+    font-size: 2rem;
+}
+
+.reward-text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.reward-text small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Neste steg */
+.next-steps {
+    margin: 50px 0;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+}
+
+.next-steps h4 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.next-steps p {
+    color: #34495e;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.next-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.next-step {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.next-step:hover {
+    transform: translateY(-3px);
+}
+
+.step-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.step-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.step-description {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* Personlig melding */
+.personal-message {
+    margin: 40px 0;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    border-left: 5px solid #f39c12;
+}
+
+.message-content p {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.signature {
+    font-style: italic;
+    color: #7f8c8d;
+    text-align: right;
+    margin-top: 20px !important;
+}
+
+/* Responsiv design */
+@media (max-width: 768px) {
+    .completion-section {
+        padding: 30px 20px;
+        margin: 20px 0;
+    }
+    
+    .celebration-header {
+        font-size: 2.2rem;
+    }
+    
+    .trophy {
+        font-size: 4rem;
+    }
+    
+    .completion-title {
+        font-size: 1.8rem;
+    }
+    
+    .completion-description {
+        font-size: 1.1rem;
+    }
+    
+    .completion-stats {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .module-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    
+    .rewards-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .next-steps-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .celebration-header {
+        font-size: 1.8rem;
+    }
+    
+    .trophy {
+        font-size: 3.5rem;
+    }
+    
+    .completion-title {
+        font-size: 1.5rem;
+    }
+    
+    .completion-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .module-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

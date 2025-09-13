@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5: Komplett API-integrert applikasjon</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🚀 Modul 5: Komplett API-integrert applikasjon</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Kombinere alle teknikkene fra Modul 5 i ett prosjekt</li>
+                    <li>Bygge en fullverdig applikasjon med multiple API-integrasjoner</li>
+                    <li>Implementere avansert state management og data-synkronisering</li>
+                    <li>Håndtere komplekse brukerinteraksjoner og workflows</li>
+                    <li>Optimalisere ytelse og brukeropplevelse</li>
+                    <li>Publisere og vedlikeholde en komplett webapplikasjon</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Arkitektur for store applikasjoner</h3>
+            <p>Når vi bygger komplekse applikasjoner, trenger vi en strukturert tilnærming:</p>
+
+            <div class="layout-demo">
+                <div class="section-demo">
+                    <strong>🏗️ Modular arkitektur</strong><br>
+                    Del koden i logiske moduler som kan gjenbrukes og testes enkelt
+                </div>
+                <div class="div-demo">
+                    <strong>📊 State management</strong><br>
+                    Sentralisert håndtering av applikasjonens tilstand og data
+                </div>
+                <div class="section-demo">
+                    <strong>🔄 Data flow</strong><br>
+                    Tydelig flyt av data mellom komponenter og API-er
+                </div>
+            </div>
+
+            <h3>State Management Pattern</h3>
+            <p>For komplekse applikasjoner trenger vi et system for å håndtere tilstand:</p>
+
+            <div class="code-example">
+// Sentralisert state management<br>
+class AppState {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user: null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weather: null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;favorites: [],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;settings: this.loadSettings(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loading: false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error: null<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers = [];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Oppdater state og notifiser lyttere<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setState(updates) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = { ...this.state, ...updates };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveSettings();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.notifySubscribers();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Registrer komponenter som lytter på endringer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subscribe(callback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers.push(callback);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notifySubscribers() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers.forEach(callback => callback(this.state));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loadSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return JSON.parse(localStorage.getItem('appSettings')) || {};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return {};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;saveSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('appSettings', JSON.stringify(this.state.settings));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>API Service Layer</h3>
+            <p>Organiser API-kall i en egen service-lag for bedre struktur:</p>
+
+            <div class="code-example">
+class APIService {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cache = new Map();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.baseURL = 'https://api.example.com';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async request(endpoint, options = {}) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const cacheKey = `${endpoint}${JSON.stringify(options)}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk cache først<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.cache.has(cacheKey)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const cached = this.cache.get(cacheKey);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Date.now() - cached.timestamp < 300000) { // 5 min cache<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return cached.data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const response = await fetch(`${this.baseURL}${endpoint}`, {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers: { 'Content-Type': 'application/json' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...options<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error(`HTTP ${response.status}: ${response.statusText}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const data = await response.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Cache resultatet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cache.set(cacheKey, { data, timestamp: Date.now() });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error(`API Error (${endpoint}):`, error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Spesifikke API-metoder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getWeather(city) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.request(`/weather?q=${city}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getNews(category = 'general') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.request(`/news?category=${category}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getCryptoPrice(coin) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.request(`/crypto/${coin}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Component-basert arkitektur</h3>
+            <p>Organiser UI-en i gjenbrukbare komponenter:</p>
+
+            <div class="code-example">
+class Component {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(container, state) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container = container;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = state;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state.subscribe(newState => this.update(newState));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render(data) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Override i subklasser<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;update(newState) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.render(newState);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+class WeatherWidget extends Component {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render(state) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const { weather, loading } = state;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (loading) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = '&lt;div class="loading"&gt;Laster værdata...&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!weather) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = '&lt;div class="error"&gt;Ingen værdata tilgjengelig&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="weather-widget"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;${weather.location}&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="temp"&gt;${weather.temperature}°C&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="condition"&gt;${weather.condition}&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Error Handling og Recovery</h3>
+            <p>Robust feilhåndtering er kritisk for brukeropplevelsen:</p>
+
+            <div class="code-example">
+class ErrorHandler {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(state) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = state;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.retryAttempts = new Map();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async handleAPIError(error, operation, maxRetries = 3) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const attempts = this.retryAttempts.get(operation) || 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (attempts < maxRetries) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.retryAttempts.set(operation, attempts + 1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Exponential backoff<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const delay = Math.pow(2, attempts) * 1000;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await new Promise(resolve => setTimeout(resolve, delay));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return operation(); // Prøv igjen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Gi opp og vis feilmelding<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showUserFriendlyError(error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.retryAttempts.delete(operation);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;showUserFriendlyError(error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let message = 'Noe gikk galt. Prøv igjen senere.';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error.message.includes('network')) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message = 'Sjekk internettforbindelsen din og prøv igjen.';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (error.message.includes('404')) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message = 'Denne tjenesten er midlertidig utilgjengelig.';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (error.message.includes('429')) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message = 'For mange forespørsler. Vent litt før du prøver igjen.';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state.setState({ error: message });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Ytelse:</strong> Store applikasjoner krever optimalisering. Bruk lazy loading, code splitting, og effektiv caching for beste brukeropplevelse.
+            </div>
+
+            <div class="project-box">
+                <h2>Sluttprosjekt: Personal Dashboard</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Bygg en komplett personal dashboard som kombinerer alle teknikkene du har lært.</p>
+                
+                <h3>Funksjonelle krav</h3>
+                <ol>
+                    <li><strong>Multi-API Integration:</strong> Minst 4 forskjellige API-er (vær, nyheter, krypto, quotes/facts)</li>
+                    <li><strong>Brukerinnstillinger:</strong> Tema, språk, favorittsteder, oppdateringsintervaller</li>
+                    <li><strong>Data Management:</strong> Søk, filtrering, favoritter, historikk</li>
+                    <li><strong>Offline Support:</strong> Cache data og fungere uten internett</li>
+                    <li><strong>Responsive Design:</strong> Fungere perfekt på mobil og desktop</li>
+                    <li><strong>State Management:</strong> Sentralisert tilstandshåndtering</li>
+                </ol>
+
+                <h3>Tekniske krav</h3>
+                <ul>
+                    <li>Minimum 500 linjer JavaScript-kode</li>
+                    <li>Modular arkitektur med klasser</li>
+                    <li>Komplett error handling og retry-logikk</li>
+                    <li>Loading states og smooth transitions</li>
+                    <li>LocalStorage for persistens</li>
+                    <li>Debounced søk og optimaliserte API-kall</li>
+                </ul>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Personal Dashboard&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* { margin: 0; padding: 0; box-sizing: border-box; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f7fa; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.dashboard { max-width: 1400px; margin: 0 auto; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.widgets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.widget { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.widget h3 { margin-bottom: 15px; color: #2c3e50; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.loading { text-align: center; color: #7f8c8d; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.error { color: #e74c3c; text-align: center; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.settings-panel { position: fixed; top: 0; right: -350px; width: 350px; height: 100vh; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); transition: right 0.3s ease; z-index: 1000; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.settings-panel.open { right: 0; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn-primary { background: #3498db; color: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn-secondary { background: #95a5a6; color: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.search-box { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 15px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.news-item { border-bottom: 1px solid #eee; padding: 10px 0; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.news-item:last-child { border-bottom: none; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.weather-temp { font-size: 2em; font-weight: bold; color: #2980b9; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.crypto-price { font-size: 1.5em; font-weight: bold; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.quote-text { font-style: italic; font-size: 1.1em; margin-bottom: 10px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.theme-dark { background: #2c3e50; color: #ecf0f1; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.theme-dark .widget, .theme-dark .header { background: #34495e; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dashboard"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;header class="header"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style="display: flex; justify-content: space-between; align-items: center;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;📊 Personal Dashboard&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class="btn btn-secondary" onclick="toggleSettings()"&gt;⚙️ Innstillinger&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class="btn btn-primary" onclick="refreshAll()"&gt;🔄 Oppdater alt&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="last-updated"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/header&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="widgets-grid"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="widget" id="weather-widget"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;🌤️ Vær&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="weather-content"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="widget" id="news-widget"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;📰 Nyheter&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" class="search-box" placeholder="Søk i nyheter..." id="news-search"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="news-content"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="widget" id="crypto-widget"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;₿ Kryptovaluta&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="crypto-content"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="widget" id="quotes-widget"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;💭 Dagens sitat&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="quotes-content"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Settings Panel --&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="settings-panel" id="settings-panel"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style="padding: 20px;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;⚙️ Innstillinger&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Tema: &lt;select id="theme-select"&gt;&lt;option value="light"&gt;Lyst&lt;/option&gt;&lt;option value="dark"&gt;Mørkt&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;br&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Oppdateringsintervall: &lt;select id="refresh-interval"&gt;&lt;option value="300000"&gt;5 minutter&lt;/option&gt;&lt;option value="600000"&gt;10 minutter&lt;/option&gt;&lt;option value="1800000"&gt;30 minutter&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;br&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Favoritby: &lt;input type="text" id="favorite-city" placeholder="Oslo"&gt;&lt;/label&gt;&lt;br&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class="btn btn-primary" onclick="saveSettings()"&gt;Lagre innstillinger&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class="btn btn-secondary" onclick="clearCache()"&gt;Tøm cache&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Din kode her!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit (forenklet versjon)</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Se komplett implementering</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+// State Management<br>
+class AppState {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weather: null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;news: [],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;crypto: null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quote: null,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;settings: this.loadSettings(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loading: {},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors: {}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers = [];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;setState(updates) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = { ...this.state, ...updates };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.notifySubscribers();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subscribe(callback) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers.push(callback);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notifySubscribers() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.subscribers.forEach(cb => cb(this.state));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loadSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return JSON.parse(localStorage.getItem('dashboardSettings')) || {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theme: 'light',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city: 'Oslo',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refreshInterval: 300000<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return { theme: 'light', city: 'Oslo', refreshInterval: 300000 };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;saveSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('dashboardSettings', JSON.stringify(this.state.settings));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// API Service<br>
+class APIService {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cache = new Map();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async fetchWithCache(url, cacheTime = 300000) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const cached = this.cache.get(url);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cached && Date.now() - cached.timestamp < cacheTime) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return cached.data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const response = await fetch(url);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) throw new Error(`HTTP ${response.status}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const data = await response.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cache.set(url, { data, timestamp: Date.now() });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getWeather(city) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Mock weather data (ersatt med ekte API)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location: city,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperature: Math.round(Math.random() * 25 + 5),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: ['Solskinn', 'Skyet', 'Regn'][Math.floor(Math.random() * 3)]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getNews() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Bruk NewsAPI eller lignende<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.fetchWithCache('https://newsapi.org/v2/top-headlines?country=no&apiKey=YOUR_KEY');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getCrypto() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.fetchWithCache('https://api.coindesk.com/v1/bpi/currentprice.json');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async getQuote() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.fetchWithCache('https://api.quotable.io/random');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Widget Classes<br>
+class WeatherWidget {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(container, apiService, state) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container = container;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.api = apiService;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = state;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async load() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = '&lt;div class="loading"&gt;Henter værdata...&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const weather = await this.api.getWeather(this.state.state.settings.city);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.render(weather);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state.setState({ weather });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = '&lt;div class="error"&gt;Kunne ikke laste værdata&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;render(weather) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.container.innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="weather-temp"&gt;${weather.temperature}°C&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;${weather.condition} i ${weather.location}&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Main Dashboard App<br>
+class Dashboard {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state = new AppState();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.api = new APIService();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.widgets = {};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.refreshTimer = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.initWidgets();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.applySettings();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.loadAllData();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.startAutoRefresh();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;initWidgets() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.widgets.weather = new WeatherWidget(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('weather-content'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.api,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.state<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Initialiser andre widgets...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async loadAllData() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await Promise.allSettled([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.widgets.weather.load(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Last andre widgets...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('last-updated').textContent = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Sist oppdatert: ${new Date().toLocaleTimeString()}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;applySettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const { theme } = this.state.state.settings;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.body.className = theme === 'dark' ? 'theme-dark' : '';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;startAutoRefresh() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.refreshTimer) clearInterval(this.refreshTimer);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.refreshTimer = setInterval(() => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.loadAllData();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, this.state.state.settings.refreshInterval);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Global functions<br>
+let dashboard;<br>
+<br>
+function toggleSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const panel = document.getElementById('settings-panel');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel.classList.toggle('open');<br>
+}<br>
+<br>
+function saveSettings() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const settings = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theme: document.getElementById('theme-select').value,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refreshInterval: parseInt(document.getElementById('refresh-interval').value),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city: document.getElementById('favorite-city').value || 'Oslo'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.state.setState({ settings });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.state.saveSettings();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.applySettings();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.startAutoRefresh();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;alert('Innstillinger lagret!');<br>
+}<br>
+<br>
+function refreshAll() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.loadAllData();<br>
+}<br>
+<br>
+function clearCache() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard.api.cache.clear();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage.removeItem('dashboardSettings');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;alert('Cache tømt! Siden lastes på nytt.');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location.reload();<br>
+}<br>
+<br>
+// Start applikasjonen<br>
+window.addEventListener('DOMContentLoaded', () => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dashboard = new Dashboard();<br>
+});
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Avanserte utvidelser</h3>
+                <ol>
+                    <li>Implementer push-notifikasjoner for viktige nyheter</li>
+                    <li>Legg til geolokalisering for automatisk værdata</li>
+                    <li>Bygg en plugin-arkitektur for tilpassede widgets</li>
+                    <li>Implementer data-eksport til PDF eller CSV</li>
+                    <li>Legg til A/B testing for ulike layouts</li>
+                    <li>Implementer Progressive Web App (PWA) funksjonalitet</li>
+                    <li>Legg til voice commands med Web Speech API</li>
+                    <li>Bygg collaborative features (deling av dashboards)</li>
+                </ol>
+            </div>
+
+            <div class="good-practice notification-box">
+                Implementer logging, monitoring, automated testing, og CI/CD pipeline for å gjøre applikasjonen produksjonsklar.
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for sluttprosjekt</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final1"> Jeg har integrert minst 4 forskjellige API-er</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final2"> Jeg har implementert sentralisert state management</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final3"> Jeg har bygget en modular, komponendbasert arkitektur</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final4"> Jeg har implementert robust error handling og retry-logikk</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final5"> Jeg har lagt til offline-support med intelligent caching</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final6"> Jeg har implementert brukerinnstillinger som lagres persistent</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final7"> Jeg har optimalisert ytelse med debouncing og lazy loading</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="final8"> Applikasjonen er fullstendig responsiv og fungerer på alle enheter</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>GRATULERER!</strong> Du har fullført Modul 5 og bygget en komplett, profesjonell webapplikasjon! Du har nå de ferdigheter som trengs for å bygge moderne, API-drevne applikasjoner som brukes i den virkelige verden. Du er klar for avansert webutvikling!
+                </div>
+            </div>
+
+            <div class="faq">
+                <h3>Neste steg i din utviklerreise</h3>
+                
+                <p><strong>Q: Hva bør jeg lære nå som jeg har fullført dette kurset?</strong><br>
+                A: Vurder å lære moderne frameworks som React eller Vue.js, backend-utvikling med Node.js, eller mobile utvikling med React Native.</p>
+
+                <p><strong>Q: Hvordan kan jeg forbedre mine ferdigheter videre?</strong><br>
+                A: Bygg egne prosjekter, bidra til open source, delta i hackathons, og lag en portefølje på GitHub som viser frem arbeidet ditt.</p>
+
+                <p><strong>Q: Er jeg klar for en jobb som webutvikler?</strong><br>
+                A: Du har solid grunnlag! Fortsett å bygge prosjekter, lær mer om testing, sikkerhet, og moderne utviklingsverktøy for å bli enda mer attraktiv for arbeidsgivere.</p>
+
+                <p><strong>Q: Hvordan holder jeg meg oppdatert på nye teknologier?</strong><br>
+                A: Følg utviklerblogger, delta i developer communities, ta online kurs, og eksperimenter med nye teknologier i egne prosjekter.</p>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>🎓 Du er nå en kompetent webutvikler!</h3>
+                <p>Dette kurset har tatt deg fra grunnleggende HTML til avanserte, API-integrerte applikasjoner. Du behersker nå:</p>
+                <ul>
+                    <li><strong>Frontend fundamentals:</strong> HTML, CSS, JavaScript</li>
+                    <li><strong>Modern JavaScript:</strong> ES6+, async/await, modules</li>
+                    <li><strong>API integration:</strong> REST APIs, error handling, caching</li>
+                    <li><strong>State management:</strong> Complex application state</li>
+                    <li><strong>User experience:</strong> Responsive design, accessibility</li>
+                    <li><strong>Performance:</strong> Optimization and best practices</li>
+                </ul>
+                <p><strong>Fortsett å lære, eksperimentere og bygge fantastiske ting!</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "dashboard123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul5_api_app_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul5_api_app_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

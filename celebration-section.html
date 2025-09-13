@@ -1,0 +1,196 @@
+<!-- Gratulasjonsseksjon -->
+        <section id="completion-section" class="completion-section hidden">
+            <!-- Konfetti-partikler for animasjon -->
+            <div class="confetti-container">
+                <div class="confetti confetti-1"></div>
+                <div class="confetti confetti-2"></div>
+                <div class="confetti confetti-3"></div>
+                <div class="confetti confetti-4"></div>
+                <div class="confetti confetti-5"></div>
+                <div class="confetti confetti-6"></div>
+                <div class="confetti confetti-7"></div>
+                <div class="confetti confetti-8"></div>
+                <div class="confetti confetti-9"></div>
+                <div class="confetti confetti-10"></div>
+            </div>
+
+            <!-- Hovedoverskrift med animasjon -->
+            <div class="celebration-header">
+                🎉 GRATULERER! 🎉
+            </div>
+            
+            <!-- Trofe med animasjon -->
+            <div class="trophy-container">
+                <div class="trophy">🏆</div>
+                <div class="trophy-glow"></div>
+            </div>
+            
+            <!-- Hovedmelding -->
+            <h2 class="completion-title">
+                Du har fullført hele kurset!
+            </h2>
+            
+            <p class="completion-description">
+                Fantastisk jobba! Du har nå mestret grunnleggende webutvikling fra HTML til avansert JavaScript og API-er. Du er klar for nye utfordringer!
+            </p>
+
+            <!-- Fremgangsstatistikk -->
+            <div class="completion-stats">
+                <div class="stat-card stat-modules">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number" id="completed-modules-count">6</div>
+                    <div class="stat-label">Moduler fullført</div>
+                    <div class="stat-detail">Modul 0-5</div>
+                </div>
+                
+                <div class="stat-card stat-lessons">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-number" id="completed-lessons-count">0</div>
+                    <div class="stat-label">Leksjoner gjennomført</div>
+                    <div class="stat-detail">Alle oppgaver</div>
+                </div>
+                
+                <div class="stat-card stat-progress">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Fullført</div>
+                    <div class="stat-detail">Komplett kurs</div>
+                </div>
+                
+                <div class="stat-card stat-mastery">
+                    <div class="stat-icon">🌟</div>
+                    <div class="stat-number">Expert</div>
+                    <div class="stat-label">Nivå oppnådd</div>
+                    <div class="stat-detail">Webutvikler</div>
+                </div>
+            </div>
+
+            <!-- Modul-oversikt -->
+            <div class="modules-completed">
+                <h3>🎯 Fullførte moduler</h3>
+                <div class="module-grid">
+                    <div class="completed-module" data-module="0">
+                        <div class="module-icon">🛠️</div>
+                        <div class="module-title">Modul 0</div>
+                        <div class="module-subtitle">Oppsett og verktøy</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                    
+                    <div class="completed-module" data-module="1">
+                        <div class="module-icon">📚</div>
+                        <div class="module-title">Modul 1</div>
+                        <div class="module-subtitle">HTML Grunnleggende</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                    
+                    <div class="completed-module" data-module="2">
+                        <div class="module-icon">🎨</div>
+                        <div class="module-title">Modul 2</div>
+                        <div class="module-subtitle">CSS Styling</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                    
+                    <div class="completed-module" data-module="3">
+                        <div class="module-icon">⚡</div>
+                        <div class="module-title">Modul 3</div>
+                        <div class="module-subtitle">JavaScript</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                    
+                    <div class="completed-module" data-module="4">
+                        <div class="module-icon">🎮</div>
+                        <div class="module-title">Modul 4</div>
+                        <div class="module-subtitle">Avanserte teknikker</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                    
+                    <div class="completed-module" data-module="5">
+                        <div class="module-icon">🔥</div>
+                        <div class="module-title">Modul 5</div>
+                        <div class="module-subtitle">API og Asynkron JS</div>
+                        <div class="module-checkmark">✅</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spesielle belønninger -->
+            <div class="special-rewards">
+                <h3>🔓 Spesielle belønninger låst opp!</h3>
+                <p>Som belønning for å ha fullført alle modulene, har du nå tilgang til:</p>
+                
+                <div class="rewards-grid">
+                    <button class="reward-button certificate-btn" onclick="CompletionHandler.generateCertificate()">
+                        <div class="reward-icon">📜</div>
+                        <div class="reward-text">
+                            <strong>Kursbevis</strong>
+                            <small>Last ned offisielt diplom</small>
+                        </div>
+                    </button>
+                    
+                    <button class="reward-button projects-btn" onclick="CompletionHandler.unlockAdvancedProjects()">
+                        <div class="reward-icon">🚀</div>
+                        <div class="reward-text">
+                            <strong>Avanserte prosjekter</strong>
+                            <small>Nye utfordringer</small>
+                        </div>
+                    </button>
+                    
+                    <button class="reward-button mentor-btn" onclick="CompletionHandler.unlockMentorMode()">
+                        <div class="reward-icon">👨‍🏫</div>
+                        <div class="reward-text">
+                            <strong>Mentor-modus</strong>
+                            <small>Hjelp andre studenter</small>
+                        </div>
+                    </button>
+                    
+                    <button class="reward-button portfolio-btn" onclick="CompletionHandler.createPortfolio()">
+                        <div class="reward-icon">💼</div>
+                        <div class="reward-text">
+                            <strong>Portfolio-generator</strong>
+                            <small>Vis frem prosjektene dine</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Neste steg -->
+            <div class="next-steps">
+                <h4>🎯 Hva nå?</h4>
+                <p>Du har nå en solid grunnmur i webutvikling. Her er noen forslag til videre læring:</p>
+                
+                <div class="next-steps-grid">
+                    <div class="next-step">
+                        <div class="step-icon">🖼️</div>
+                        <div class="step-title">Bygg ditt eget prosjekt</div>
+                        <div class="step-description">Kombiner alle ferdighetene du har lært</div>
+                    </div>
+                    
+                    <div class="next-step">
+                        <div class="step-icon">📚</div>
+                        <div class="step-title">Lær et JavaScript-rammeverk</div>
+                        <div class="step-description">React, Vue eller Angular</div>
+                    </div>
+                    
+                    <div class="next-step">
+                        <div class="step-icon">🔧</div>
+                        <div class="step-title">Utforsk backend-utvikling</div>
+                        <div class="step-description">Node.js, Python eller PHP</div>
+                    </div>
+                    
+                    <div class="next-step">
+                        <div class="step-icon">🤝</div>
+                        <div class="step-title">Bidra til open source</div>
+                        <div class="step-description">Del din kunnskap med verden</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personlig melding -->
+            <div class="personal-message">
+                <div class="message-content">
+                    <p><strong>Du har kommet så langt!</strong></p>
+                    <p>Fra de første HTML-taggene til komplekse JavaScript-applikasjoner og API-integrasjoner. Dette er bare begynnelsen på din reise som webutvikler.</p>
+                    <p class="signature">- Lykke til videre! 🚀</p>
+                </div>
+            </div>
+        </section>

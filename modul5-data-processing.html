@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5: Databehandling og søk</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🔍 Modul 5: Databehandling og søk</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Filtrere og sortere store datasett effektivt</li>
+                    <li>Implementere live-søk med debouncing for bedre ytelse</li>
+                    <li>Bruke avanserte array-metoder (map, filter, reduce, sort)</li>
+                    <li>Implementere paginering for store datasamlinger</li>
+                    <li>Bygge fleksible filter- og sorteringssystemer</li>
+                    <li>Håndtere og presentere komplekse datastrukturer</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Array-metoder for databehandling</h3>
+            <p>JavaScript har kraftige innebygde metoder for å behandle arrays av data:</p>
+
+            <div class="code-example">
+// Eksempeldata: produkter fra en API<br>
+const produkter = [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, navn: 'iPhone 15', pris: 12999, kategori: 'telefon', rating: 4.5 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, navn: 'MacBook Pro', pris: 25999, kategori: 'laptop', rating: 4.8 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, navn: 'iPad Air', pris: 8999, kategori: 'tablet', rating: 4.3 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, navn: 'Samsung Galaxy', pris: 9999, kategori: 'telefon', rating: 4.2 }<br>
+];<br>
+<br>
+// FILTER: Finn kun telefoner<br>
+const telefoner = produkter.filter(p => p.kategori === 'telefon');<br>
+<br>
+// MAP: Hent ut bare navnene<br>
+const produktNavn = produkter.map(p => p.navn);<br>
+<br>
+// SORT: Sorter etter pris (lav til høy)<br>
+const sortertEtterPris = produkter.sort((a, b) => a.pris - b.pris);<br>
+<br>
+// REDUCE: Finn gjennomsnittspris<br>
+const gjennomsnittspris = produkter.reduce((sum, p) => sum + p.pris, 0) / produkter.length;<br>
+<br>
+// KOMBINERT: Dyre telefoner sortert etter rating<br>
+const dyreTelefoner = produkter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.filter(p => p.kategori === 'telefon' && p.pris > 10000)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.sort((a, b) => b.rating - a.rating);
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Array-metodene</strong> kan kjedes sammen! Du kan bruke .filter().map().sort() i én linje for kraftige databehandlingsoperasjoner.
+            </div>
+
+            <h3>Live-søk med debouncing</h3>
+            <p>Debouncing forhindrer at søket utføres ved hver tastetrykk, og venter til brukeren har stoppet å skrive:</p>
+
+            <div class="code-example">
+// Debounce-funksjon: venter litt før den kjører søket<br>
+function debounce(func, delay) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let timeoutId;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return function (...args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(timeoutId);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeoutId = setTimeout(() => func.apply(this, args), delay);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+}<br>
+<br>
+// Søkefunksjon<br>
+function søkProdukter(søketerm) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const resultater = produkter.filter(produkt =><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;produkt.navn.toLowerCase().includes(søketerm.toLowerCase())<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visProdukter(resultater);<br>
+}<br>
+<br>
+// Debounced søk - venter 300ms etter siste tastetrykk<br>
+const debouncedSøk = debounce(søkProdukter, 300);<br>
+<br>
+// Knytt til søkefelt<br>
+document.getElementById('søkefelt').addEventListener('input', function(e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;debouncedSøk(e.target.value);<br>
+});
+            </div>
+
+            <h3>Avansert filtrering</h3>
+            <p>Du kan kombinere flere filterkriterier for fleksibel søking:</p>
+
+            <div class="code-example">
+function filtrerProdukter(søketerm, kategori, minPris, maxPris, minRating) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return produkter.filter(produkt => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk søketerm<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherSøk = !søketerm || <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;produkt.navn.toLowerCase().includes(søketerm.toLowerCase());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk kategori<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherKategori = !kategori || kategori === 'alle' || <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;produkt.kategori === kategori;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk prisområde<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherPris = produkt.pris >= minPris && produkt.pris <= maxPris;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk rating<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherRating = produkt.rating >= minRating;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return matcherSøk && matcherKategori && matcherPris && matcherRating;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+}
+            </div>
+
+            <h3>Sortering med flere kriterier</h3>
+            <p>Du kan sortere dataene på flere måter basert på brukerens valg:</p>
+
+            <div class="code-example">
+function sorterProdukter(produkter, sorteringstype) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const kopi = [...produkter]; // Lag en kopi for ikke å mutere originalen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;switch (sorteringstype) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 'navn-asc':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi.sort((a, b) => a.navn.localeCompare(b.navn));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 'navn-desc':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi.sort((a, b) => b.navn.localeCompare(a.navn));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 'pris-lav':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi.sort((a, b) => a.pris - b.pris);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 'pris-høy':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi.sort((a, b) => b.pris - a.pris);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 'rating':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi.sort((a, b) => b.rating - a.rating);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kopi;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Paginering for store datasett</h3>
+            <p>Når du har mange resultater, er det bedre å vise dem side for side:</p>
+
+            <div class="code-example">
+function paginerResultater(data, side, elementerPerSide) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const startIndex = (side - 1) * elementerPerSide;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const endIndex = startIndex + elementerPerSide;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: data.slice(startIndex, endIndex),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentPage: side,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalPages: Math.ceil(data.length / elementerPerSide),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalItems: data.length,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasNextPage: endIndex < data.length,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasPrevPage: side > 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+}<br>
+<br>
+// Bruk av pagineringsfunksjonen<br>
+const side1 = paginerResultater(produkter, 1, 10); // Første side, 10 elementer<br>
+console.log(side1.data); // De første 10 produktene<br>
+console.log(`Side ${side1.currentPage} av ${side1.totalPages}`);</code>
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Ytelse:</strong> For svært store datasett (1000+ elementer), vurder å implementere server-side paginering hvor API-et håndterer filtreringen.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Avansert produktkatalog</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Bygg en komplett produktkatalog med søk, filtrering, sortering og paginering.</p>
+                <ol>
+                    <li>Hent produktdata fra et API (eller bruk mock-data)</li>
+                    <li>Implementer live-søk med debouncing</li>
+                    <li>Legg til filtere for kategori, prisområde og rating</li>
+                    <li>Implementer sorterings-dropdown</li>
+                    <li>Legg til paginering med "Forrige/Neste" knapper</li>
+                    <li>Vis antall resultater og hvilken side brukeren er på</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Produktkatalog&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filters { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter-row { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter-group { display: flex; flex-direction: column; min-width: 150px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter-group label { font-weight: bold; margin-bottom: 5px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.product-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.product-card h3 { margin: 0 0 10px 0; color: #333; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.price { font-size: 1.2em; color: #e74c3c; font-weight: bold; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.category { background: #6c757d; color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.8em; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.rating { color: #f39c12; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.pagination { text-align: center; margin-top: 30px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.pagination button { padding: 10px 15px; margin: 0 5px; border: 1px solid #ddd; background: white; cursor: pointer; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.pagination button:hover { background: #e9ecef; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.pagination button:disabled { background: #f8f9fa; color: #6c757d; cursor: not-allowed; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.results-info { margin: 20px 0; color: #6c757d; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;🛍️ Produktkatalog&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="filters"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="filter-row"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="filter-group"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Søk produkter:&lt;/label&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" id="søkefelt" placeholder="Skriv produktnavn..."&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="filter-group"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Kategori:&lt;/label&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;select id="kategori"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="alle"&gt;Alle kategorier&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="filter-group"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Sorter etter:&lt;/label&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;select id="sortering"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="standard"&gt;Standard&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="pris-lav"&gt;Pris: Lav til høy&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="pris-høy"&gt;Pris: Høy til lav&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="rating"&gt;Beste rating&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="results-info" id="resultatInfo"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="products-grid" id="produktGrid"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="pagination" id="paginering"&gt;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Din kode her!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Mock-data du kan bruke</h3>
+                <div class="code-example">
+const mockProdukter = [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, navn: 'iPhone 15 Pro', pris: 14999, kategori: 'telefon', rating: 4.8, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, navn: 'MacBook Air M3', pris: 16999, kategori: 'laptop', rating: 4.7, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, navn: 'iPad Pro 12.9', pris: 13999, kategori: 'tablet', rating: 4.6, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, navn: 'Samsung Galaxy S24', pris: 12999, kategori: 'telefon', rating: 4.5, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, navn: 'Dell XPS 13', pris: 18999, kategori: 'laptop', rating: 4.4, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, navn: 'Google Pixel 8', pris: 8999, kategori: 'telefon', rating: 4.3, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 7, navn: 'Surface Pro 9', pris: 15999, kategori: 'tablet', rating: 4.2, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ id: 8, navn: 'ThinkPad X1 Carbon', pris: 22999, kategori: 'laptop', rating: 4.6, bilde: 'https://via.placeholder.com/200' },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Legg til flere produkter for å teste paginering...<br>
+];
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+let alleProdukter = mockProdukter;<br>
+let filtrerteProdukter = [...alleProdukter];<br>
+let nåværendeSide = 1;<br>
+const produkterPerSide = 6;<br>
+<br>
+// Debounce funksjon<br>
+function debounce(func, delay) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let timeoutId;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return function (...args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(timeoutId);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeoutId = setTimeout(() => func.apply(this, args), delay);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+}<br>
+<br>
+// Filtrer og sorter produkter<br>
+function oppdaterProdukter() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const søketerm = document.getElementById('søkefelt').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const kategori = document.getElementById('kategori').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const sortering = document.getElementById('sortering').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Filtrer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filtrerteProdukter = alleProdukter.filter(produkt => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherSøk = !søketerm || <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;produkt.navn.toLowerCase().includes(søketerm.toLowerCase());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const matcherKategori = kategori === 'alle' || produkt.kategori === kategori;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return matcherSøk && matcherKategori;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Sorter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (sortering === 'pris-lav') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrerteProdukter.sort((a, b) => a.pris - b.pris);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (sortering === 'pris-høy') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrerteProdukter.sort((a, b) => b.pris - a.pris);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (sortering === 'rating') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrerteProdukter.sort((a, b) => b.rating - a.rating);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nåværendeSide = 1; // Tilbake til første side<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visProdukter();<br>
+}<br>
+<br>
+// Vis produkter for gjeldende side<br>
+function visProdukter() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const startIndex = (nåværendeSide - 1) * produkterPerSide;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const endIndex = startIndex + produkterPerSide;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const produkterForSide = filtrerteProdukter.slice(startIndex, endIndex);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const grid = document.getElementById('produktGrid');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;grid.innerHTML = produkterForSide.map(produkt => `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="product-card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src="${produkt.bilde}" alt="${produkt.navn}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;${produkt.navn}&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="price"&gt;kr ${produkt.pris.toLocaleString()}&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="category"&gt;${produkt.kategori}&lt;/span&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="rating"&gt;⭐ ${produkt.rating}/5&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`).join('');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visResultatInfo();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visPaginering();<br>
+}<br>
+<br>
+// Vis resultatinformasjon<br>
+function visResultatInfo() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const totalResultater = filtrerteProdukter.length;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const startIndex = (nåværendeSide - 1) * produkterPerSide + 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const endIndex = Math.min(nåværendeSide * produkterPerSide, totalResultater);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('resultatInfo').textContent = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Viser ${startIndex}-${endIndex} av ${totalResultater} produkter`;<br>
+}<br>
+<br>
+// Vis pagineringsknapper<br>
+function visPaginering() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const totalSider = Math.ceil(filtrerteProdukter.length / produkterPerSide);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const paginering = document.getElementById('paginering');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (totalSider <= 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paginering.innerHTML = '';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paginering.innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="gåTilSide(${nåværendeSide - 1})" ${nåværendeSide === 1 ? 'disabled' : ''}&gt;← Forrige&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;Side ${nåværendeSide} av ${totalSider}&lt;/span&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="gåTilSide(${nåværendeSide + 1})" ${nåværendeSide === totalSider ? 'disabled' : ''}&gt;Neste →&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+}<br>
+<br>
+// Gå til spesifikk side<br>
+function gåTilSide(side) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const totalSider = Math.ceil(filtrerteProdukter.length / produkterPerSide);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (side >= 1 && side <= totalSider) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nåværendeSide = side;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visProdukter();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Initialiser siden<br>
+function initSide() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Populer kategori-dropdown<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const kategorier = [...new Set(alleProdukter.map(p => p.kategori))];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const kategoriSelect = document.getElementById('kategori');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;kategorier.forEach(kat => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kategoriSelect.innerHTML += `&lt;option value="${kat}"&gt;${kat}&lt;/option&gt;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Legg til event listeners<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const debouncedOppdater = debounce(oppdaterProdukter, 300);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('søkefelt').addEventListener('input', debouncedOppdater);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('kategori').addEventListener('change', oppdaterProdukter);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('sortering').addEventListener('change', oppdaterProdukter);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Vis initial produkter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visProdukter();<br>
+}<br>
+<br>
+// Start appen<br>
+window.onload = initSide;
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Legg til prisfilter med slider for min/max pris</li>
+                    <li>Implementer rating-filter (vis kun produkter over X stjerner)</li>
+                    <li>Legg til "Lagre søk" funksjonalitet med localStorage</li>
+                    <li>Lag en "Sammenlign produkter" funksjon</li>
+                    <li>Implementer infinite scroll i stedet for paginering</li>
+                    <li>Legg til produktdetaljer som vises i modal ved klikk</li>
+                </ol>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Optimalisering:</strong> For svært store datasett, vurder å bruke virtual scrolling eller server-side paginering for bedre ytelse.
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>UX-tips:</strong> Vis alltid hvor mange resultater som vises, behold brukerens søk når de navigerer, og gi tydelig feedback når ingen resultater finnes.
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data1"> Jeg kan bruke array-metoder (filter, map, sort, reduce) effektivt</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data2"> Jeg forstår og kan implementere debouncing for bedre ytelse</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data3"> Jeg kan bygge fleksible filtersystemer med multiple kriterier</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data4"> Jeg kan implementere sortering med flere alternativer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data5"> Jeg forstår og kan implementere paginering</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data6"> Jeg kan håndtere og presentere komplekse datastrukturer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data7"> Jeg har bygget en fungerende produktkatalog med alle features</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="data8"> Jeg kan kombinere søk, filtrering og sortering sømløst</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Du har nå avanserte ferdigheter innen databehandling og kan bygge kraftige søke- og filtreringsopplevelser som man finner i profesjonelle webapplikasjoner!
+                </div>
+            </div>
+
+            <div class="faq">
+                <h3>Vanlige spørsmål</h3>
+                
+                <p><strong>Q: Hvorfor bruker vi debouncing i stedet for å søke ved hvert tastetrykk?</strong><br>
+                A: Debouncing forbedrer ytelsen ved å unngå unødvendige søk. Uten det vil et søk på "iPhone" utføre 6 søk i stedet for 1.</p>
+
+                <p><strong>Q: Hva er forskjellen på .slice() og .splice()?</strong><br>
+                A: .slice() lager en kopi av deler av en array uten å endre originalen. .splice() endrer originalen ved å fjerne/legge til elementer.</p>
+
+                <p><strong>Q: Hvordan håndterer jeg sortering av norske bokstaver (æ, ø, å)?</strong><br>
+                A: Bruk .localeCompare() med norsk locale: `a.navn.localeCompare(b.navn, 'nb-NO')`</p>
+
+                <p><strong>Q: Kan jeg bruke disse teknikkene med data fra API-er?</strong><br>
+                A: Absolutt! Kombiner dette med async/await fra forrige leksjon for kraftige databehandlingsapplikasjoner.</p>
+
+                <p><strong>Q: Hva hvis jeg har millioner av datapunkter?</strong><br>
+                A: Da bør du implementere server-side filtrering og paginering. Frontend kan ikke effektivt håndtere så store datasett.</p>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Performance-tips for store datasett</h3>
+                <ul>
+                    <li><strong>Bruk indekser:</strong> Forhåndsberegn ofte brukte verdier</li>
+                    <li><strong>Lazy loading:</strong> Last kun data som vises på skjermen</li>
+                    <li><strong>Memoization:</strong> Cache resultater av dyre beregninger</li>
+                    <li><strong>Web Workers:</strong> Flytt tung databehandling til bakgrunnstråder</li>
+                    <li><strong>Virtual scrolling:</strong> Vis kun synlige elementer i DOM</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "data123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul5_data_processing_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul5_data_processing_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

@@ -406,8 +406,15 @@
         function updateProgressStats(unlockedProjects) {
             // Alle leksjoner fra alle moduler (samme som i index.html)
             var allLessons = [
+                // Modul 0
+                'modul0_leksjon1_completed',
+                'modul0_leksjon2_completed',
+                'modul0_leksjon3_completed', 
+                'modul0_leksjon4_completed',
+                'modul0_leksjon5_completed',
                 // Modul 1
                 'modul1_completed',
+                'modul1_kommentarer_completed',
                 'modul1_bilder_completed', 
                 'modul1_videre_completed',
                 'modul1_tabeller_completed',
@@ -420,7 +427,18 @@
                 'modul3_js_intro_completed',
                 'modul3_dom_completed',
                 'modul3_events_completed',
-                'modul3_projects_completed'
+                'modul3_projects_completed',
+                // Modul 4
+                'modul4_animasjoner_completed',
+                'modul4_spill_completed',
+                'modul4_tastatur_completed',
+                'modul4_flexbox_completed',
+                // Modul 5
+                'modul5_api_intro_completed',
+                'modul5_api_app_completed',
+                'modul5_data_processing_completed',
+                'modul5_async_js_completed',
+                'modul5_local_storage_completed'
             ];
             
             var completedCount = allLessons.filter(function(lesson) {

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5: API-er og HTTP-forespørsler</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>🌐 Modul 5: API-er og HTTP-forespørsler</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forstå hva API-er er og hvorfor de er nyttige</li>
+                    <li>Kjenne til de viktigste HTTP-metodene (GET, POST, PUT, DELETE)</li>
+                    <li>Bruke fetch() til å hente data fra et API</li>
+                    <li>Håndtere JSON-format og konvertere til JavaScript-objekter</li>
+                    <li>Implementere grunnleggende feilhåndtering for nettverksforespørsler</li>
+                    <li>Vise API-data på en nettside</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Hva er et API?</h3>
+            <p>API står for <strong>Application Programming Interface</strong> - det er en måte for programmer å snakke sammen på. Tenk på det som en kelner på en restaurant:</p>
+
+            <div class="layout-demo">
+                <div class="section-demo">
+                    <strong>🍽️ Du (nettsiden) = Kunden</strong><br>
+                    Du ønsker informasjon eller data (f.eks. værdata, nyheter, brukerinformasjon)
+                </div>
+                <div class="div-demo">
+                    <strong>🏪 API-et = Kjøkkenet</strong><br>
+                    Her ligger all dataen lagret og organisert, klar til å serveres
+                </div>
+                <div class="section-demo">
+                    <strong>👨‍🍳 Kelneren = HTTP-forespørselen</strong><br>
+                    Tar imot din bestilling og bringer tilbake det du ba om
+                </div>
+            </div>
+
+            <h3>HTTP-metoder</h3>
+            <p>Når vi kommuniserer med API-er, bruker vi forskjellige <strong>HTTP-metoder</strong> avhengig av hva vi vil gjøre:</p>
+
+            <div class="code-example">
+<strong>GET</strong> - Henter data (som å spørre "hva er temperaturen?")<br>
+<strong>POST</strong> - Sender ny data (som å legge til en ny kommentar)<br>
+<strong>PUT</strong> - Oppdaterer eksisterende data (som å endre profilen din)<br>
+<strong>DELETE</strong> - Sletter data (som å fjerne en post)
+            </div>
+
+            <div class="tip notification-box">
+                I dette kurset fokuserer vi hovedsakelig på <strong>GET</strong>-forespørsler for å hente data, siden det er det mest vanlige å gjøre når man lærer API-er.
+            </div>
+
+            <h3>JSON-format</h3>
+            <p>API-er sender vanligvis data i <strong>JSON-format</strong> (JavaScript Object Notation). Det ser nesten ut som JavaScript-objekter:</p>
+
+            <div class="code-example">
+// Eksempel på JSON-data fra et vær-API<br>
+{<br>
+&nbsp;&nbsp;"location": "Oslo",<br>
+&nbsp;&nbsp;"temperature": 15,<br>
+&nbsp;&nbsp;"weather": "Skyet",<br>
+&nbsp;&nbsp;"humidity": 78<br>
+}
+            </div>
+
+            <h3>Din første fetch()-forespørsel</h3>
+            <p>I JavaScript bruker vi <code>fetch()</code>-funksjonen for å hente data fra API-er:</p>
+
+            <div class="code-example">
+// Grunnleggende fetch-eksempel<br>
+fetch('https://api.eksempel.com/data')<br>
+&nbsp;&nbsp;.then(response => response.json()) // Konverter til JSON<br>
+&nbsp;&nbsp;.then(data => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(data); // Vis dataen i konsollen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Bruk dataen til å oppdatere nettsiden<br>
+&nbsp;&nbsp;});<br>
+            </div>
+
+            <div class="important-note notification-box">
+                <strong>Merk:</strong> Mange API-er krever en <strong>API-nøkkel</strong> for å få tilgang. Dette er som et ID-kort som identifiserer deg. Vi skal bruke gratis API-er som ikke krever registrering først.
+            </div>
+
+            <h3>Feilhåndtering</h3>
+            <p>Det er viktig å håndtere feil som kan oppstå når vi henter data fra nettet:</p>
+
+            <div class="code-example">
+fetch('https://api.eksempel.com/data')<br>
+&nbsp;&nbsp;.then(response => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Noe gikk galt med forespørselen');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return response.json();<br>
+&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;.then(data => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Suksess! Bruk dataen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(data);<br>
+&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;.catch(error => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Håndter feil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.error('Feil:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;alert('Kunne ikke hente data. Prøv igjen senere.');<br>
+&nbsp;&nbsp;});
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Tilfeldige fakta-generator</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Lag en enkel nettside som henter tilfeldige fakta fra et gratis API og viser dem på siden.</p>
+                <ol>
+                    <li>Opprett HTML med en overskrift, et område for å vise fakta og en knapp</li>
+                    <li>Bruk fetch() til å hente data fra: <code>https://uselessfacts.jsph.pl/random.json?language=en</code></li>
+                    <li>Vis fakta på nettsiden når brukeren klikker på knappen</li>
+                    <li>Legg til en loading-indikator mens data hentes</li>
+                    <li>Håndter feil hvis API-et ikke svarer</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Tilfeldige fakta&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.fact-box { background: #f0f0f0; padding: 20px; border-radius: 10px; margin: 20px 0; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button { padding: 10px 20px; font-size: 16px; cursor: pointer; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.loading { color: #666; font-style: italic; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;🎲 Tilfeldige fakta-generator&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="hentFakta()"&gt;Få et nytt faktum!&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="faktaContainer" class="fact-box"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Klikk på knappen for å få et tilfeldig faktum!&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function hentFakta() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Din kode her!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <div class="important-note notification-box">
+                    <strong>Ikke titt på fasiten før du har prøvd selv!</strong> Eksperimenter med koden og se hva som skjer.
+                </div>
+
+                <h3>Tips underveis</h3>
+                <ul>
+                    <li>Bruk <code>document.getElementById()</code> for å hente HTML-elementet</li>
+                    <li>API-et returnerer et objekt med en <code>text</code>-egenskap som inneholder faktaet</li>
+                    <li>Vis "Henter nytt faktum..." mens forespørselen pågår</li>
+                    <li>Test nettsiden i nettleseren og se i konsollen (F12) om det er feil</li>
+                </ul>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+function hentFakta() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const container = document.getElementById('faktaContainer');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Vis loading-melding<br>
+&nbsp;&nbsp;&nbsp;&nbsp;container.innerHTML = '&lt;p class="loading"&gt;🔄 Henter nytt faktum...&lt;/p&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Hent data fra API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fetch('https://uselessfacts.jsph.pl/random.json?language=en')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(response => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!response.ok) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Kunne ikke hente data');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(data => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Vis faktaet på nettsiden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.innerHTML = `&lt;p&gt;&lt;strong&gt;💡 Visste du at:&lt;/strong&gt;&lt;br&gt;${data.text}&lt;/p&gt;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(error => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Håndter feil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Feil ved henting av data:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.innerHTML = '&lt;p style="color: red;"&gt;❌ Kunne ikke hente faktum. Prøv igjen senere.&lt;/p&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Legg til en teller som viser hvor mange fakta du har hentet</li>
+                    <li>Prøv et annet API, f.eks. <code>https://api.adviceslip.com/advice</code> for råd</li>
+                    <li>Legg til en "Favoritter"-funksjon som lar deg lagre gode fakta</li>
+                    <li>Style nettsiden med CSS for å gjøre den penere</li>
+                    <li>Legg til animasjoner når nye fakta vises</li>
+                </ol>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Debugging:</strong> Hvis noe ikke fungerer, åpne utviklerverktøy (F12) og se i "Console"-fanen. Der vil du se eventuelle feilmeldinger som kan hjelpe deg.
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Test</strong> alltid API-ene dine i nettleseren først før du skriver kode. Gå til API-URL-en direkte for å se hvordan dataen ser ut!
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api1"> Jeg forstår hva et API er og hvorfor det er nyttig</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api2"> Jeg kan bruke fetch() til å hente data fra et API</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api3"> Jeg forstår JSON-format og kan konvertere til JavaScript-objekter</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api4"> Jeg kan vise API-data på en nettside</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api5"> Jeg har implementert grunnleggende feilhåndtering</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api6"> Jeg kan legge til loading-indikatorer</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api7"> Jeg har fullført kodeprosjektet med tilfeldige fakta</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="api8"> Jeg har testet koden og håndtert eventuelle feil</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Fantastisk!</strong> Du har nå lært grunnleggende API-kommunikasjon og kan hente data fra eksterne tjenester. Dette er en viktig ferdighet i moderne webutvikling!
+                </div>
+            </div>
+
+            <div class="faq">
+                <h3>Vanlige spørsmål</h3>
+                
+                <p><strong>Q: Hvorfor trenger jeg API-nøkler for noen tjenester?</strong><br>
+                A: API-nøkler hjelper tjenesten å holde styr på hvem som bruker API-et og forhindre misbruk. Det er som en ID-kort som identifiserer deg.</p>
+
+                <p><strong>Q: Hva hvis API-et er nede eller ikke svarer?</strong><br>
+                A: Det er derfor vi har feilhåndtering! Alltid ha en backup-plan og vis brukeren en forståelig feilmelding.</p>
+
+                <p><strong>Q: Kan jeg lage mine egne API-er?</strong><br>
+                A: Ja! Men det krever backend-programmering som vi ikke dekker i dette kurset. Du kan lære det senere med teknologier som Node.js eller Python.</p>
+
+                <p><strong>Q: Er det greit å bruke alle API-er jeg finner på nettet?</strong><br>
+                A: Nei, sjekk alltid lisensen og bruksvilkårene. Noen API-er koster penger eller har begrensninger på hvor mange forespørsler du kan gjøre.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "api123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul5_api_intro_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul5_api_intro_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

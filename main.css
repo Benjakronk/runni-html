@@ -773,6 +773,11 @@ li {
     color: #721c24;
 }
 
+.difficulty-expert {
+    background: rgba(250, 0, 129, 100);
+    color: #62084a;
+}
+
 .extra-projects {
     background: linear-gradient(135deg, #9100a1 0%, #2c0072 100%);
     color: white;

@@ -157,8 +157,8 @@
         "id": 5,
         "title": "Bildegalleri med Lightbox",
         "icon": "🖼️",
-        "difficulty": "advanced",
-        "difficultyText": "Avansert",
+        "difficulty": "intermediate",
+        "difficultyText": "Middels",
         "shortDescription": "Lag et elegant bildegalleri med popup-visning av bilder!",
         "description": "Et avansert prosjekt som kombinerer responsive design, JavaScript-interaktivitet og elegant brukeropplevelse.",
         "requirements": [
@@ -291,8 +291,8 @@
   "id": 8,
   "title": "Interaktivt Dashboard",
   "icon": "📊",
-  "difficulty": "advanced",
-  "difficultyText": "Avansert",
+  "difficulty": "expert",
+  "difficultyText": "Ekspert",
   "shortDescription": "Bygg et datadrevet dashboard med grafer, statistikk og animasjoner!",
   "description": "Et profesjonelt dashboard-prosjekt som lærer deg datavisualisering, canvas-tegning og avansert layout-design.",
   "requirements": [
@@ -340,8 +340,8 @@
   "id": 9,
   "title": "E-handelsproduktside",
   "icon": "🛒",
-  "difficulty": "advanced",
-  "difficultyText": "Avansert",
+  "difficulty": "expert",
+  "difficultyText": "Ekspert",
   "shortDescription": "Design en profesjonell produktside med handlekurv og checkout-funksjon!",
   "description": "Et omfattende e-handelsprosjekt som lærer deg om produktvisning, handlekurv-logikk og brukervennlig design.",
   "requirements": [
@@ -384,6 +384,107 @@
   "tips": "Start med å forstå hvordan bildegalleriet og handlekurven fungerer. Prøv å legge til flere produkter eller endre fargene i CSS-en. Du kan også legge til flere produktbilder ved å endre placeholder-URLene!",
   "unlockMessage": "Krav for å låse opp:",
   "buttonTextLocked": "🔒 Fullfør alle JavaScript-moduler først"
+},
+{
+  "id": 10,
+  "title": "Memory-Spill",
+  "icon": "🧠",
+  "difficulty": "advanced",
+  "difficultyText": "Avansert",
+  "shortDescription": "Lag et minnespill med kort som snur seg og holder telling på spillerens poeng!",
+  "description": "Et morsomt og utfordrende prosjekt som kombinerer animasjoner, tastaturinteraksjon og spilllogikk. Perfekt for å teste dine ferdigheter i moderne webteknologi!",
+  "requirements": [
+    "modul4_flexbox_completed",
+    "modul4_animasjoner_completed",
+    "modul4_tastatur_completed"
+  ],
+  "requirementNames": [
+    "Fullføre \"Flexbox og Grid\"",
+    "Fullføre \"CSS-animasjoner og overganger\"",
+    "Fullføre \"Tastaturinteraksjon\""
+  ],
+  "features": [
+    "16 kort i et 4x4 rutenett med CSS Grid",
+    "Smooth 3D-animasjoner når kort snur seg",
+    "Tastaturnavigering (piltaster + Enter/Spacebar)",
+    "Poengssystem med tid og antall forsøk",
+    "Ulike vanskelighetsgrader",
+    "Responsive design for alle enheter",
+    "Lydeffekter ved riktige/gale par",
+    "Restart-funksjon og highscore"
+  ],
+  "projectRequirements": [
+    "CSS Grid layout for spillbrettet (4x4)",
+    "16 par med kort (totalt 32 kort) som blir blandet tilfeldig",
+    "CSS 3D-transformasjoner for kort som snur seg",
+    "Tastaturnavigering med piltaster for å bevege seg mellom kort",
+    "Enter/Spacebar for å snu kort",
+    "Spilllogikk som sjekker om to kort matcher",
+    "Timer som teller ned spilletiden",
+    "Poengssystem basert på tid og antall forsøk",
+    "Victory-skjerm når alle par er funnet",
+    "Restart-knapp for å starte nytt spill",
+    "Responsive design som fungerer på mobil og desktop",
+    "Smooth animasjoner og overganger"
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Memory-Spill</title>\n    <link rel=\"stylesheet\" href=\"memory.css\">\n</head>\n<body>\n    <div class=\"game-container\">\n        <header>\n            <h1>🧠 Memory-Spill</h1>\n            <div class=\"game-stats\">\n                <div class=\"stat\">\n                    <span>Tid:</span>\n                    <span id=\"timer\">00:00</span>\n                </div>\n                <div class=\"stat\">\n                    <span>Forsøk:</span>\n                    <span id=\"attempts\">0</span>\n                </div>\n                <div class=\"stat\">\n                    <span>Par funnet:</span>\n                    <span id=\"matches\">0/8</span>\n                </div>\n            </div>\n        </header>\n        \n        <div class=\"game-board\" id=\"gameBoard\">\n            <!-- Kort genereres automatisk med JavaScript -->\n        </div>\n        \n        <div class=\"game-controls\">\n            <button id=\"restartBtn\">🔄 Start på nytt</button>\n            <button id=\"pauseBtn\">⏸️ Pause</button>\n        </div>\n        \n        <div class=\"instructions\">\n            <h3>Slik spiller du:</h3>\n            <p>🖱️ <strong>Mus:</strong> Klikk på kort for å snu dem</p>\n            <p>⌨️ <strong>Tastatur:</strong> Bruk piltaster for å navigere, Enter/Spacebar for å snu kort</p>\n            <p>🎯 <strong>Mål:</strong> Finn alle 8 par så raskt som mulig!</p>\n        </div>\n    </div>\n    \n    <!-- Victory modal -->\n    <div id=\"victoryModal\" class=\"modal hidden\">\n        <div class=\"modal-content\">\n            <h2>🎉 Gratulerer!</h2>\n            <p>Du fullførte spillet!</p>\n            <div class=\"final-stats\">\n                <p>Tid: <span id=\"finalTime\"></span></p>\n                <p>Antall forsøk: <span id=\"finalAttempts\"></span></p>\n                <p>Poeng: <span id=\"finalScore\"></span></p>\n            </div>\n            <button onclick=\"restartGame()\">Spill igjen</button>\n        </div>\n    </div>\n    \n    <script src=\"memory.js\"></script>\n</body>\n</html>",
+  "tips": "Start med å lage CSS Grid-layoutet og kortanimasjonene. Bruk data-attributter for å lagre kortenes verdier. Test tastaturnavigering grundig på forskjellige enheter!",
+  "unlockMessage": "Krav for å låse opp:",
+  "buttonTextLocked": "🔒 Fullfør Flexbox, animasjoner og tastatur først"
+},
+{
+  "id": 11,
+  "title": "Avansert Platformspill",
+  "icon": "🎮",
+  "difficulty": "expert",
+  "difficultyText": "Ekspert",
+  "shortDescription": "Bygg et komplett 2D-platformspill med fiender, power-ups og flere nivåer!",
+  "description": "Det ultimate prosjektet som kombinerer alt du har lært! Et fullt funksjonelt platformspill med fysikk, animasjoner, lydeffekter og progressjon.",
+  "requirements": [
+    "modul4_flexbox_completed",
+    "modul4_animasjoner_completed", 
+    "modul4_tastatur_completed",
+    "modul4_spill_completed"
+  ],
+  "requirementNames": [
+    "Fullføre \"Flexbox og Grid\"",
+    "Fullføre \"CSS-animasjoner og overganger\"", 
+    "Fullføre \"Tastaturinteraksjon\"",
+    "Fullføre \"Spillutvikling grunnleggende\""
+  ],
+  "features": [
+    "Flernivå platformspill med scrolling bakgrunn",
+    "Spillerkarakter med hopping, dobbelthopp og gliding",
+    "Fiender med AI-bevegelse og forskjellige oppføringsmønstre",
+    "Power-ups som gir midlertidige ferdigheter",
+    "Fysikksystem med gravitasjon og kollisjon",
+    "Animerte sprites for karakter og fiender",
+    "Lydeffekter og bakgrunnsmusikk",
+    "Highscore-system og progresslagring",
+    "Boss-kamper på slutten av hvert nivå",
+    "Partikkelsystem for eksplosioner og effekter"
+  ],
+  "projectRequirements": [
+    "Minimum 3 forskjellige nivåer med unike utfordringer",
+    "Spillerkarakter med smooth animasjoner (gå, hopp, fall, angre)",
+    "Minst 3 forskjellige fiendetyper med unique AI",
+    "Plattformer spilleren kan hoppe på (statiske og bevegelige)",
+    "Power-up system (speedboost, dobbelthopp, uovervinnelighet)",
+    "Gravitasjons- og fysikksystem som føles naturlig",
+    "Kollisjonssystem mellom spiller, fiender, plattformer og power-ups",
+    "Helse/liv-system med visuell indikering",
+    "Scrolling kamera som følger spilleren",
+    "Responser design som fungerer på forskjellige skjermstørrelser",
+    "Lydeffekter for hopping, damage, power-ups og seier",
+    "Pause/resume funksjonalitet",
+    "Game over og victory-skjermer",
+    "Restart-funksjon som tilbakestiller alt",
+    "Smooth CSS/JavaScript animasjoner for alle bevegelser"
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Platform Adventure</title>\n    <link rel=\"stylesheet\" href=\"platformer.css\">\n</head>\n<body>\n    <div class=\"game-container\">\n        <div class=\"game-ui\">\n            <div class=\"hud\">\n                <div class=\"health-bar\">\n                    <span>❤️ Helse:</span>\n                    <div class=\"health-meter\">\n                        <div class=\"health-fill\" id=\"healthFill\"></div>\n                    </div>\n                </div>\n                <div class=\"score\">🏆 Poeng: <span id=\"scoreDisplay\">0</span></div>\n                <div class=\"level\">🌟 Nivå: <span id=\"levelDisplay\">1</span></div>\n                <div class=\"lives\">💫 Liv: <span id=\"livesDisplay\">3</span></div>\n            </div>\n            <div class=\"power-ups-display\" id=\"powerUpsDisplay\">\n                <!-- Active power-ups vises her -->\n            </div>\n        </div>\n        \n        <div class=\"game-world\" id=\"gameWorld\">\n            <div class=\"background-layer\" id=\"backgroundLayer\">\n                <!-- Scrolling bakgrunn -->\n            </div>\n            \n            <div class=\"game-layer\" id=\"gameLayer\">\n                <!-- Spillelementer genereres her -->\n                <div class=\"player\" id=\"player\">\n                    <div class=\"player-sprite\">🦸</div>\n                </div>\n            </div>\n            \n            <div class=\"foreground-layer\" id=\"foregroundLayer\">\n                <!-- Partikkeleffekter og UI-elementer -->\n            </div>\n        </div>\n        \n        <div class=\"game-controls\">\n            <div class=\"control-info\">\n                <h4>🎮 Kontroller:</h4>\n                <p>⬅️➡️ Piltaster: Beveg deg | ⬆️ Spacebar: Hopp | ⬇️ Ned: Glid/duck</p>\n                <p>🔥 Shift: Sprint | ⏸️ ESC: Pause | 🔄 R: Restart</p>\n            </div>\n            <button id=\"pauseBtn\" class=\"control-btn\">⏸️ Pause</button>\n            <button id=\"restartBtn\" class=\"control-btn\">🔄 Restart</button>\n            <button id=\"muteBtn\" class=\"control-btn\">🔊 Lyd</button>\n        </div>\n    </div>\n    \n    <!-- Game modals -->\n    <div id=\"pauseModal\" class=\"modal hidden\">\n        <div class=\"modal-content\">\n            <h2>⏸️ Spillet er pauset</h2>\n            <button onclick=\"resumeGame()\">▶️ Fortsett</button>\n            <button onclick=\"restartGame()\">🔄 Start på nytt</button>\n            <button onclick=\"goToMenu()\">🏠 Hovedmeny</button>\n        </div>\n    </div>\n    \n    <div id=\"gameOverModal\" class=\"modal hidden\">\n        <div class=\"modal-content\">\n            <h2>💀 Game Over</h2>\n            <p>Du kom til nivå <span id=\"finalLevel\"></span></p>\n            <p>Sluttpoeng: <span id=\"finalScore\"></span></p>\n            <button onclick=\"restartGame()\">🔄 Prøv igjen</button>\n            <button onclick=\"goToMenu()\">🏠 Hovedmeny</button>\n        </div>\n    </div>\n    \n    <div id=\"levelCompleteModal\" class=\"modal hidden\">\n        <div class=\"modal-content\">\n            <h2>🎉 Nivå fullført!</h2>\n            <p>Fantastisk spilling!</p>\n            <p>Bonus poeng: <span id=\"bonusScore\"></span></p>\n            <button onclick=\"nextLevel()\">➡️ Neste nivå</button>\n        </div>\n    </div>\n    \n    <div id=\"victoryModal\" class=\"modal hidden\">\n        <div class=\"modal-content\">\n            <h2>🏆 Du vant!</h2>\n            <p>Gratulerer! Du fullførte alle nivåene!</p>\n            <p>Totalpoeng: <span id=\"totalScore\"></span></p>\n            <p>Din tid: <span id=\"totalTime\"></span></p>\n            <button onclick=\"restartGame()\">🔄 Spill igjen</button>\n            <button onclick=\"goToMenu()\">🏠 Hovedmeny</button>\n        </div>\n    </div>\n    \n    <!-- Audio elements -->\n    <audio id=\"jumpSound\" preload=\"auto\">\n        <source src=\"audio/jump.mp3\" type=\"audio/mpeg\">\n    </audio>\n    <audio id=\"collectSound\" preload=\"auto\">\n        <source src=\"audio/collect.mp3\" type=\"audio/mpeg\">\n    </audio>\n    <audio id=\"damageSound\" preload=\"auto\">\n        <source src=\"audio/damage.mp3\" type=\"audio/mpeg\">\n    </audio>\n    <audio id=\"victorySound\" preload=\"auto\">\n        <source src=\"audio/victory.mp3\" type=\"audio/mpeg\">\n    </audio>\n    <audio id=\"backgroundMusic\" loop preload=\"auto\">\n        <source src=\"audio/background.mp3\" type=\"audio/mpeg\">\n    </audio>\n    \n    <script src=\"game-engine.js\"></script>\n    <script src=\"physics.js\"></script>\n    <script src=\"enemies.js\"></script>\n    <script src=\"levels.js\"></script>\n    <script src=\"platformer.js\"></script>\n</body>\n</html>",
+  "tips": "Dette er et avansert prosjekt! Start med grunnleggende spillerbevegelse og fysikk. Bygg gradvis opp funksjonalitet. Bruk sprite-animasjoner for bedre visuell opplevelse. Test grundig på forskjellige enheter og sørg for smooth gameplay ved 60 FPS!",
+  "unlockMessage": "Krav for å låse opp:",
+  "buttonTextLocked": "🔒 Fullfør alle modul 4 leksjoner først"
 }
     ]
   }

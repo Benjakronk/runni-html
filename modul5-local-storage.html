@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5: Lokal lagring og brukerinnstillinger</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>💾 Modul 5: Lokal lagring og brukerinnstillinger</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Bruke localStorage og sessionStorage for å lagre data lokalt</li>
+                    <li>Håndtere JSON-serialisering og deserialisering</li>
+                    <li>Implementere brukerinnstillinger som huskes mellom besøk</li>
+                    <li>Bygge offline-funksjonalitet og data-caching</li>
+                    <li>Forstå forskjellen på forskjellige lagringsalternativer</li>
+                    <li>Implementere data-synkronisering mellom tabs og vinduer</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Web Storage API-er</h3>
+            <p>Nettlesere tilbyr flere måter å lagre data lokalt på brukerens enhet:</p>
+
+            <div class="layout-demo">
+                <div class="section-demo">
+                    <strong>💾 localStorage - Permanent lagring</strong><br>
+                    Data lagres til brukeren aktivt sletter dem eller rydder nettleserdata
+                </div>
+                <div class="div-demo">
+                    <strong>⏱️ sessionStorage - Midlertidig lagring</strong><br>
+                    Data slettes når nettlesertaben lukkes
+                </div>
+                <div class="section-demo">
+                    <strong>🍪 Cookies - Server-kommunikasjon</strong><br>
+                    Små datamengder som sendes mellom server og klient
+                </div>
+            </div>
+
+            <h3>Grunnleggende om localStorage</h3>
+            <p>localStorage lar deg lagre tekstdata som nøkkel-verdi par:</p>
+
+            <div class="code-example">
+// Lagre data<br>
+localStorage.setItem('brukernavn', 'John Doe');<br>
+localStorage.setItem('tema', 'mørkt');<br>
+localStorage.setItem('språk', 'norsk');<br>
+<br>
+// Hente data<br>
+const brukernavn = localStorage.getItem('brukernavn');<br>
+const tema = localStorage.getItem('tema');<br>
+<br>
+// Sjekke om data eksisterer<br>
+if (localStorage.getItem('brukernavn')) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Brukernavn funnet:', brukernavn);<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Ingen brukernavn lagret');<br>
+}<br>
+<br>
+// Slette data<br>
+localStorage.removeItem('språk');<br>
+<br>
+// Tømme all data<br>
+localStorage.clear();
+            </div>
+
+            <div class="tip notification-box">
+                localStorage kan bare lagre strenger! For å lagre objekter må du konvertere dem til JSON først.
+            </div>
+
+            <h3>Lagring av komplekse data med JSON</h3>
+            <p>For å lagre objekter og arrays må du bruke JSON.stringify() og JSON.parse():</p>
+
+            <div class="code-example">
+// Lagre et objekt<br>
+const brukerProfil = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;navn: 'Anna Hansen',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;alder: 28,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interesser: ['programmering', 'musikk', 'reising'],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;innstillinger: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tema: 'lyst',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notifikasjoner: true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+};<br>
+<br>
+// Konverter til JSON-streng og lagre<br>
+localStorage.setItem('brukerProfil', JSON.stringify(brukerProfil));<br>
+<br>
+// Hent og konverter tilbake til objekt<br>
+const lagretProfil = localStorage.getItem('brukerProfil');<br>
+if (lagretProfil) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const profil = JSON.parse(lagretProfil);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Velkommen tilbake,', profil.navn);<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Ny bruker - opprett profil');<br>
+}
+            </div>
+
+            <h3>Error handling ved localStorage</h3>
+            <p>localStorage kan feile i enkelte situasjoner (full lagringsplass, private modus):</p>
+
+            <div class="code-example">
+function lagreData(nøkkel, verdi) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem(nøkkel, JSON.stringify(verdi));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Kunne ikke lagre data:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+function hentData(nøkkel, standard = null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const lagretData = localStorage.getItem(nøkkel);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return lagretData ? JSON.parse(lagretData) : standard;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Kunne ikke hente data:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return standard;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Brukerinnstillinger og temaendring</h3>
+            <p>Et vanlig brukstilfelle er å lagre brukerens tema-preferanser:</p>
+
+            <div class="code-example">
+class TemaManager {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.gjeldendeTema = this.hentLagretTema();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.anvendTema();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hentLagretTema() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return localStorage.getItem('tema') || 'lyst';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;settTema(tema) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.gjeldendeTema = tema;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('tema', tema);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.anvendTema();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anvendTema() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.body.className = `tema-${this.gjeldendeTema}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Oppdater UI-elementer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const temaKnapp = document.getElementById('tema-toggle');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (temaKnapp) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temaKnapp.textContent = this.gjeldendeTema === 'mørkt' ? '☀️ Lyst tema' : '🌙 Mørkt tema';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;toggleTema() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const nyttTema = this.gjeldendeTema === 'lyst' ? 'mørkt' : 'lyst';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.settTema(nyttTema);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Offline-funksjonalitet med caching</h3>
+            <p>Du kan cache API-data for å gi brukeren tilgang til innhold selv når de er offline:</p>
+
+            <div class="code-example">
+class DataCache {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(maxAge = 5 * 60 * 1000) { // 5 minutter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.maxAge = maxAge;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lagre(nøkkel, data) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const cacheData = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tidsstempel: Date.now()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem(`cache_${nøkkel}`, JSON.stringify(cacheData));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.warn('Cache lagring feilet:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hent(nøkkel) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const cachetData = localStorage.getItem(`cache_${nøkkel}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!cachetData) return null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const parsed = JSON.parse(cachetData);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const alder = Date.now() - parsed.tidsstempel;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sjekk om data er for gammel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (alder > this.maxAge) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.slett(nøkkel);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return parsed.data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.warn('Cache henting feilet:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slett(nøkkel) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.removeItem(`cache_${nøkkel}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <div class="important-note notification-box">
+                localStorage har vanligvis en grense på 5-10MB per domene. For større datamengder bør du vurdere IndexedDB eller server-basert lagring.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Personlig oppgavelistе med innstillinger</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Bygg en todo-app som husker brukerens oppgaver og innstillinger mellom besøk.</p>
+                <ol>
+                    <li>Lag en todo-liste med mulighet til å legge til, slette og merke oppgaver som fullført</li>
+                    <li>Implementer innstillinger for tema (lyst/mørkt), språk, og sorteringsmetode</li>
+                    <li>Lagre alt lokalt så det huskes ved neste besøk</li>
+                    <li>Legg til kategorier og filtreringsmuligheter</li>
+                    <li>Implementer import/eksport-funksjonalitet</li>
+                    <li>Legg til offline-indikator og synkronisering</li>
+                </ol>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Min Todo-app&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; transition: all 0.3s; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.tema-lyst { background: #ffffff; color: #333333; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.tema-mørkt { background: #2c3e50; color: #ecf0f1; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.tema-mørkt .card { background: #34495e; border-color: #7f8c8d; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.tema-mørkt input, .tema-mørkt select { background: #34495e; color: #ecf0f1; border-color: #7f8c8d; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.innstillinger { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 15px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.oppgave-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.oppgave-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; border: 1px solid #eee; border-radius: 4px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.oppgave-fullført { text-decoration: line-through; opacity: 0.6; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.knapper { display: flex; gap: 10px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn-primary { background: #007bff; color: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn-success { background: #28a745; color: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.btn-danger { background: #dc3545; color: white; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.statistikk { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.stat-card { text-align: center; padding: 15px; background: #e9ecef; border-radius: 6px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body class="tema-lyst"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="header"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;📝 Min Todo-app&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button id="tema-toggle" onclick="toggleTema()"&gt;🌙 Mørkt tema&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="innstillinger card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;⚙️ Innstillinger&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style="display: flex; gap: 20px; flex-wrap: wrap;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Sorter etter: &lt;select id="sortering" onchange="lagreInnstillinger()"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="dato"&gt;Opprettelsesdato&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="alfabetisk"&gt;Alfabetisk&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="kategori"&gt;Kategori&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;&lt;/label&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;Vis: &lt;select id="filter" onchange="visOppgaver()"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="alle"&gt;Alle oppgaver&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="aktive"&gt;Kun aktive&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option value="fullført"&gt;Kun fullført&lt;/option&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;&lt;/label&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;➕ Legg til ny oppgave&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" id="oppgave-input" placeholder="Hva må du gjøre?" class="oppgave-input" onkeypress="if(event.key==='Enter') leggTilOppgave()"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" id="kategori-input" placeholder="Kategori (valgfritt)" style="width: 48%; margin-right: 4%;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="leggTilOppgave()" class="btn-primary"&gt;Legg til&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;📋 Mine oppgaver&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="oppgave-liste"&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="statistikk"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="stat-card"&gt;&lt;span id="total-oppgaver"&gt;0&lt;/span&gt;&lt;br&gt;Totale oppgaver&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="stat-card"&gt;&lt;span id="aktive-oppgaver"&gt;0&lt;/span&gt;&lt;br&gt;Aktive&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="stat-card"&gt;&lt;span id="fullførte-oppgaver"&gt;0&lt;/span&gt;&lt;br&gt;Fullført&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Din kode her!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+let oppgaver = [];<br>
+let innstillinger = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tema: 'lyst',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sortering: 'dato',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filter: 'alle'<br>
+};<br>
+<br>
+// Last inn data når siden starter<br>
+function initApp() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lastInnOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lastInnInnstillinger();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anvendInnstillinger();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visOppgaver();<br>
+}<br>
+<br>
+// Lagre og hente oppgaver<br>
+function lagreOppgaver() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('todoOppgaver', JSON.stringify(oppgaver));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Kunne ikke lagre oppgaver: ' + error.message);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+function lastInnOppgaver() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const lagretData = localStorage.getItem('todoOppgaver');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oppgaver = lagretData ? JSON.parse(lagretData) : [];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Kunne ikke laste oppgaver:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oppgaver = [];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Innstillinger<br>
+function lagreInnstillinger() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;innstillinger.sortering = document.getElementById('sortering').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;innstillinger.filter = document.getElementById('filter').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('todoInnstillinger', JSON.stringify(innstillinger));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visOppgaver();<br>
+}<br>
+<br>
+function lastInnInnstillinger() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const lagretInnstillinger = localStorage.getItem('todoInnstillinger');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (lagretInnstillinger) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;innstillinger = { ...innstillinger, ...JSON.parse(lagretInnstillinger) };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+function anvendInnstillinger() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.body.className = `tema-${innstillinger.tema}`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('tema-toggle').textContent = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;innstillinger.tema === 'mørkt' ? '☀️ Lyst tema' : '🌙 Mørkt tema';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('sortering').value = innstillinger.sortering;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('filter').value = innstillinger.filter;<br>
+}<br>
+<br>
+function toggleTema() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;innstillinger.tema = innstillinger.tema === 'lyst' ? 'mørkt' : 'lyst';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('todoInnstillinger', JSON.stringify(innstillinger));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anvendInnstillinger();<br>
+}<br>
+<br>
+// Oppgavehåndtering<br>
+function leggTilOppgave() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const tekst = document.getElementById('oppgave-input').value.trim();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const kategori = document.getElementById('kategori-input').value.trim() || 'Generelt';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (!tekst) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert('Oppgaven kan ikke være tom!');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const nyOppgave = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: Date.now(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tekst: tekst,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kategori: kategori,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fullført: false,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opprettet: new Date().toISOString()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oppgaver.push(nyOppgave);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lagreOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Tøm inputfelt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('oppgave-input').value = '';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('kategori-input').value = '';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;visOppgaver();<br>
+}<br>
+<br>
+function toggleOppgave(id) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const oppgave = oppgaver.find(o => o.id === id);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (oppgave) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oppgave.fullført = !oppgave.fullført;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lagreOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+function slettOppgave(id) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (confirm('Er du sikker på at du vil slette denne oppgaven?')) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oppgaver = oppgaver.filter(o => o.id !== id);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lagreOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visOppgaver();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Vis og sorter oppgaver<br>
+function visOppgaver() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let filtrertOppgaver = [...oppgaver];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Filtrer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const filter = innstillinger.filter;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (filter === 'aktive') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrertOppgaver = filtrertOppgaver.filter(o => !o.fullført);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (filter === 'fullført') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrertOppgaver = filtrertOppgaver.filter(o => o.fullført);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Sorter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const sortering = innstillinger.sortering;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (sortering === 'alfabetisk') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrertOppgaver.sort((a, b) => a.tekst.localeCompare(b.tekst));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else if (sortering === 'kategori') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrertOppgaver.sort((a, b) => a.kategori.localeCompare(b.kategori));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filtrertOppgaver.sort((a, b) => new Date(b.opprettet) - new Date(a.opprettet));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Generer HTML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const liste = document.getElementById('oppgave-liste');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (filtrertOppgaver.length === 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;liste.innerHTML = '&lt;p style="text-align: center; color: #666;"&gt;Ingen oppgaver å vise&lt;/p&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;liste.innerHTML = filtrertOppgaver.map(oppgave => `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="oppgave-item ${oppgave.fullført ? 'oppgave-fullført' : ''}"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;strong&gt;${oppgave.tekst}&lt;/strong&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;small style="color: #666;"&gt; | ${oppgave.kategori}&lt;/small&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="knapper"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="toggleOppgave(${oppgave.id})" class="btn-success"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${oppgave.fullført ? '↩️ Angre' : '✅ Fullført'}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="slettOppgave(${oppgave.id})" class="btn-danger"&gt;🗑️ Slett&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`).join('');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oppdaterStatistikk();<br>
+}<br>
+<br>
+// Statistikk<br>
+function oppdaterStatistikk() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const totalt = oppgaver.length;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const fullførte = oppgaver.filter(o => o.fullført).length;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const aktive = totalt - fullførte;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('total-oppgaver').textContent = totalt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('aktive-oppgaver').textContent = aktive;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('fullførte-oppgaver').textContent = fullførte;<br>
+}<br>
+<br>
+// Start appen<br>
+window.onload = initApp;
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Legg til import/eksport av oppgaver som JSON-fil</li>
+                    <li>Implementer due dates og påminnelser</li>
+                    <li>Legg til prioritetsnivåer (høy, medium, lav)</li>
+                    <li>Lag underkategorier og nestet struktur</li>
+                    <li>Implementer søkefunksjonalitet i oppgavene</li>
+                    <li>Legg til fargekriterier for kategorier</li>
+                    <li>Lag statistikk over produktivitet (oppgaver per dag/uke)</li>
+                </ol>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Backup-strategi:</strong> Vurder å implementere automatisk eksport til skyen eller e-post for å unngå tap av data.
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Ytelse:</strong> For applikasjoner med mye data, vurder å bruke IndexedDB i stedet for localStorage for bedre ytelse og større lagringskapasitet.
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage1"> Jeg forstår forskjellen mellom localStorage, sessionStorage og cookies</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage2"> Jeg kan lagre og hente komplekse data med JSON.stringify/parse</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage3"> Jeg kan implementere robust error handling for localStorage</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage4"> Jeg kan lagre og anvende brukerinnstillinger som huskes</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage5"> Jeg forstår data-caching og kan implementere offline-funksjonalitet</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage6"> Jeg har bygget en fungerende todo-app med persistens</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage7"> Jeg kan håndtere data-migrering og versjonering</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="storage8"> Jeg forstår begrensninger og sikkerhetshensyn ved lokal lagring</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Utmerket!</strong> Du har nå solid kunnskap om lokal datalagring og kan bygge applikasjoner som husker brukerens data og preferanser. Dette er fundamental for moderne webapplikasjoner!
+                </div>
+            </div>
+
+            <div class="faq">
+                <h3>Vanlige spørsmål</h3>
+                
+                <p><strong>Q: Hva skjer med localStorage-data hvis brukeren bytter nettleser?</strong><br>
+                A: localStorage er nettleser-spesifikk og følger ikke med til andre nettlesere. Du må implementere synkronisering via server hvis du vil dele data.</p>
+
+                <p><strong>Q: Kan localStorage-data bli slettet automatisk?</strong><br>
+                A: Ja, nettlesere kan slette localStorage ved lav diskplass eller hvis brukeren rydder nettleserdata. Aldri stol på at data er permanent.</p>
+
+                <p><strong>Q: Er det trygt å lagre sensitive data i localStorage?</strong><br>
+                A: Nei! localStorage er ikke kryptert og kan leses av alle skript på siden. Lagre aldri passord, personopplysninger eller sensitiv data.</p>
+
+                <p><strong>Q: Hva er forskjellen på localStorage og cookies?</strong><br>
+                A: localStorage kan lagre mer data (5-10MB vs 4KB), sendes ikke til serveren automatisk, og har enklere API. Cookies er bedre for server-kommunikasjon.</p>
+
+                <p><strong>Q: Hvordan håndterer jeg data-migrering når appen oppdateres?</strong><br>
+                A: Lagre en versjonsnøkkel sammen med dataene og sjekk denne ved oppstart for å kjøre migreringslogikk når nødvendig.</p>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Sikkerhet og personvern</h3>
+                <ul>
+                    <li><strong>Aldri lagre passord:</strong> Bruk sikre autentiseringsmetoder i stedet</li>
+                    <li><strong>Krypter sensitive data:</strong> Hvis du må lagre sensitive data, krypter dem først</li>
+                    <li><strong>Respekter brukernes privatliv:</strong> Ikke lagre unødvendige personopplysninger</li>
+                    <li><strong>Gi brukeren kontroll:</strong> La brukere slette sine lokale data</li>
+                    <li><strong>GDPR-compliance:</strong> Følg personvernregler</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "storage123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul5_local_storage_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul5_local_storage_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>

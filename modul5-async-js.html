@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5: Asynkron JavaScript</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <span>🏠</span>
+        <span class="home-button-text">Startside</span>
+    </a>
+    
+    <div class="container">
+        <div class="course-container">
+            <h1>⚡ Modul 5: Asynkron JavaScript</h1>
+
+            <div class="learning-goals">
+                <h2>Læringsmål</h2>
+                <p>Etter denne leksjonen skal du kunne:</p>
+                <ul>
+                    <li>Forstå forskjellen mellom synkron og asynkron kode</li>
+                    <li>Bruke async/await for å skrive renere asynkron kode</li>
+                    <li>Håndtere flere API-forespørsler samtidig med Promise.all()</li>
+                    <li>Implementere proper loading states og error handling</li>
+                    <li>Forstå callbacks, Promises og modern asynkron JavaScript</li>
+                    <li>Bygge brukergrensesnitt som håndterer ventetid elegant</li>
+                </ul>
+            </div>
+
+            <h2>Fagstoff</h2>
+
+            <h3>Synkron vs. Asynkron kode</h3>
+            <p>La oss starte med å forstå forskjellen mellom synkron og asynkron kode:</p>
+
+            <div class="layout-demo">
+                <div class="section-demo">
+                    <strong>🚶‍♂️ Synkron kode = En ting om gangen</strong><br>
+                    Koden venter på at hver operasjon fullføres før den går videre til neste linje
+                </div>
+                <div class="div-demo">
+                    <strong>🤹‍♀️ Asynkron kode = Multitasking</strong><br>
+                    Koden kan starte flere oppgaver samtidig og fortsette mens de arbeider i bakgrunnen
+                </div>
+            </div>
+
+            <h3>Problemer med synkron kode</h3>
+            <p>Hvis vi bruker vanlig (synkron) kode til å hente data fra internett, fryser nettsiden helt til dataene er lastet:</p>
+
+            <div class="code-example">
+// Dette ville fryse nettsiden (fungerer heldigvis ikke i moderne JavaScript!)<br>
+console.log('Starter...');<br>
+var data = waitForAPI(); // 🚫 Nettsiden fryser her i 3 sekunder<br>
+console.log('Data mottatt:', data);<br>
+console.log('Ferdig!');<br>
+<br>
+// Resultat:<br>
+// "Starter..." (umiddelbart)<br>
+// ...3 sekunder pause hvor ingenting skjer...<br>
+// "Data mottatt: {...}" (etter 3 sek)<br>
+// "Ferdig!" (etter 3 sek)
+            </div>
+
+            <h3>Løsningen: Asynkron JavaScript</h3>
+            <p>Med asynkron kode kan vi la nettsiden fortsette å fungere mens vi venter på data:</p>
+
+            <div class="code-example">
+// Moderne asynkron JavaScript med async/await<br>
+async function hentData() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Starter...');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const response = await fetch('https://api.eksempel.com/data');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const data = await response.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('Data mottatt:', data);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Feil oppstod:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('Ferdig!');<br>
+}<br>
+<br>
+hentData();<br>
+console.log('Denne linjen kjører umiddelbart!');<br>
+<br>
+// Resultat:<br>
+// "Starter..." (umiddelbart)<br>
+// "Denne linjen kjører umiddelbart!" (umiddelbart)<br>
+// "Data mottatt: {...}" (når dataene ankommer)<br>
+// "Ferdig!" (når dataene ankommer)
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Nøkkelord:</strong> <code>async</code> foran en funksjon gjør den asynkron, og <code>await</code> lar oss vente på at noe fullføres uten å fryse nettsiden.
+            </div>
+
+            <h3>Promise.all() - Flere forespørsler samtidig</h3>
+            <p>Når du trenger data fra flere API-er, kan du hente dem samtidig i stedet for å vente på hver enkelt:</p>
+
+            <div class="code-example">
+// Ineffektiv måte - en etter en (tar 6 sekunder totalt)<br>
+async function hentDataSekvensielt() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const bruker = await fetch('/api/user/123');     // Venter 2 sek<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const aktivitet = await fetch('/api/activity/123'); // Venter 2 sek til<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const stats = await fetch('/api/stats/123');     // Venter 2 sek til<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Total tid: 6 sekunder<br>
+}<br>
+<br>
+// Effektiv måte - alle samtidig (tar kun 2 sekunder totalt)<br>
+async function hentDataParallelt() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const [brukerResponse, aktivitetResponse, statsResponse] = await Promise.all([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('/api/user/123'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('/api/activity/123'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('/api/stats/123')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const bruker = await brukerResponse.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const aktivitet = await aktivitetResponse.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const stats = await statsResponse.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Alle dataene er nå tilgjengelig!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Total tid: kun 2 sekunder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('En eller flere forespørsler feilet:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <h3>Loading states og brukeropplevelse</h3>
+            <p>Det er viktig å vise brukeren at noe skjer mens de venter:</p>
+
+            <div class="code-example">
+async function hentBrukerProfil(brukerId) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const loadingElement = document.getElementById('loading');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const errorElement = document.getElementById('error');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const contentElement = document.getElementById('content');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Vis loading<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loadingElement.style.display = 'block';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;errorElement.style.display = 'none';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;contentElement.style.display = 'none';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const [profil, venner, innlegg] = await Promise.all([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch(`/api/users/${brukerId}`),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch(`/api/users/${brukerId}/friends`),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch(`/api/users/${brukerId}/posts`)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Konverter alle til JSON<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const profilData = await profil.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const vennerData = await venner.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const innleggData = await innlegg.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Oppdater UI med dataene<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visProfil(profilData, vennerData, innleggData);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Vis innhold<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentElement.style.display = 'block';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Feil ved lasting av profil:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errorElement.textContent = 'Kunne ikke laste brukerprofil. Prøv igjen senere.';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errorElement.style.display = 'block';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Skjul loading uansett hva som skjer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loadingElement.style.display = 'none';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Bruk alltid</strong> <code>try/catch/finally</code> med asynkron kode. Try kjører normal kode, catch håndterer feil, og finally kjører alltid til slutt.
+            </div>
+
+            <div class="project-box">
+                <h2>Kodeprosjekt: Multi-API Dashboard</h2>
+                
+                <h3>Oppgave</h3>
+                <p>Bygg en dashboard som henter data fra flere API-er samtidig og viser dem på en elegant måte.</p>
+                <ol>
+                    <li>Hent data fra minst 3 forskjellige API-er samtidig</li>
+                    <li>Vis en loading-indikator mens dataene hentes</li>
+                    <li>Håndter feil gracefully hvis noen API-er feiler</li>
+                    <li>Vis dataene i organiserte seksjoner</li>
+                    <li>Legg til en "Oppdater data"-knapp</li>
+                </ol>
+
+                <h3>Foreslåtte API-er</h3>
+                <ul>
+                    <li><strong>Vær:</strong> <code>https://api.openweathermap.org/data/2.5/weather?q=Oslo&appid=demo&units=metric</code></li>
+                    <li><strong>Kryptovaluta:</strong> <code>https://api.coindesk.com/v1/bpi/currentprice.json</code></li>
+                    <li><strong>Quote:</strong> <code>https://api.quotable.io/random</code></li>
+                    <li><strong>Aktivitet:</strong> <code>https://www.boredapi.com/api/activity</code></li>
+                </ul>
+
+                <h3>Starterkode</h3>
+                <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Multi-API Dashboard&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.card { background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #e9ecef; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.loading { text-align: center; color: #6c757d; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.error { color: #dc3545; text-align: center; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.success { color: #28a745; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button { padding: 12px 24px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button:hover { background: #0056b3; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button:disabled { background: #6c757d; cursor: not-allowed; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;📊 Multi-API Dashboard&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick="oppdaterData()" id="oppdaterBtn"&gt;🔄 Oppdater data&lt;/button&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="dashboard"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;🌤️ Vær i Oslo&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="vaer"&gt;&lt;div class="loading"&gt;Laster...&lt;/div&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;₿ Bitcoin-pris&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="bitcoin"&gt;&lt;div class="loading"&gt;Laster...&lt;/div&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="card"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;💭 Dagens sitat&lt;/h3&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="sitat"&gt;&lt;div class="loading"&gt;Laster...&lt;/div&gt;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;async function oppdaterData() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Din kode her!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Last inn data når siden åpnes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.onload = oppdaterData;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                </div>
+
+                <div class="important-note notification-box">
+                    <strong>Tips:</strong> Bruk Promise.all() for å hente alle dataene samtidig, og husk å håndtere tilfeller hvor noen API-er kan feile mens andre fungerer.
+                </div>
+
+                <h3>Fasit</h3>
+                <button onclick="showPasswordModal()" class="solution-btn">🔒 Klikk her for å se fasiten</button>
+                
+                <div id="solutionContent" style="display: none; margin-top: 10px;">
+                    <div class="code-example">
+async function oppdaterData() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const btn = document.getElementById('oppdaterBtn');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;btn.disabled = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;btn.textContent = '⏳ Oppdaterer...';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Tilbakestill alle til loading<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('vaer').innerHTML = '&lt;div class="loading"&gt;Laster...&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('bitcoin').innerHTML = '&lt;div class="loading"&gt;Laster...&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('sitat').innerHTML = '&lt;div class="loading"&gt;Laster...&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Hent alle data samtidig<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const results = await Promise.allSettled([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('https://api.coindesk.com/v1/bpi/currentprice.json'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('https://api.quotable.io/random'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('https://www.boredapi.com/api/activity')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Bitcoin data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (results[0].status === 'fulfilled') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const bitcoinData = await results[0].value.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const pris = bitcoinData.bpi.USD.rate;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('bitcoin').innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="success"&gt;&lt;strong&gt;$${pris}&lt;/strong&gt;&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;small&gt;Oppdatert: ${new Date().toLocaleTimeString()}&lt;/small&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('bitcoin').innerHTML = '&lt;div class="error"&gt;❌ Kunne ikke hente Bitcoin-data&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Sitat data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (results[1].status === 'fulfilled') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const sitatData = await results[1].value.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('sitat').innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;"${sitatData.content}"&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;em&gt;- ${sitatData.author}&lt;/em&gt;&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('sitat').innerHTML = '&lt;div class="error"&gt;❌ Kunne ikke hente sitat&lt;/div&gt;';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Simuler værdata (siden vi ikke har API-nøkkel)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const temp = Math.round(Math.random() * 20 + 5);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const weather = ['Solskinn', 'Overskyet', 'Lett regn', 'Klart'][Math.floor(Math.random() * 4)];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('vaer').innerHTML = `<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="success"&gt;&lt;strong&gt;${temp}°C&lt;/strong&gt;&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;${weather}&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, 1000);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.error('Feil ved oppdatering:', error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Reaktiver knappen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btn.disabled = false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btn.textContent = '🔄 Oppdater data';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, 1000);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="extension-tasks">
+                <h3>Videre oppgaver</h3>
+                <ol>
+                    <li>Legg til en progress bar som viser hvor mange API-er som er lastet</li>
+                    <li>Implementer offline-håndtering ved å cache data lokalt</li>
+                    <li>Legg til tidsstempel som viser når dataene sist ble oppdatert</li>
+                    <li>Lag en retry-funksjon som prøver igjen hvis API-kall feiler</li>
+                    <li>Legg til animasjoner når nye data lastes inn</li>
+                </ol>
+            </div>
+
+            <div class="tip notification-box">
+                <strong>Performance tips:</strong> Bruk Promise.allSettled() i stedet for Promise.all() når du vil at noen API-kall kan feile uten å påvirke resten.
+            </div>
+
+            <div class="good-practice notification-box">
+                <strong>Brukeropplevelse:</strong> Alltid vis tydelig feedback til brukeren om hva som skjer - loading, success, error. Ingen skal lure på om appen har hengt seg!
+            </div>
+
+            <div class="checklist">
+                <h3>Sjekkliste for vurdering</h3>
+                <ul>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async1"> Jeg forstår forskjellen mellom synkron og asynkron kode</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async2"> Jeg kan bruke async/await for renere asynkron kode</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async3"> Jeg kan bruke Promise.all() til å hente data fra flere API-er samtidig</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async4"> Jeg kan implementere proper loading states og error handling</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async5"> Jeg forstår try/catch/finally blokker og bruker dem riktig</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async6"> Jeg kan bygge brukergrensesnitt som håndterer ventetid elegant</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async7"> Jeg har fullført multi-API dashboard prosjektet</li>
+                    <li><input type="checkbox" onchange="saveChecklistProgress()" id="async8"> Jeg forstår forskjellen på Promise.all() og Promise.allSettled()</li>
+                </ul>
+                <div class="completion-message" id="completionMessage">
+                    🎉 <strong>Imponerende!</strong> Du behersker nå asynkron JavaScript og kan bygge robuste applikasjoner som kommuniserer med multiple API-er samtidig. Dette er avanserte ferdigheter som brukes i alle moderne webapplikasjoner!
+                </div>
+            </div>
+
+            <div class="faq">
+                <h3>Vanlige spørsmål</h3>
+                
+                <p><strong>Q: Når skal jeg bruke Promise.all() vs Promise.allSettled()?</strong><br>
+                A: Bruk Promise.all() når alle forespørsler må lykkes. Bruk Promise.allSettled() når noen kan feile uten at det påvirker resten.</p>
+
+                <p><strong>Q: Hvorfor får jeg "Cannot read property of undefined" feil?</strong><br>
+                A: Dette skjer ofte når API-responser har en annen struktur enn forventet. Alltid sjekk at egenskapene eksisterer før du bruker dem.</p>
+
+                <p><strong>Q: Hvordan håndterer jeg CORS-feil?</strong><br>
+                A: CORS-feil oppstår når API-et ikke tillater forespørsler fra din nettside. Du kan ikke løse dette fra frontend - API-et må konfigureres for å tillate din domain.</p>
+
+                <p><strong>Q: Kan jeg bruke async/await med alle asynkrone operasjoner?</strong><br>
+                A: Ja! Alt som returnerer en Promise kan brukes med await. Dette inkluderer fetch(), setTimeout (med wrapper), og dine egne asynkrone funksjoner.</p>
+
+                <p><strong>Q: Hva er forskjellen på .then() og async/await?</strong><br>
+                A: De gjør det samme, men async/await er renere og lettere å lese. Modern JavaScript anbefaler async/await for ny kode.</p>
+            </div>
+
+            <div class="important-note notification-box">
+                <h3>Debugging asynkron kode</h3>
+                <p>Asynkron kode kan være vanskelig å debugge. Her er noen tips:</p>
+                <ul>
+                    <li><strong>Bruk console.log()</strong> liberalt for å spore dataflyt</li>
+                    <li><strong>Sjekk Network-fanen</strong> i utviklerverktøy for å se API-forespørsler</li>
+                    <li><strong>Bruk breakpoints</strong> i Sources-fanen for å stoppe koden på spesifikke linjer</li>
+                    <li><strong>Sjekk at await</strong> er brukt på riktige steder</li>
+                    <li><strong>Valider API-responser</strong> før du bruker dataene</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Skriv inn passord for å se fasiten</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Spør læreren om passordet når du har prøvd oppgaven selv først!</p>
+            <input type="password" id="passwordInput" placeholder="Skriv inn passord..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <div>
+                <button onclick="checkPassword()" class="btn-submit">Åpne fasit</button>
+                <button onclick="closePasswordModal()" class="btn-cancel">Avbryt</button>
+            </div>
+            <div id="wrongPassword" class="error-message">❌ Feil passord! Prøv igjen eller spør læreren.</div>
+        </div>
+    </div>
+
+    <footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+    <script>
+        // Passord for fasit
+        var correctPassword = "async123";
+
+        // Funksjon for å vise passord modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Funksjon for å lukke passord modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('wrongPassword').style.display = 'none';
+        }
+
+        // Funksjon for å sjekke passord
+        function checkPassword() {
+            var enteredPassword = document.getElementById('passwordInput').value;
+            
+            if (enteredPassword === correctPassword) {
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('solutionContent').style.display = 'block';
+                var btn = document.querySelector('.solution-btn');
+                btn.innerHTML = '✅ Fasit synlig';
+                btn.style.background = 'rgba(39, 174, 96, 0.1)';
+                btn.style.color = '#27ae60';
+                btn.style.borderColor = '#27ae60';
+                btn.onclick = null;
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('wrongPassword').style.display = 'none';
+            } else {
+                document.getElementById('wrongPassword').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Funksjon for å lagre sjekkliste fremgang
+        function saveChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            var allChecked = true;
+            
+            // Lagre hver checkbox og oppdater styling
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                
+                // Oppdater styling på list item
+                var listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                    allChecked = false;
+                }
+            }
+            
+            // Vis completion message hvis alle er krysset av
+            var completionMessage = document.getElementById('completionMessage');
+            if (allChecked) {
+                completionMessage.style.display = 'block';
+                localStorage.setItem('modul5_async_js_completed', 'true');
+            } else {
+                completionMessage.style.display = 'none';
+                localStorage.setItem('modul5_async_js_completed', 'false');
+            }
+        }
+
+        // Funksjon for å laste inn lagret fremgang når siden lastes
+        function loadChecklistProgress() {
+            var checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var saved = localStorage.getItem(checkbox.id);
+                
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                    checkbox.parentElement.classList.add('completed');
+                }
+            }
+            
+            // Sjekk om alle er fullført
+            saveChecklistProgress();
+        }
+
+        // Lukk modal ved klikk utenfor
+        window.onclick = function(event) {
+            var modal = document.getElementById('passwordModal');
+            if (event.target === modal) {
+                closePasswordModal();
+            }
+        }
+
+        // Last inn sjekkliste når siden er ferdig lastet
+        window.onload = function() {
+            loadChecklistProgress();
+        };
+    </script>
+</body>
+</html>
