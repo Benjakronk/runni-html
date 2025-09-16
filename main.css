@@ -24,6 +24,12 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+footer {
+    padding-bottom: 10px;
+    padding-left: 5px;
+    color:white
+}
+
 /* ==========================================================================
    CSS CUSTOM PROPERTIES (VARIABLES) FOR THEMING
    ========================================================================== */
